@@ -25,12 +25,13 @@ include("schema.jl")
 include("validator.jl")
 include("loader.jl")
 include("queries.jl")
+include("db.jl")
 
 export Device, DeviceMeta, Organization, DeviceFamily, DeviceRecord, Topology,
        NativeGate, NoiseModel, CalibrationSnapshot, Timing, Access, Benchmarks,
        EnergyCarbon, Roadmap, Provenance
 export target_spec, find_devices, sturm_target, load_device, load_all_devices,
-       validate_device, validate_device_file
+       validate_device, validate_device_file, build_db
 
 """
     corpus_root()

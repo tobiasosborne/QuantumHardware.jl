@@ -97,4 +97,6 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
         # T1/T2 not populated on the seed; fallback vector is all `nothing`
         @test length(t.t1_us) == 156
     end
+
+    include("test_db.jl")
 end

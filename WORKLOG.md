@@ -180,3 +180,57 @@ The three seed devices exercised every optional section except `calibration_snap
 - **Delivered:** scaffold + 19 devices + 2 ingest pipelines + 328 passing tests + 84 archived sources.
 - **Known tech debt:** `quera-aquila.toml` was overwritten by the first Braket ingest run — it lost the arXiv-paper provenance, analog-Hamiltonian native-gate detail, and position_constraints that had been hand-curated earlier in the session. The hand-curation guard is now in place so this can't recur, but the Aquila data itself needs to be restored from the Session-1 stub (or from pathway-B ingest once AWS creds are wired). Tracked for next session.
 - **Next session kickoff:** `git pull`; `julia --project scripts/validate_all.jl` should show 19 passed; beads init (`bd init --force --prefix quantum-hardware`) to formalise the issue queue; then move to `scripts/build_db.jl` for the DuckDB artefact.
+
+---
+
+## 2026-04-14 — Session 2: beads init, DuckDB/SQLite build artefact
+
+### Kickoff
+
+Validation ran green (19/19). `bd init --force --prefix quantum-hardware` succeeded — Dolt embedded backend, prefix `quantum-hardware-<hash>`. Filed 7 follow-up issues (Aquila restore, DuckDB build, live-Braket pathway-B, IBM target_history, academic-tree port, Sturm.jl bridge, census-sweep gaps). `quantum-hardware-t0c` (DuckDB build) claimed as the session's main work; `quantum-hardware-lg9` (Sturm bridge) wired `depends on` → DuckDB build.
+
+### DuckDB + SQLite compiled artefact
+
+**Delivered:** `src/db.jl` + `scripts/build_db.jl` + `test/test_db.jl`. Added `DuckDB.jl`, `SQLite.jl`, `DBInterface.jl` to `Project.toml`. Artefact produced at `db/quantum-hardware.duckdb` (2.6 MB) and `db/quantum-hardware.sqlite` (112 KB). Both files `.gitignore`d — never committed, always regenerated.
+
+Tables (5): `devices` (65 flat columns, JSON-encoded blobs for nested things), `native_gates`, `coupling_edges`, `calibration_snapshots`, `provenance`. Current corpus populates:
+- 19 devices, 78 native gates, 15 calibration snapshots, 96 provenance rows
+- 0 coupling edges — IBM Heron r2's heavy-hex map is intentionally deferred to the live `target_history` ingest (noted in its TOML); every other device is `all_to_all` or `reconfigurable`. Count will jump once IBM ingest lands.
+
+Cross-backend: identical DDL works for both DuckDB and SQLite via `DBInterface.jl`. DuckDB enforces strict types; SQLite stores with flexible affinity. Dates/timestamps stored as ISO-8601 TEXT for portability — cast at query time if arithmetic is needed.
+
+### Gotchas
+
+- **DuckDB column-count mismatch surfaces only at INSERT time.** First attempt wrote `VALUES (?,?, …)` by hand; missed two placeholders, caught only when the first row hit the prepared statement: `Binder Error: table devices has 65 columns but 63 values were supplied`. **Fix:** declare `_DEVICE_COLUMNS::NTuple{Symbol}` in DDL order, build the INSERT SQL programmatically with `join(fill("?", length(cols)), ",")`, and assert `length(vals) == length(cols)` inside `_insert_device`. Any future column add requires editing both the DDL and the tuple — a mismatch now errors loudly with a clear message, not a mysterious binder error. Convention going forward: every multi-column insert uses this explicit-columns-plus-programmatic-placeholders pattern.
+
+- **SQLite.jl `Row` is cursor-backed and does not survive `collect()`.** First cut of `test_db.jl` did `rows = collect(DBInterface.execute(s, "SELECT …"))` and then `rows[1].num_qubits`, which returned `missing` for *NOT NULL* columns that were definitely populated. The underlying SQLite statement had been finalised by the time `rows[1]` was accessed. **Fix:** extract field values eagerly during iteration (`push!(ext, (num_qubits=r.num_qubits, …))`). DuckDB.jl does materialise rows on collect, so the DuckDB round-trip test didn't hit this — the mismatch only showed up in the SQLite test. Convention going forward: for the SQLite backend, always extract column values inside the iterator body, never off a collected array.
+
+- **Reserved-word near miss:** `TIMESTAMP` as a column name works in DuckDB but is borderline. Renamed the snapshot column to `ts` to avoid any dialect drift.
+
+- **DuckDB.jl deprecation warnings** (`nextDataChunk` at `result.jl:822/832/836`) fire on every `DBInterface.execute` collection. Noise-only right now — upstream will remove the deprecated internal method in a future release; upgrade DuckDB.jl when that happens.
+
+### Beads issues filed this session
+
+| id | title | priority | status |
+|---|---|---|---|
+| quantum-hardware-dw4 | Restore QuEra Aquila hand-curated data | P1 | open |
+| quantum-hardware-t0c | Build DuckDB+SQLite compiled artefact | P1 | **closed** |
+| quantum-hardware-8x4 | Live AWS Braket pathway-B ingest | P2 | open (blocked-on-creds) |
+| quantum-hardware-cj1 | IBM target_history longitudinal calibration pull | P2 | open (blocked-on-creds) |
+| quantum-hardware-jgc | Port academic testbeds (hand-curated from arXiv) | P2 | open |
+| quantum-hardware-lg9 | Sturm.jl bridge (depends on t0c) | P3 | open (now unblocked) |
+| quantum-hardware-xiy | Census sweep: European mid-tier + JP/KR vendors | P3 | open |
+
+### Corpus state end-of-session
+
+- 19 devices (unchanged), 351 tests pass (was 328 — 23 new DB-roundtrip tests), 84 source archives (unchanged — no new ingests this session).
+- Validator still `19 passed, 0 failed`.
+- DB artefact: `build_db(path; backend=:duckdb|:sqlite, devices=nothing)` — idempotent (deletes and rebuilds), returns row-count NamedTuple.
+
+### Next session targets
+
+1. **Restore QuEra Aquila** (quantum-hardware-dw4). Session-1 stub content is NOT recoverable from git (single commit `a00b8dc` already had the overwritten version). Options: (a) re-hand-curate from arXiv 2306.11727 + QuEra docs, or (b) wait for pathway-B Braket ingest. (a) is faster if the archive is still in `sources/2026/04/14/`.
+2. **Sturm.jl bridge** (quantum-hardware-lg9) — now unblocked. Add `QuantumHardware` dep to `../Sturm.jl`, expose `Sturm.compile(ch; target=id::String)` that consumes `sturm_target(target_spec(id))`. No DB query needed for v0 — the TOML corpus is fast enough; DB is for analytical queries.
+3. **Longitudinal IBM pull** (quantum-hardware-cj1, blocked-on-creds). Wire up IBM Quantum creds, write `scripts/ingest_ibm.jl` around `target_history(datetime=…)`. First real populated coupling_map in the DB.
+4. **Academic testbeds** (quantum-hardware-jgc). Hand-curate ~12 testbeds from arXiv papers. No API; PDFs archived into `sources/YYYY/MM/DD/`.
+5. **TDD discipline:** user flagged mid-session that all future work should go strict red-green. The Session-2 DB work was more implementation-first-then-test than red-green. Future sessions: every new function gets a failing test in `test/test_*.jl` before the implementation lands. Validate the red before writing the green.
