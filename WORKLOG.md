@@ -240,3 +240,30 @@ Cross-backend: identical DDL works for both DuckDB and SQLite via `DBInterface.j
 - **Remote created + pushed.** User authorised `gh repo create QuantumHardware.jl --public` (AGPL-3.0 LICENSE already in the scaffold). Remote URL: `https://github.com/tobiasosborne/QuantumHardware.jl`. All three commits (`a00b8dc` → `8cb4f97` → `cc1f69e`) now on `origin/main`; local `main` tracks `origin/main`.
 - **Beads is local-only.** `bd dolt push` needs a separate remote (DoltHub or a dedicated git-backed planning repo). Not set up this session. Beads issues live in `.beads/` inside the primary repo and travel with the git history, so they're recoverable from clone — just not synced to a multi-host Dolt remote. If multi-machine beads sync becomes important, revisit with `bd dolt remote add origin git+ssh://git@github.com/tobiasosborne/QuantumHardware-beads.git` or similar.
 - **Session-3 kickoff:** `git pull`, `julia --project scripts/validate_all.jl` → 19 passed, `bd ready` → 6 open issues. First natural target is **quantum-hardware-dw4** (Aquila restore) — small, no external creds needed. Then pick up Sturm.jl bridge (lg9) or academic testbeds (jgc).
+
+### Triangulation tranche (filed Session 2, end)
+
+User asked for a full spread of triangulation strategies to cross-validate every aspect of the DB. Filed 10 issues — orthogonally covering internal consistency (4 × P1), external-source cross-reference (5 × P2), and consumer-contract coherence (1 × P2). Share the label `triangulation`; pull via `bd list --label triangulation`.
+
+**P1 — internal consistency** (cheap to implement, run in `scripts/validate_all.jl`):
+- `quantum-hardware-32l` topology-qubit-count coherence (edge-count-vs-kind heuristics, index bounds, analog↔reconfigurable invariants)
+- `quantum-hardware-7lg` zero-provenance field auditor (walk every non-null path, require a matching provenance `field_path`; enforces CLAUDE.md §3 programmatically)
+- `quantum-hardware-e8p` per-modality physical-plausibility envelopes (catches the classic ns/μs/ms unit bug and magic-number typos; draft envelopes in the issue body — refine per modality from literature before implementing)
+- `quantum-hardware-xng` lineage DAG + date monotonicity (no cycles, `announced ≤ first_operational ≤ decommissioned`, lineage-chronology consistency)
+
+**P2 — external-source triangulation** (network-dependent, slower cadence):
+- `quantum-hardware-e0m` cross-source value agreement (every field should have ≥2 independent sources; conflicts get `conflict=true` + a research note — never "pick one and move on")
+- `quantum-hardware-2ue` archive-replay-diff (re-run ingest adapters against cached raws; any diff vs committed TOMLs = ingest drift)
+- `quantum-hardware-mlv` live-URL drift monitor (weekly refetch + sha256 diff; captures both content-drift and URL-rot — the dual-SoT policy pays off here)
+- `quantum-hardware-d3m` cloud-partner-page cross-check (AWS/Azure/IBM/IonQ/Pasqal/Rigetti/OQC/Quantinuum/D-Wave; set-diff both directions finds silent retirements AND missing ingests)
+- `quantum-hardware-5r3` patent + grant + paper 3-pillar vendor audit (OECD-EPO patents + fundingscape grants + arXiv affiliations; 0/3 = vapour-ware candidate)
+
+**P2 — consumer-contract coherence**:
+- `quantum-hardware-3q2` API-kind ↔ SDK-package coherence (logical pair rules: `qiskit_runtime ⇒ qiskit-ibm-runtime`, etc. — catches misclassifications before they mislead Sturm.jl)
+
+**Strategy grid** — the 10 cover the DB on three axes:
+- *What layer*: structure (32l), numerics (e8p, e0m), time (xng), access (3q2, d3m), provenance (7lg, mlv, 2ue), legitimacy (5r3).
+- *Evidence direction*: within-TOML (32l, xng, 3q2), TOML-vs-cached-source (2ue, 7lg, e8p), TOML-vs-live-world (mlv, d3m, e0m, 5r3).
+- *Failure mode caught*: unit bugs, off-by-one edge indices, backdated claims, URL rot, silent vendor drift, vapour-ware vendors, transcription errors, ingest regressions, single-sourced fabrication, marketing-only shells.
+
+No single check is definitive; the *set* of checks, run together, leaves very few places for bad data to hide. Each triangulation issue includes acceptance criteria so that the implementer can verify their work catches a deliberately-injected bug in a test fixture — red before green.
