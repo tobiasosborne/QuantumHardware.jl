@@ -21,3 +21,6 @@ db/quantum-hardware.sqlite-journal
 # macOS / editor
 .DS_Store
 *.swp
+
+# Beads / Dolt files (added by bd init)
+*.db

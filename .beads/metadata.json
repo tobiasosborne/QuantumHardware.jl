@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "quantum_hardware",
+  "project_id": "134c9ec7-42a7-44a2-b53b-526ee9d17071"
+}
