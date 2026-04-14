@@ -234,3 +234,9 @@ Cross-backend: identical DDL works for both DuckDB and SQLite via `DBInterface.j
 3. **Longitudinal IBM pull** (quantum-hardware-cj1, blocked-on-creds). Wire up IBM Quantum creds, write `scripts/ingest_ibm.jl` around `target_history(datetime=…)`. First real populated coupling_map in the DB.
 4. **Academic testbeds** (quantum-hardware-jgc). Hand-curate ~12 testbeds from arXiv papers. No API; PDFs archived into `sources/YYYY/MM/DD/`.
 5. **TDD discipline:** user flagged mid-session that all future work should go strict red-green. The Session-2 DB work was more implementation-first-then-test than red-green. Future sessions: every new function gets a failing test in `test/test_*.jl` before the implementation lands. Validate the red before writing the green.
+
+### Session 2 close
+
+- **Remote created + pushed.** User authorised `gh repo create QuantumHardware.jl --public` (AGPL-3.0 LICENSE already in the scaffold). Remote URL: `https://github.com/tobiasosborne/QuantumHardware.jl`. All three commits (`a00b8dc` → `8cb4f97` → `cc1f69e`) now on `origin/main`; local `main` tracks `origin/main`.
+- **Beads is local-only.** `bd dolt push` needs a separate remote (DoltHub or a dedicated git-backed planning repo). Not set up this session. Beads issues live in `.beads/` inside the primary repo and travel with the git history, so they're recoverable from clone — just not synced to a multi-host Dolt remote. If multi-machine beads sync becomes important, revisit with `bd dolt remote add origin git+ssh://git@github.com/tobiasosborne/QuantumHardware-beads.git` or similar.
+- **Session-3 kickoff:** `git pull`, `julia --project scripts/validate_all.jl` → 19 passed, `bd ready` → 6 open issues. First natural target is **quantum-hardware-dw4** (Aquila restore) — small, no external creds needed. Then pick up Sturm.jl bridge (lg9) or academic testbeds (jgc).
