@@ -1,0 +1,130 @@
+# Controlled vocabularies — authoritative enum lists for the schema.
+# Every enum in schema/device.schema.json must match one of these lists.
+# When extending: add here first, bump `vocab_version`, note in WORKLOG.md.
+
+vocab_version = "0.1"
+
+[modality]
+# Physical platform of the qubit
+sc_transmon          = "Superconducting transmon (fixed-frequency or tunable)"
+sc_fluxonium         = "Superconducting fluxonium"
+sc_cat               = "Superconducting cat qubit (Alice & Bob, Amazon Ocelot, …)"
+sc_dual_rail         = "Superconducting dual-rail (cavity-encoded erasure-detecting)"
+trapped_ion          = "Trapped-ion (Yb+, Ca+, Ba+, Sr+, Mg+, …)"
+neutral_atom         = "Neutral atom (Rb, Cs, Sr, Yb, …)"
+photonic_discrete    = "Photonic discrete-variable (dual-rail, fusion-based, KLM-style)"
+photonic_cv          = "Photonic continuous-variable (Gaussian, GKP)"
+si_spin              = "Silicon spin (MOS, SiGe, donor) — electron or nuclear"
+ge_spin              = "Germanium hole spin"
+nv_diamond           = "Nitrogen-vacancy in diamond"
+sic_defect           = "Silicon-carbide defect spin"
+topological_majorana = "Topological / Majorana"
+nmr                  = "Nuclear magnetic resonance"
+annealer_dwave       = "Flux-qubit quantum annealer (D-Wave style)"
+annealer_parametron  = "Parametron / JPO quantum annealer (NEC, …)"
+molecular            = "Polar-molecule tweezer array"
+rare_earth_cavity    = "Rare-earth ion in optical cavity"
+
+[status]
+projected          = "Publicly described but no official announcement yet"
+announced          = "Officially announced, not yet operational"
+under_construction = "Physically being built / commissioned"
+in_service         = "Operational and accepting workloads"
+intermittent       = "Operational but unreliable / maintenance-heavy"
+decommissioned     = "Taken out of service; hardware may still exist"
+retired            = "Hardware dismantled / permanently offline"
+
+[topology_kind]
+all_to_all         = "Every qubit can directly interact with every other (typ. ion chains, NMR)"
+heavy_hex          = "IBM heavy-hex lattice"
+square_grid        = "Square-lattice nearest-neighbour"
+hex                = "Hexagonal / triangular lattice"
+linear_chain       = "1D nearest-neighbour"
+ring               = "1D with wraparound"
+kagome             = "Kagome lattice"
+bipartite          = "Bipartite two-colour graph"
+reconfigurable     = "Coupling is programmable per shot (atom arrays, photonic mesh)"
+analog_hamiltonian = "Coupling is set by a programmable Hamiltonian, not a fixed graph"
+custom             = "Ad-hoc — describe in architecture_notes"
+
+[org_kind]
+commercial    = "For-profit company"
+academic      = "University research group"
+national_lab  = "National laboratory (NIST, LBNL, RIKEN, …)"
+consortium    = "Multi-institution consortium (EuroHPC, JUNIQ, Q-NEXT, …)"
+government    = "Government-run facility (defense, DOE direct, …)"
+
+[source_kind]
+paper_arxiv        = "arXiv preprint"
+paper_doi          = "Peer-reviewed journal article"
+press_release      = "Official vendor press release"
+vendor_doc         = "Vendor technical documentation / datasheet page"
+api_dump           = "Live API response (Braket, IBM, Pasqal, Rigetti, …)"
+talk_video         = "Recorded public talk (YouTube, conference)"
+datasheet          = "PDF datasheet"
+book_report        = "Official government / agency report (DARPA, OECD, EPO, …)"
+conference_abstract = "Abstract from APS March, QCE, Q2B, QIP, …"
+blog_post          = "Official vendor blog post"
+forum_post         = "Community forum post (Qiskit Slack, Stack Overflow)"
+wikipedia          = "Wikipedia (last resort)"
+
+[api_kind]
+qiskit_runtime     = "IBM Qiskit Runtime / qiskit-ibm-runtime"
+braket             = "Amazon Braket Python SDK"
+azure_quantum      = "Azure Quantum SDK"
+qcs                = "Rigetti Quantum Cloud Services / pyquil"
+pulser             = "Pasqal Pulser Python SDK"
+bloqade            = "QuEra Bloqade Julia/Python SDK"
+strawberry_fields  = "Xanadu Strawberry Fields"
+ionq_rest          = "IonQ native REST API"
+pasqal_core        = "Pasqal Cloud REST API"
+openqasm3          = "OpenQASM 3.0 compatible"
+openpulse          = "OpenPulse compatible"
+custom             = "Vendor-custom protocol"
+offline            = "No remote API — local / bespoke installation only"
+
+[cloud_provider]
+aws_braket         = "Amazon Web Services Braket"
+azure_quantum      = "Microsoft Azure Quantum"
+ibm_quantum        = "IBM Quantum Platform / IBM Cloud"
+google_quantum_ai  = "Google Quantum AI (typically restricted access)"
+ionq_cloud         = "IonQ Quantum Cloud"
+pasqal_cloud       = "Pasqal Cloud"
+xanadu_cloud       = "Xanadu Cloud"
+rigetti_qcs        = "Rigetti QCS"
+oqc_cloud          = "Oxford Quantum Circuits Cloud"
+quantinuum_systems = "Quantinuum Systems"
+dwave_leap         = "D-Wave Leap"
+origin_cloud       = "Origin Quantum Cloud"
+tianyan            = "China Telecom Tianyan"
+juniq              = "JUNIQ (Jülich Unified Infrastructure for Quantum Computing)"
+nqcc               = "UK National Quantum Computing Centre"
+none               = "Not cloud-accessible"
+
+[access_tier]
+open             = "Publicly accessible without registration"
+free             = "Free tier with free account"
+paid             = "Paid access required"
+research_only    = "Academic / research agreements only"
+private          = "Private — single customer / internal only"
+not_accessible   = "Not accessible to external users"
+
+[logical_code]
+steane             = "Steane [[7,1,3]]"
+surface            = "Surface code (rotated or unrotated)"
+rotated_surface    = "Rotated surface code (explicitly)"
+bivariate_bicycle  = "Bivariate bicycle / IBM Gross code"
+color              = "Color code"
+gkp                = "Gottesman-Kitaev-Preskill (continuous-variable)"
+cat                = "Cat-code (Alice & Bob)"
+dual_rail_cavity   = "Dual-rail cavity (QCI, Yale)"
+repetition         = "Repetition code"
+shor               = "Shor [[9,1,3]]"
+custom             = "Other — describe in architecture_notes"
+
+[native_gate_kind]
+gate                = "Unitary gate"
+measurement         = "Projective measurement"
+reset               = "Qubit reset to |0>"
+idle                = "Idle / delay"
+analog_hamiltonian  = "Continuous-time Hamiltonian evolution with programmable schedule"

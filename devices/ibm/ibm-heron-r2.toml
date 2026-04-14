@@ -1,0 +1,116 @@
+# IBM Heron r2 — 156-qubit heavy-hex superconducting transmon with tunable couplers
+#
+# Ingest method:  Hand-curated for Session 1 scaffold from the Wikipedia list
+#                 of quantum processors. Minimal provenance — next ingest session
+#                 will pull `IBMBackend.target_history(datetime=…)` for one of
+#                 the Heron r2 backends (ibm_torino / ibm_kingston / ibm_marrakesh)
+#                 and replace the placeholder noise numbers with calibrated values.
+# Modality:       Fixed-frequency transmons, heavy-hex lattice, tunable couplers.
+
+[meta]
+id = "ibm-heron-r2"
+org_slug = "ibm"
+aliases = ["Heron r2", "ibm_torino", "ibm_kingston", "ibm_marrakesh"]
+schema_version = "0.1"
+created_at = 2026-04-14T14:25:00Z
+updated_at = 2026-04-14T14:25:00Z
+
+[organization]
+name = "IBM Quantum"
+kind = "commercial"
+country = "USA"
+parent = "IBM"
+homepage_url = "https://www.ibm.com/quantum"
+
+[family]
+name = "Heron"
+modality = "sc_transmon"
+lineage_predecessor = "ibm-heron-r1"
+
+[device]
+name = "Heron r2"
+status = "in_service"
+announced_date = 2024-11-13
+first_operational_date = 2024-11-13
+num_qubits = 156
+architecture_notes = """
+Second revision of IBM's Heron processor family. Tunable couplers between
+fixed-frequency transmons; heavy-hex lattice layout. Replaces Eagle (r3) as
+IBM's flagship utility-scale chip; supersedes Heron r1 (133q) with improved
+gate fidelity. Heron r3 (2025) iterates further on the same architecture.
+"""
+
+[topology]
+kind = "heavy_hex"
+reconfigurable = false
+# coupling_map is large (~280 edges for heavy-hex 156q); will be populated
+# directly from `backend.coupling_map` in the next ingest.
+
+[[native_gates]]
+name = "CZ"
+arity = 2
+kind = "gate"
+params = []
+duration_ns = 68.0
+# IBM's Heron family report ~3e-3 median 2Q error; numbers to be replaced
+# by per-pair values from the live calibration.
+
+[[native_gates]]
+name = "SX"
+arity = 1
+kind = "gate"
+params = []
+duration_ns = 36.0
+
+[[native_gates]]
+name = "Rz"
+arity = 1
+kind = "gate"
+params = ["theta"]
+duration_ns = 0.0   # virtual Z
+
+[[native_gates]]
+name = "X"
+arity = 1
+kind = "gate"
+params = []
+duration_ns = 36.0
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+duration_ns = 800.0
+
+[[native_gates]]
+name = "reset"
+arity = 1
+kind = "reset"
+duration_ns = 1000.0
+
+[noise_model]
+# Replace with live calibration in next ingest session.
+
+[timing]
+single_qubit_gate_ns = 36.0
+two_qubit_gate_ns = 68.0
+readout_ns = 800.0
+reset_ns = 1000.0
+
+[access]
+cloud_provider = "ibm_quantum"
+api_kind = "qiskit_runtime"
+api_endpoint = "https://quantum.cloud.ibm.com"
+tier = "paid"
+auth_required = true
+sdk_packages = ["qiskit", "qiskit-ibm-runtime"]
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 156
+source_url = "https://en.wikipedia.org/wiki/List_of_quantum_processors"
+source_kind = "wikipedia"
+retrieved_at = 2026-04-14T14:25:00Z
+local_path = "sources/2026/04/14/wikipedia-list-of-quantum-processors.html"
+sha256 = "d7f7488d59ff1980d640289be3e3e5784c2d1f0c73b0aeb62e9d8043f703fc06"
+notes = "Starting provenance only. Full calibration pull from backend.target_history() is TODO for next session."

@@ -1,0 +1,128 @@
+# Quandela Ascella — 6-qubit single-photon-based dual-rail photonic processor
+#
+# Published in:   Maring et al., "A versatile single-photon-based quantum computing
+#                 platform" Nature Photonics 18, 603-609 (2024). Preprint
+#                 arXiv:2306.00874.
+# Cloud:          Accessible via the MosaiQ platform at OVHcloud; also available
+#                 via Quandela's own cloud.
+# Modality:       Photonic discrete-variable; quantum-dot single-photon source
+#                 feeding a programmable linear-optical interferometer with
+#                 dual-rail encoding.
+# Ingest method:  Hand-curated for Session 1 scaffold from the arXiv abstract
+#                 page and the Quandela 2024-2030 roadmap press release.
+#                 TODO: once the Quandela Perceval SDK exposes a device-spec
+#                 endpoint, pull Omega-loss, HOM-visibility, and brightness
+#                 directly.
+
+[meta]
+id = "quandela-ascella"
+org_slug = "quandela"
+aliases = ["Ascella", "MosaiQ-6", "Quandela Ascella"]
+schema_version = "0.1"
+created_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-14T15:27:00Z
+
+[organization]
+name = "Quandela"
+kind = "commercial"
+country = "FRA"
+homepage_url = "https://www.quandela.com/"
+
+[family]
+name = "MosaiQ"
+modality = "photonic_discrete"
+
+[device]
+name = "Ascella (MosaiQ-6)"
+status = "in_service"
+announced_date = 2023-06-01
+first_operational_date = 2023-06-01
+num_qubits = 6
+architecture_notes = """
+Dual-rail photonic qubits. Six photonic qubits generated on demand from a
+single quantum-dot source; routed through a programmable linear-optical
+interferometer. Six-photon sampling rate ~4 Hz. Reported stable operation
+over weeks. First Quandela system deployed on the MosaiQ platform at
+OVHcloud.
+"""
+
+[topology]
+kind = "reconfigurable"
+reconfigurable = true
+
+[topology.position_constraints]
+n_photonic_modes = 12     # dual-rail: 2 modes/qubit
+notes = "Programmable mesh; per-shot reconfiguration."
+
+[[native_gates]]
+name = "photon_prep"
+arity = 1
+kind = "reset"
+params = []
+
+[[native_gates]]
+name = "beam_splitter"
+arity = 2
+kind = "gate"
+params = ["theta"]
+
+[[native_gates]]
+name = "phase_shift"
+arity = 1
+kind = "gate"
+params = ["phi"]
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+
+[noise_model]
+# TODO: populate from Perceval device spec. Key figures of merit for photonic:
+# single-photon purity, indistinguishability (HOM), brightness, mode-mismatch,
+# detection efficiency, dark-count rate.
+
+[timing]
+single_qubit_gate_ns = 1.0         # photon propagation timescale is sub-ns;
+two_qubit_gate_ns = 1.0             # effective gate time dominated by shot rate.
+readout_ns = 1_000_000_000.0        # ~1 s/shot at 4 Hz six-photon rate
+
+[access]
+cloud_provider = "none"             # Quandela Cloud / OVHcloud integration — add a
+                                    # dedicated cloud_provider enum in a follow-up.
+api_kind = "custom"
+api_endpoint = "https://cloud.quandela.com/"
+tier = "paid"
+auth_required = true
+sdk_packages = ["perceval", "exqalibur"]
+
+[roadmap]
+originally_targeted_qubits = 6
+originally_targeted_year = 2023
+narrative = """
+Ascella is the first-generation (6-qubit) machine. Quandela's public 2024-2030
+roadmap targets 12 qubits (Belenos, 2025-2026), 24 qubits (Canopus, 2026), and
+fault-tolerant operation later in the decade. The MosaiQ product line delivers
+these machines as modular, upgradable systems via cloud partners (OVHcloud
+confirmed Belenos + Canopus availability for mid-2026).
+"""
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 6
+source_url = "https://arxiv.org/abs/2306.00874"
+source_kind = "paper_arxiv"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/quandela-nature-photonics-2024-arxiv.html"
+sha256 = "7538d6960ee73d5790e27df3bc68a9c9a4f93c8d0ada0efab1da08eee02db0b2"
+notes = "Nature Photonics 2024 paper describes Ascella with six photonic qubits and 4 Hz six-photon sampling rate."
+
+[[provenance]]
+field_path = "family.name"
+value = "MosaiQ"
+source_url = "https://www.quandela.com/about-us/newsroom/quandela-unveils-its-2024-2030-roadmap/"
+source_kind = "press_release"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/quandela-2024-2030-roadmap.html"
+sha256 = "2bbe8e861c230fa4280c92deaf6c13e7b7bd1ea0de5007c0b3e876db1e8b86e6"
+notes = "Quandela 2024-2030 roadmap press release references MosaiQ platform and product-line naming."

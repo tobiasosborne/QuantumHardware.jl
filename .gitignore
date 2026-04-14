@@ -1,0 +1,23 @@
+# Julia
+Manifest.toml
+
+# Claude Code plugin artifacts
+.claude/docs/
+.claude/tools/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+.beads-credential-key
+
+# Compiled DB artefacts (built by scripts/build_db.jl, not source-of-truth)
+db/quantum-hardware.duckdb
+db/quantum-hardware.sqlite
+db/quantum-hardware.sqlite-journal
+
+# Ingest-time scratch
+.ingest-cache/
+*.tmp
+
+# macOS / editor
+.DS_Store
+*.swp

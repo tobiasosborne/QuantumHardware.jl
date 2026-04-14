@@ -1,0 +1,98 @@
+# Quandela Canopus — 24-qubit photonic (MosaiQ, projected 2026)
+#
+# Projected:     2026. Announced as successor to Belenos on Quandela's
+#                2024-2030 public roadmap.
+# Cloud access:  Announced for mid-2026 via OVHcloud alongside Belenos.
+# Status:        PROJECTED.
+
+[meta]
+id = "quandela-canopus"
+org_slug = "quandela"
+aliases = ["Canopus", "MosaiQ-24"]
+schema_version = "0.1"
+created_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-14T15:27:00Z
+
+[organization]
+name = "Quandela"
+kind = "commercial"
+country = "FRA"
+homepage_url = "https://www.quandela.com/"
+
+[family]
+name = "MosaiQ"
+modality = "photonic_discrete"
+lineage_predecessor = "quandela-belenos"
+
+[device]
+name = "Canopus (MosaiQ-24)"
+status = "projected"
+announced_date = 2024-11-01
+num_qubits = 24
+architecture_notes = """
+Third-generation MosaiQ machine. Doubles qubit count again over Belenos.
+Quandela projects ~16-million-fold compute-power increase over Ascella.
+"""
+
+[topology]
+kind = "reconfigurable"
+reconfigurable = true
+
+[topology.position_constraints]
+n_photonic_modes = 48
+
+[[native_gates]]
+name = "photon_prep"
+arity = 1
+kind = "reset"
+
+[[native_gates]]
+name = "beam_splitter"
+arity = 2
+kind = "gate"
+params = ["theta"]
+
+[[native_gates]]
+name = "phase_shift"
+arity = 1
+kind = "gate"
+params = ["phi"]
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+
+[noise_model]
+# Unknown — PROJECTED device.
+
+[timing]
+single_qubit_gate_ns = 1.0
+two_qubit_gate_ns = 1.0
+readout_ns = 1_000_000_000.0
+
+[access]
+cloud_provider = "none"
+api_kind = "custom"
+tier = "paid"
+auth_required = true
+sdk_packages = ["perceval"]
+
+[roadmap]
+originally_targeted_qubits = 24
+originally_targeted_year = 2026
+narrative = """
+Canopus is the 24-qubit node on Quandela's 2024-2030 roadmap. Public marketing
+claims 16-million-fold compute-power increase over Ascella (interpret as
+vendor-framed; cross-check needed against independent benchmarks after launch).
+"""
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 24
+source_url = "https://www.quandela.com/about-us/newsroom/quandela-unveils-its-2024-2030-roadmap/"
+source_kind = "press_release"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/quandela-2024-2030-roadmap.html"
+sha256 = "2bbe8e861c230fa4280c92deaf6c13e7b7bd1ea0de5007c0b3e876db1e8b86e6"
+notes = "Quandela 2024-2030 roadmap names Canopus as the 24-qubit MosaiQ machine projected for 2026."

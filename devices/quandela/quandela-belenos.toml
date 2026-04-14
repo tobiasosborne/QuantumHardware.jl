@@ -1,0 +1,98 @@
+# Quandela Belenos — 12-qubit photonic (MosaiQ, 2nd generation)
+#
+# Announced:     2025-05 as next generation after MosaiQ-6/Ascella.
+# Cloud access:  Announced for mid-2026 via OVHcloud.
+# Status:        ANNOUNCED at time of ingest; move to in_service once cloud
+#                availability confirmed.
+
+[meta]
+id = "quandela-belenos"
+org_slug = "quandela"
+aliases = ["Belenos", "MosaiQ-12", "Quandela Belenos"]
+schema_version = "0.1"
+created_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-14T15:27:00Z
+
+[organization]
+name = "Quandela"
+kind = "commercial"
+country = "FRA"
+homepage_url = "https://www.quandela.com/"
+
+[family]
+name = "MosaiQ"
+modality = "photonic_discrete"
+lineage_predecessor = "quandela-ascella"
+
+[device]
+name = "Belenos (MosaiQ-12)"
+status = "announced"
+announced_date = 2025-05-01
+num_qubits = 12
+architecture_notes = """
+Second-generation MosaiQ machine, 12 photonic qubits. Quandela claims roughly
+4000x computational-power gain over the 6-qubit Ascella. Slated for mid-2026
+cloud availability via OVHcloud partnership.
+"""
+
+[topology]
+kind = "reconfigurable"
+reconfigurable = true
+
+[topology.position_constraints]
+n_photonic_modes = 24
+
+[[native_gates]]
+name = "photon_prep"
+arity = 1
+kind = "reset"
+
+[[native_gates]]
+name = "beam_splitter"
+arity = 2
+kind = "gate"
+params = ["theta"]
+
+[[native_gates]]
+name = "phase_shift"
+arity = 1
+kind = "gate"
+params = ["phi"]
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+
+[noise_model]
+# TBD — publicly announced performance envelope only.
+
+[timing]
+single_qubit_gate_ns = 1.0
+two_qubit_gate_ns = 1.0
+readout_ns = 1_000_000_000.0        # shot rate to be published at launch
+
+[access]
+cloud_provider = "none"
+api_kind = "custom"
+tier = "paid"
+auth_required = true
+sdk_packages = ["perceval"]
+
+[roadmap]
+originally_targeted_qubits = 12
+originally_targeted_year = 2026
+narrative = """
+Belenos doubles qubit count over Ascella; sits between Ascella and Canopus
+in Quandela's MosaiQ upgrade path. OVHcloud announced mid-2026 availability.
+"""
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 12
+source_url = "https://www.quandela.com/about-us/newsroom/quandela-unveils-its-2024-2030-roadmap/"
+source_kind = "press_release"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/quandela-2024-2030-roadmap.html"
+sha256 = "2bbe8e861c230fa4280c92deaf6c13e7b7bd1ea0de5007c0b3e876db1e8b86e6"
+notes = "Quandela 2024-2030 roadmap names Belenos as the 12-qubit successor to Ascella."

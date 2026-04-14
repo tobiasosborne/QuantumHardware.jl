@@ -1,0 +1,111 @@
+# QUDORA Hamburg-50 — 50-qubit microwave-driven trapped-ion system (DLR contract)
+#
+# Projected:     Delivery January 2027 under €42M DLR contract, built with
+#                NXP Semiconductors Germany GmbH.
+# Modality:      Trapped-ion Yb+ / Ba+ with Near-Field Quantum Control (NFQC)
+#                — microwave electronics replacing laser gate drive.
+# Status:        PROJECTED at time of ingest.
+
+[meta]
+id = "qudora-hamburg-50"
+org_slug = "qudora"
+aliases = ["QUDORA DLR-50", "Qudora Hamburg 50-qubit"]
+schema_version = "0.1"
+created_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-14T15:27:00Z
+
+[organization]
+name = "QUDORA Technologies"
+kind = "commercial"
+country = "DEU"
+homepage_url = "https://qudora.com/"
+
+[family]
+name = "QUDORA NFQC"
+modality = "trapped_ion"
+
+[device]
+name = "QUDORA Hamburg-50"
+status = "projected"
+announced_date = 2024-01-01
+num_qubits = 50
+architecture_notes = """
+Microwave-driven surface-electrode Paul trap. QUDORA's proprietary Near-Field
+Quantum Control (NFQC) replaces laser systems with integrated microwave
+electronics. Being built in Hamburg with NXP Semiconductors Germany GmbH
+under a €42M DLR (German Aerospace Center) contract; delivery January 2027.
+"""
+
+[topology]
+kind = "all_to_all"
+reconfigurable = true
+# Effective all-to-all via ion-chain reordering or QCCD shuttling; details
+# to be confirmed at delivery.
+
+[[native_gates]]
+name = "U_microwave"
+arity = 1
+kind = "gate"
+params = ["theta", "phi"]
+
+[[native_gates]]
+name = "MS_microwave"
+arity = 2
+kind = "gate"
+params = ["theta"]
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+
+[[native_gates]]
+name = "reset"
+arity = 1
+kind = "reset"
+
+[noise_model]
+# Not yet published — PROJECTED device.
+
+[timing]
+# Placeholder numbers; to be replaced by measured gate times at commissioning.
+single_qubit_gate_ns = 10_000.0
+two_qubit_gate_ns = 500_000.0
+readout_ns = 300_000.0
+
+[access]
+cloud_provider = "none"
+api_kind = "offline"
+tier = "private"
+auth_required = false
+pricing_notes = "Delivered as a physical system under DLR contract; not a cloud product."
+
+[roadmap]
+originally_targeted_qubits = 50
+originally_targeted_year = 2027
+narrative = """
+Part of the €42M DLR Quantum Computing Initiative contract announced Jan 2024.
+Delivery January 2027. QUDORA's NFQC approach targets high-fidelity gates at
+lower system complexity than laser-driven ion traps — independent benchmarks
+pending.
+"""
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 50
+source_url = "https://qudora.com/news/"
+source_kind = "vendor_doc"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/qudora-news.html"
+sha256 = "7fae93d386d759b3766ec6932f4a53df8c10d6484e242cd65bc003246ff77f13"
+notes = "QUDORA news page references 50-qubit Hamburg system, NXP partnership, DLR €42M contract, Jan 2027 delivery."
+
+[[provenance]]
+field_path = "family.modality"
+value = "trapped_ion"
+source_url = "https://thequantuminsider.com/2026/02/26/qudora-parityqc-optimize-quantum-algorithms-trapped-ion/"
+source_kind = "blog_post"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/qudora-parityqc-partnership.html"
+sha256 = "1727cd668e3e07b29a389b7be0b61537b7e5243de903d9f5d8620512e30fdf4a"
+notes = "TQI write-up of the ParityQC partnership describes QUDORA as trapped-ion with NFQC microwave gate drive."

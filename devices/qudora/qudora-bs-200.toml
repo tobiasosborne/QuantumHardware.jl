@@ -1,0 +1,95 @@
+# QUDORA Braunschweig-200 — 200-qubit microwave-driven trapped-ion system (projected)
+#
+# Projected:     Through 2027, at QUDORA's Braunschweig HQ, as publicly
+#                presented in the "QUDORA presents its upcoming Quantum Computer
+#                System at Braunschweig Headquarters" news item.
+# Modality:      Trapped-ion with Near-Field Quantum Control (NFQC).
+# Status:        PROJECTED.
+
+[meta]
+id = "qudora-bs-200"
+org_slug = "qudora"
+aliases = ["QUDORA Braunschweig 200-qubit", "QUDORA 200"]
+schema_version = "0.1"
+created_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-14T15:27:00Z
+
+[organization]
+name = "QUDORA Technologies"
+kind = "commercial"
+country = "DEU"
+homepage_url = "https://qudora.com/"
+
+[family]
+name = "QUDORA NFQC"
+modality = "trapped_ion"
+lineage_predecessor = "qudora-hamburg-50"
+
+[device]
+name = "QUDORA Braunschweig-200"
+status = "projected"
+announced_date = 2025-01-01
+num_qubits = 200
+architecture_notes = """
+QUDORA HQ system presented as the 200-qubit NFQC machine reaching full
+operation through 2027. Uses the same Near-Field Quantum Control approach
+as the Hamburg-50 machine, scaled up.
+"""
+
+[topology]
+kind = "all_to_all"
+reconfigurable = true
+
+[[native_gates]]
+name = "U_microwave"
+arity = 1
+kind = "gate"
+params = ["theta", "phi"]
+
+[[native_gates]]
+name = "MS_microwave"
+arity = 2
+kind = "gate"
+params = ["theta"]
+
+[[native_gates]]
+name = "readout"
+arity = 1
+kind = "measurement"
+
+[[native_gates]]
+name = "reset"
+arity = 1
+kind = "reset"
+
+[noise_model]
+# Unknown — PROJECTED device.
+
+[timing]
+single_qubit_gate_ns = 10_000.0
+two_qubit_gate_ns = 500_000.0
+readout_ns = 300_000.0
+
+[access]
+cloud_provider = "none"
+api_kind = "offline"
+tier = "private"
+auth_required = false
+
+[roadmap]
+originally_targeted_qubits = 200
+originally_targeted_year = 2027
+narrative = """
+The 200-qubit HQ system bookends QUDORA's public roadmap through 2027 and
+follows the 50-qubit Hamburg delivery (January 2027).
+"""
+
+[[provenance]]
+field_path = "device.num_qubits"
+value = 200
+source_url = "https://qudora.com/news/"
+source_kind = "vendor_doc"
+retrieved_at = 2026-04-14T15:27:00Z
+local_path = "sources/2026/04/14/qudora-news.html"
+sha256 = "7fae93d386d759b3766ec6932f4a53df8c10d6484e242cd65bc003246ff77f13"
+notes = "QUDORA news page: 'reaching 200 high-fidelity qubits through 2027'."
