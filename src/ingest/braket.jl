@@ -24,125 +24,25 @@ using Dates
 using QuantumHardware.IngestCommon: is_hand_curated, snapshot_file
 
 const AWS_DOCS_URL = "https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html"
+const CONFIG_PATH  = joinpath(@__DIR__, "config", "braket.toml")
 
 """
-Per-vendor presets. Each ingested Braket ARN inherits modality, baseline gate
-times, and access metadata from the vendor preset; revision-specific fields
-(num_qubits, topology, named_family) are filled per-device below.
+Vendor presets and per-device overrides loaded from `config/braket.toml`.
+Adding a new Braket ARN should mean editing the config TOML, not this file.
+"""
+function _load_config(path::AbstractString = CONFIG_PATH)
+    cfg = TOML.parsefile(path)
+    presets   = Dict{String, NamedTuple}(k => _to_namedtuple(v) for (k, v) in cfg["vendor"])
+    overrides = Dict{String, NamedTuple}(k => _to_namedtuple(v) for (k, v) in cfg["device"])
+    return (; presets, overrides)
+end
 
-Numeric baselines come from vendor public pages cross-checked against the
-Session-1 research census. Provenance points to the AWS docs snapshot as the
-primary ARN source; secondary provenance (qubit count etc.) is carried in the
-device-specific block.
-"""
-const VENDOR_PRESETS = Dict(
-    "aqt" => (
-        org = "Alpine Quantum Technologies (AQT)",
-        country = "AUT",
-        modality = "trapped_ion",
-        api_kind = "braket",
-        cloud = "aws_braket",
-        single_ns = 20_000.0,
-        two_ns = 200_000.0,
-        readout_ns = 300_000.0,
-    ),
-    "ionq" => (
-        org = "IonQ",
-        country = "USA",
-        modality = "trapped_ion",
-        api_kind = "braket",
-        cloud = "aws_braket",
-        single_ns = 10_000.0,
-        two_ns = 300_000.0,
-        readout_ns = 200_000.0,
-    ),
-    "iqm" => (
-        org = "IQM",
-        country = "FIN",
-        modality = "sc_transmon",
-        api_kind = "braket",
-        cloud = "aws_braket",
-        single_ns = 40.0,
-        two_ns = 100.0,
-        readout_ns = 1_500.0,
-    ),
-    "quera" => (
-        org = "QuEra Computing",
-        country = "USA",
-        modality = "neutral_atom",
-        api_kind = "braket",
-        cloud = "aws_braket",
-        single_ns = 50.0,
-        two_ns = 500.0,
-        readout_ns = 1_000_000.0,
-    ),
-    "rigetti" => (
-        org = "Rigetti Computing",
-        country = "USA",
-        modality = "sc_transmon",
-        api_kind = "braket",
-        cloud = "aws_braket",
-        single_ns = 60.0,
-        two_ns = 150.0,
-        readout_ns = 1_200.0,
-    ),
-)
+_to_namedtuple(d::AbstractDict) =
+    NamedTuple{Tuple(Symbol(k) for k in keys(d))}(Tuple(values(d)))
 
-"""
-Per-device named overrides. Pulled from the Session-1 research census and
-vendor public pages; documented in the emitted TOML's header comment so
-future agents can see where a number came from.
-"""
-const DEVICE_OVERRIDES = Dict(
-    "aqt/Ibex-Q1" => (
-        slug = "aqt-ibex-q1", family = "Ibex", display = "AQT Ibex-Q1",
-        num_qubits = 24, topology_kind = "all_to_all",
-        announced = Date("2024-01-01"),
-        notes = "AQT's Ibex platform; trapped-ion ytterbium / calcium QCCD. Accessible via Braket in eu-north-1.",
-    ),
-    "ionq/Forte-1" => (
-        slug = "ionq-forte-1", family = "Forte", display = "IonQ Forte-1",
-        num_qubits = 36, topology_kind = "all_to_all",
-        announced = Date("2023-05-25"),
-        notes = "Barium-based trapped ion; acousto-optic deflector individual addressing. Reported 29 #AQ.",
-    ),
-    "ionq/Forte-Enterprise-1" => (
-        slug = "ionq-forte-enterprise-1", family = "Forte", display = "IonQ Forte-Enterprise-1",
-        num_qubits = 36, topology_kind = "all_to_all",
-        announced = Date("2024-04-01"),
-        notes = "Enterprise variant of IonQ Forte; on-prem/Quantum Systems deployment class.",
-    ),
-    "iqm/Garnet" => (
-        slug = "iqm-garnet", family = "Garnet", display = "IQM Garnet",
-        num_qubits = 20, topology_kind = "square_grid",
-        announced = Date("2023-09-01"),
-        notes = "IQM superconducting processor with tunable couplers. Square-lattice 5x4.",
-    ),
-    "iqm/Emerald" => (
-        slug = "iqm-emerald", family = "Emerald", display = "IQM Emerald",
-        num_qubits = 54, topology_kind = "square_grid",
-        announced = Date("2025-01-01"),
-        notes = "IQM Emerald scale-up of Garnet architecture; 54-qubit square grid.",
-    ),
-    "quera/Aquila" => (
-        slug = "quera-aquila", family = "Aquila", display = "QuEra Aquila",
-        num_qubits = 256, topology_kind = "analog_hamiltonian",
-        announced = Date("2022-11-28"),
-        notes = "Rydberg neutral-atom analog-Hamiltonian QPU — see existing devices/quera/quera-aquila.toml for full detail.",
-    ),
-    "rigetti/Ankaa-3" => (
-        slug = "rigetti-ankaa-3", family = "Ankaa", display = "Rigetti Ankaa-3",
-        num_qubits = 84, topology_kind = "square_grid",
-        announced = Date("2024-12-01"),
-        notes = "Rigetti Ankaa-3 superconducting tunable-coupler square lattice; supersedes Ankaa-2.",
-    ),
-    "rigetti/Cepheus-1-108Q" => (
-        slug = "rigetti-cepheus-1-108q", family = "Cepheus", display = "Rigetti Cepheus-1-108Q",
-        num_qubits = 108, topology_kind = "square_grid",
-        announced = Date("2026-04-07"),
-        notes = "Rigetti Cepheus-1, 108-qubit; GA April 2026. Successor to Ankaa lineage.",
-    ),
-)
+const _CONFIG          = _load_config()
+const VENDOR_PRESETS   = _CONFIG.presets
+const DEVICE_OVERRIDES = _CONFIG.overrides
 
 """
 Extract `(vendor, model, arn)` tuples from the AWS Braket "Supported devices"

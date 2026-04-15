@@ -1,0 +1,134 @@
+# AWS Braket ingest config — vendor presets + per-device overrides.
+# Loaded by src/ingest/braket.jl. Adding a new Braket ARN should require
+# editing only this file, not the adapter code.
+
+# --- Vendor presets ----------------------------------------------------------
+# Keyed by the lowercase vendor segment in the ARN
+# (`arn:aws:braket:…::device/qpu/<vendor>/<model>`).
+
+[vendor.aqt]
+org         = "Alpine Quantum Technologies (AQT)"
+country     = "AUT"
+modality    = "trapped_ion"
+api_kind    = "braket"
+cloud       = "aws_braket"
+single_ns   = 20000.0
+two_ns      = 200000.0
+readout_ns  = 300000.0
+
+[vendor.ionq]
+org         = "IonQ"
+country     = "USA"
+modality    = "trapped_ion"
+api_kind    = "braket"
+cloud       = "aws_braket"
+single_ns   = 10000.0
+two_ns      = 300000.0
+readout_ns  = 200000.0
+
+[vendor.iqm]
+org         = "IQM"
+country     = "FIN"
+modality    = "sc_transmon"
+api_kind    = "braket"
+cloud       = "aws_braket"
+single_ns   = 40.0
+two_ns      = 100.0
+readout_ns  = 1500.0
+
+[vendor.quera]
+org         = "QuEra Computing"
+country     = "USA"
+modality    = "neutral_atom"
+api_kind    = "braket"
+cloud       = "aws_braket"
+single_ns   = 50.0
+two_ns      = 500.0
+readout_ns  = 1000000.0
+
+[vendor.rigetti]
+org         = "Rigetti Computing"
+country     = "USA"
+modality    = "sc_transmon"
+api_kind    = "braket"
+cloud       = "aws_braket"
+single_ns   = 60.0
+two_ns      = 150.0
+readout_ns  = 1200.0
+
+# --- Per-device overrides ----------------------------------------------------
+# Keyed by `<vendor>/<Model>` (matches the ARN tail). Pulled from
+# Session-1 research census and vendor public pages; documented in the
+# emitted TOML's header comment so future agents can trace each value.
+
+[device."aqt/Ibex-Q1"]
+slug          = "aqt-ibex-q1"
+family        = "Ibex"
+display       = "AQT Ibex-Q1"
+num_qubits    = 24
+topology_kind = "all_to_all"
+announced     = 2024-01-01
+notes         = "AQT's Ibex platform; trapped-ion ytterbium / calcium QCCD. Accessible via Braket in eu-north-1."
+
+[device."ionq/Forte-1"]
+slug          = "ionq-forte-1"
+family        = "Forte"
+display       = "IonQ Forte-1"
+num_qubits    = 36
+topology_kind = "all_to_all"
+announced     = 2023-05-25
+notes         = "Barium-based trapped ion; acousto-optic deflector individual addressing. Reported 29 #AQ."
+
+[device."ionq/Forte-Enterprise-1"]
+slug          = "ionq-forte-enterprise-1"
+family        = "Forte"
+display       = "IonQ Forte-Enterprise-1"
+num_qubits    = 36
+topology_kind = "all_to_all"
+announced     = 2024-04-01
+notes         = "Enterprise variant of IonQ Forte; on-prem/Quantum Systems deployment class."
+
+[device."iqm/Garnet"]
+slug          = "iqm-garnet"
+family        = "Garnet"
+display       = "IQM Garnet"
+num_qubits    = 20
+topology_kind = "square_grid"
+announced     = 2023-09-01
+notes         = "IQM superconducting processor with tunable couplers. Square-lattice 5x4."
+
+[device."iqm/Emerald"]
+slug          = "iqm-emerald"
+family        = "Emerald"
+display       = "IQM Emerald"
+num_qubits    = 54
+topology_kind = "square_grid"
+announced     = 2025-01-01
+notes         = "IQM Emerald scale-up of Garnet architecture; 54-qubit square grid."
+
+[device."quera/Aquila"]
+slug          = "quera-aquila"
+family        = "Aquila"
+display       = "QuEra Aquila"
+num_qubits    = 256
+topology_kind = "analog_hamiltonian"
+announced     = 2022-11-28
+notes         = "Rydberg neutral-atom analog-Hamiltonian QPU — see existing devices/quera/quera-aquila.toml for full detail."
+
+[device."rigetti/Ankaa-3"]
+slug          = "rigetti-ankaa-3"
+family        = "Ankaa"
+display       = "Rigetti Ankaa-3"
+num_qubits    = 84
+topology_kind = "square_grid"
+announced     = 2024-12-01
+notes         = "Rigetti Ankaa-3 superconducting tunable-coupler square lattice; supersedes Ankaa-2."
+
+[device."rigetti/Cepheus-1-108Q"]
+slug          = "rigetti-cepheus-1-108q"
+family        = "Cepheus"
+display       = "Rigetti Cepheus-1-108Q"
+num_qubits    = 108
+topology_kind = "square_grid"
+announced     = 2026-04-07
+notes         = "Rigetti Cepheus-1, 108-qubit; GA April 2026. Successor to Ankaa lineage."
