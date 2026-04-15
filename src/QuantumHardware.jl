@@ -28,37 +28,15 @@ include("queries.jl")
 include("db.jl")
 
 export Device, DeviceMeta, Organization, DeviceFamily, DeviceRecord, Topology,
-       NativeGate, NoiseModel, CalibrationSnapshot, Timing, Access, Benchmarks,
+       NativeGate, FidelityPair, NoiseModel, CalibrationSnapshot, Timing, Access,
        EnergyCarbon, Roadmap, Provenance
 export target_spec, find_devices, sturm_target, load_device, load_all_devices,
-       validate_device, validate_device_file, build_db
+       each_device_toml, device_toml_paths, validate_device, validate_device_file, build_db
 
-"""
-    corpus_root()
+_project_path(parts...) = joinpath(pkgdir(@__MODULE__), parts...)
 
-Absolute path to the root of the source-of-truth `devices/` tree, resolved
-relative to the installed package location.
-"""
-function corpus_root()
-    return joinpath(pkgdir(@__MODULE__), "devices")
-end
-
-"""
-    sources_root()
-
-Absolute path to the `sources/` archive tree.
-"""
-function sources_root()
-    return joinpath(pkgdir(@__MODULE__), "sources")
-end
-
-"""
-    schema_path()
-
-Absolute path to `schema/device.schema.json`.
-"""
-function schema_path()
-    return joinpath(pkgdir(@__MODULE__), "schema", "device.schema.json")
-end
+corpus_root()  = _project_path("devices")
+sources_root() = _project_path("sources")
+schema_path()  = _project_path("schema", "device.schema.json")
 
 end # module

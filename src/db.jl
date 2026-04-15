@@ -257,7 +257,7 @@ function _device_values(dev::Device)
         dev.access.auth_required,
         dev.access.pricing_notes,
         _json_or_null(dev.access.sdk_packages),
-        dev.benchmarks === nothing ? nothing : _json_or_null(dev.benchmarks.data),
+        _json_or_null(dev.benchmarks),
         ec === nothing ? nothing : ec.fridge_kw,
         ec === nothing ? nothing : ec.system_kw,
         ec === nothing ? nothing : ec.per_shot_j,

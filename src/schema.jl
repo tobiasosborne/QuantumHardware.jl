@@ -73,6 +73,11 @@ struct Topology
     diagram_url::Union{Nothing, String}
 end
 
+struct FidelityPair
+    pair::Tuple{Int,Int}
+    fidelity::Float64
+end
+
 struct NativeGate
     name::String
     arity::Int
@@ -82,7 +87,7 @@ struct NativeGate
     fidelity_mean::Union{Nothing, Float64}
     fidelity_median::Union{Nothing, Float64}
     fidelity_per_qubit::Union{Nothing, Vector{Union{Nothing, Float64}}}
-    fidelity_per_pair::Union{Nothing, Vector{NamedTuple{(:pair,:fidelity), Tuple{Tuple{Int,Int}, Float64}}}}
+    fidelity_per_pair::Union{Nothing, Vector{FidelityPair}}
     kraus_operators_file::Union{Nothing, String}
     ptm_file::Union{Nothing, String}
 end
@@ -143,12 +148,6 @@ struct Access
     sdk_packages::Vector{String}
 end
 
-struct Benchmarks
-    # Free-form; one key per benchmark. Values are either scalars or small dicts
-    # with {value, date, methodology_url, source_provenance_idx}.
-    data::Dict{String, Any}
-end
-
 struct EnergyCarbon
     fridge_kw::Union{Nothing, Float64}
     system_kw::Union{Nothing, Float64}
@@ -193,7 +192,7 @@ struct Device
     calibration_snapshots::Vector{CalibrationSnapshot}
     timing::Timing
     access::Access
-    benchmarks::Union{Nothing, Benchmarks}
+    benchmarks::Union{Nothing, Dict{String, Any}}
     energy_carbon::Union{Nothing, EnergyCarbon}
     roadmap::Union{Nothing, Roadmap}
     provenance::Vector{Provenance}

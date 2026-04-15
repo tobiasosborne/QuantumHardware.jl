@@ -7,13 +7,10 @@
 Look up a device by its `meta.id` slug. Throws `KeyError` if not found.
 """
 function target_spec(id::AbstractString; root::AbstractString = corpus_root())
-    for (dir, _, files) in walkdir(root)
-        for f in files
-            endswith(f, ".toml") || continue
-            toml = TOML.parsefile(joinpath(dir, f))
-            haskey(toml, "meta") && toml["meta"]["id"] == id || continue
-            return load_device(joinpath(dir, f))
-        end
+    for path in device_toml_paths(root)
+        toml = TOML.parsefile(path)
+        haskey(toml, "meta") && toml["meta"]["id"] == id || continue
+        return load_device(path)
     end
     throw(KeyError(id))
 end
@@ -43,10 +40,10 @@ function find_devices(;
     cloud_provider::Union{Nothing, Symbol} = nothing,
     in_service_only::Bool = false,
 )
-    all = load_all_devices(root)
+    corpus = load_all_devices(root)
     matches = Device[]
     effective_status = in_service_only ? :in_service : status
-    for (_, dev) in all
+    for (_, dev) in corpus
         min_qubits      !== nothing && dev.device.num_qubits  < min_qubits      && continue
         max_qubits      !== nothing && dev.device.num_qubits  > max_qubits      && continue
         modality        !== nothing && dev.family.modality   != modality        && continue

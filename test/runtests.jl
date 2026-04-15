@@ -1,8 +1,8 @@
 using Test
+using SHA
 using QuantumHardware
 
-# Repo root (one level up from test/)
-const REPO_ROOT = dirname(dirname(pathof(QuantumHardware)))
+const REPO_ROOT = pkgdir(QuantumHardware)
 const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
 
 @testset "QuantumHardware" begin
@@ -10,42 +10,32 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
     @testset "schema validation — every device TOML passes" begin
         # Every TOML under devices/ must pass v0.1 schema validation.
         # Failing files surface as individual @test failures with their path.
-        found = 0
-        for (dir, _, files) in walkdir(DEVICES_DIR)
-            for f in files
-                endswith(f, ".toml") || continue
-                path = joinpath(dir, f)
-                found += 1
-                @testset "$path" begin
-                    @test_nowarn QuantumHardware.validate_device_file(path)
-                end
+        paths = device_toml_paths(DEVICES_DIR)
+        for path in paths
+            @testset "$path" begin
+                @test_nowarn QuantumHardware.validate_device_file(path)
             end
         end
-        @test found >= 3   # Session 1 seeded three examples — never regress below that
+        @test length(paths) >= 3   # Session 1 seeded three examples — never regress below that
     end
 
     @testset "loader — Device struct tree" begin
-        for (dir, _, files) in walkdir(DEVICES_DIR)
-            for f in files
-                endswith(f, ".toml") || continue
-                path = joinpath(dir, f)
-                @testset "$path" begin
-                    dev = load_device(path)
-                    @test dev isa Device
-                    @test !isempty(dev.meta.id)
-                    @test dev.device.num_qubits >= 0
-                    @test !isempty(dev.native_gates)
-                    @test !isempty(dev.provenance)
-                    # Dual source-of-truth rule: every provenance entry points to a
-                    # real local archive, and the sha256 matches on disk.
-                    for (i, p) in pairs(dev.provenance)
-                        archive = joinpath(REPO_ROOT, p.local_path)
-                        @test isfile(archive)
-                        if isfile(archive)
-                            using SHA
-                            actual = bytes2hex(open(sha256, archive))
-                            @test actual == p.sha256
-                        end
+        for path in device_toml_paths(DEVICES_DIR)
+            @testset "$path" begin
+                dev = load_device(path)
+                @test dev isa Device
+                @test !isempty(dev.meta.id)
+                @test dev.device.num_qubits >= 0
+                @test !isempty(dev.native_gates)
+                @test !isempty(dev.provenance)
+                # Dual source-of-truth rule: every provenance entry points to a
+                # real local archive, and the sha256 matches on disk.
+                for (i, p) in pairs(dev.provenance)
+                    archive = joinpath(REPO_ROOT, p.local_path)
+                    @test isfile(archive)
+                    if isfile(archive)
+                        actual = bytes2hex(open(sha256, archive))
+                        @test actual == p.sha256
                     end
                 end
             end

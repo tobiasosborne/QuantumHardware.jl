@@ -76,7 +76,7 @@ function _to_gate(d::AbstractDict)
         _maybe(d, "fidelity_per_qubit"),
         let pairs = _maybe(d, "fidelity_per_pair")
             pairs === nothing ? nothing :
-            [(pair=(e["pair"][1], e["pair"][2]), fidelity=e["fidelity"]) for e in pairs]
+            [FidelityPair((e["pair"][1], e["pair"][2]), e["fidelity"]) for e in pairs]
         end,
         _maybe(d, "kraus_operators_file"),
         _maybe(d, "ptm_file"),
@@ -178,12 +178,41 @@ function load_device(path::AbstractString)
         [_to_snap(s) for s in get(dict, "calibration_snapshots", [])],
         _to_timing(dict["timing"]),
         _to_access(dict["access"]),
-        haskey(dict, "benchmarks") ? Benchmarks(dict["benchmarks"]) : nothing,
+        haskey(dict, "benchmarks") ? dict["benchmarks"] : nothing,
         haskey(dict, "energy_carbon") ? _to_energy(dict["energy_carbon"]) : nothing,
         haskey(dict, "roadmap") ? _to_roadmap(dict["roadmap"]) : nothing,
         [_to_prov(p) for p in dict["provenance"]],
     )
 end
+
+"""
+    device_toml_paths(root::AbstractString = corpus_root()) -> Vector{String}
+
+Sorted list of every `*.toml` file under `root`. Single canonical corpus walk;
+every other site (loader, queries, scripts, tests) iterates this rather than
+re-rolling `walkdir`. Sort order is deterministic (path-lexicographic) so
+duplicate-id errors surface against a stable file.
+"""
+function device_toml_paths(root::AbstractString = corpus_root())
+    paths = String[]
+    for (dir, _, files) in walkdir(root)
+        for fname in files
+            endswith(fname, ".toml") && push!(paths, joinpath(dir, fname))
+        end
+    end
+    sort!(paths)
+    return paths
+end
+
+"""
+    each_device_toml(f, root::AbstractString = corpus_root())
+
+Apply `f(path)` to every device TOML. Convenience wrapper around
+`device_toml_paths` — use this for side-effecting walks; use the underlying
+`device_toml_paths` when you need to short-circuit on a match.
+"""
+each_device_toml(f, root::AbstractString = corpus_root()) =
+    foreach(f, device_toml_paths(root))
 
 """
     load_all_devices(root::AbstractString = corpus_root()) -> Dict{String,Device}
@@ -193,13 +222,10 @@ Walk the `devices/` tree, load every `*.toml` into a `Device`, key by
 """
 function load_all_devices(root::AbstractString = corpus_root())
     devs = Dict{String, Device}()
-    for (dir, _, files) in walkdir(root)
-        for f in files
-            endswith(f, ".toml") || continue
-            dev = load_device(joinpath(dir, f))
-            haskey(devs, dev.meta.id) && error("duplicate device id: $(dev.meta.id) at $(joinpath(dir, f))")
-            devs[dev.meta.id] = dev
-        end
+    each_device_toml(root) do path
+        dev = load_device(path)
+        haskey(devs, dev.meta.id) && error("duplicate device id: $(dev.meta.id) at $path")
+        devs[dev.meta.id] = dev
     end
     return devs
 end
