@@ -5,6 +5,9 @@
 # and the dual source-of-truth rule (every provenance entry has a real
 # local_path and a valid sha256).
 #
+# Enum membership is loaded from `schema/device.schema.json` $defs so there
+# is one source of truth (see ENUMS in QuantumHardware.jl).
+#
 # Upgrade to JSONSchema.jl in a future session once Draft 2020-12 support
 # stabilises. The hand-rolled path buys us fast feedback with zero deps.
 
@@ -23,6 +26,24 @@ const _REQUIRED_TOP = (
 
 const _SHA256_RE = r"^[a-f0-9]{64}$"
 const _SOURCES_PATH_RE = r"^sources/\d{4}/\d{2}/\d{2}/"
+
+"""
+    load_enums(schema_json_path) -> Dict{Symbol, Vector{String}}
+
+Read `schema/device.schema.json`, extract every `\$defs.<name>.enum` array,
+return a Symbol-keyed dictionary. Single source of truth — both `validator.jl`
+and any external consumer should use this rather than re-declaring lists.
+"""
+function load_enums(schema_json_path::AbstractString)
+    raw = JSON3.read(read(schema_json_path, String))
+    defs = raw[Symbol(raw"$defs")]
+    out = Dict{Symbol, Vector{String}}()
+    for (name, def) in pairs(defs)
+        haskey(def, :enum) || continue
+        out[Symbol(name)] = String[String(v) for v in def.enum]
+    end
+    return out
+end
 
 function _require(cond::Bool, path::String, msg::String)
     cond || throw(ValidationError(path, msg))
@@ -61,36 +82,20 @@ function validate_device(d::AbstractDict; filename::AbstractString="<unknown>")
              "$filename:meta.org_slug", "org_slug must be snake-case, got `$(meta["org_slug"])`")
 
     org = d["organization"]
-    _enum(org["kind"], ("commercial","academic","national_lab","consortium","government"),
-          "$filename:organization.kind")
+    _enum(org["kind"], ENUMS[:org_kind], "$filename:organization.kind")
     _require(occursin(r"^[A-Z]{3}$", org["country"]),
              "$filename:organization.country", "expected ISO alpha-3, got `$(org["country"])`")
 
     fam = d["family"]
-    _enum(fam["modality"], (
-        "sc_transmon","sc_fluxonium","sc_cat","sc_dual_rail",
-        "trapped_ion","neutral_atom",
-        "photonic_discrete","photonic_cv",
-        "si_spin","ge_spin",
-        "nv_diamond","sic_defect",
-        "topological_majorana","nmr",
-        "annealer_dwave","annealer_parametron",
-        "molecular","rare_earth_cavity",
-    ), "$filename:family.modality")
+    _enum(fam["modality"], ENUMS[:modality], "$filename:family.modality")
 
     dev = d["device"]
-    _enum(dev["status"], (
-        "projected","announced","under_construction","in_service",
-        "intermittent","decommissioned","retired",
-    ), "$filename:device.status")
+    _enum(dev["status"], ENUMS[:status], "$filename:device.status")
     _require(isa(dev["num_qubits"], Integer) && dev["num_qubits"] >= 0,
              "$filename:device.num_qubits", "must be a non-negative integer")
 
     topo = d["topology"]
-    _enum(topo["kind"], (
-        "all_to_all","heavy_hex","square_grid","hex","linear_chain",
-        "ring","kagome","bipartite","reconfigurable","analog_hamiltonian","custom",
-    ), "$filename:topology.kind")
+    _enum(topo["kind"], ENUMS[:topology_kind], "$filename:topology.kind")
     _require(isa(topo["reconfigurable"], Bool),
              "$filename:topology.reconfigurable", "must be a boolean")
 
@@ -101,17 +106,12 @@ function validate_device(d::AbstractDict; filename::AbstractString="<unknown>")
         for k in ("name","arity","kind")
             _require(haskey(g, k), "$filename:native_gates[$i]", "missing `$k`")
         end
-        _enum(g["kind"], ("gate","measurement","reset","idle","analog_hamiltonian"),
-              "$filename:native_gates[$i].kind")
+        _enum(g["kind"], ENUMS[:native_gate_kind], "$filename:native_gates[$i].kind")
     end
 
     acc = d["access"]
-    _enum(acc["api_kind"], (
-        "qiskit_runtime","braket","azure_quantum","qcs","pulser","bloqade",
-        "strawberry_fields","ionq_rest","pasqal_core","openqasm3","openpulse","custom","offline",
-    ), "$filename:access.api_kind")
-    _enum(acc["tier"], ("open","free","paid","research_only","private","not_accessible"),
-          "$filename:access.tier")
+    _enum(acc["api_kind"], ENUMS[:api_kind], "$filename:access.api_kind")
+    _enum(acc["tier"], ENUMS[:access_tier], "$filename:access.tier")
     _require(isa(acc["auth_required"], Bool),
              "$filename:access.auth_required", "must be a boolean")
 

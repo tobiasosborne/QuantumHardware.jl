@@ -1,33 +1,7 @@
 # Julia types mirroring schema/device.schema.json.
-# Parametric where modality enters; concrete enums elsewhere for clarity.
-#
-# When the JSON Schema changes, regenerate / manually update this file and
-# `test/test_loader.jl` — drift between the two is a bug.
-
-"""
-Enum-like symbols for device status. Matches schema \$defs.status.
-"""
-const STATUS_VALUES = (
-    :projected, :announced, :under_construction, :in_service,
-    :intermittent, :decommissioned, :retired,
-)
-
-const MODALITY_VALUES = (
-    :sc_transmon, :sc_fluxonium, :sc_cat, :sc_dual_rail,
-    :trapped_ion, :neutral_atom,
-    :photonic_discrete, :photonic_cv,
-    :si_spin, :ge_spin,
-    :nv_diamond, :sic_defect,
-    :topological_majorana,
-    :nmr,
-    :annealer_dwave, :annealer_parametron,
-    :molecular, :rare_earth_cavity,
-)
-
-const TOPOLOGY_KIND_VALUES = (
-    :all_to_all, :heavy_hex, :square_grid, :hex, :linear_chain,
-    :ring, :kagome, :bipartite, :reconfigurable, :analog_hamiltonian, :custom,
-)
+# Field names and shapes are mirrored manually; ENUM membership is
+# loaded from the JSON Schema at module init (see ENUMS in QuantumHardware.jl)
+# so there is one source of truth for enum values.
 
 struct DeviceMeta
     id::String

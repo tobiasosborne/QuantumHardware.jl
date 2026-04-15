@@ -39,4 +39,13 @@ corpus_root()  = _project_path("devices")
 sources_root() = _project_path("sources")
 schema_path()  = _project_path("schema", "device.schema.json")
 
+"""
+ENUMS — single source of truth for controlled vocabularies, loaded once at
+module init from `schema/device.schema.json` `\$defs`. Keys are Symbols
+(`:modality`, `:status`, `:topology_kind`, `:org_kind`, …); values are the
+enum's allowed string array. Validator references this; downstream code
+should too rather than re-rolling.
+"""
+const ENUMS = load_enums(schema_path())
+
 end # module

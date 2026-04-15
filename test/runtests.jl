@@ -7,6 +7,23 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
 
 @testset "QuantumHardware" begin
 
+    @testset "ENUMS loaded from JSON schema (single source of truth)" begin
+        E = QuantumHardware.ENUMS
+        # Every $defs.<name>.enum from device.schema.json must surface here.
+        for k in (:modality, :status, :topology_kind, :org_kind, :source_kind,
+                  :api_kind, :cloud_provider, :access_tier, :t2_kind,
+                  :native_gate_kind, :logical_code)
+            @test haskey(E, k)
+            @test !isempty(E[k])
+            @test all(v isa String for v in E[k])
+        end
+        # Smoke: a representative value is present in each.
+        @test "sc_transmon" ∈ E[:modality]
+        @test "in_service"  ∈ E[:status]
+        @test "heavy_hex"   ∈ E[:topology_kind]
+        @test "braket"      ∈ E[:api_kind]
+    end
+
     @testset "schema validation — every device TOML passes" begin
         # Every TOML under devices/ must pass v0.1 schema validation.
         # Failing files surface as individual @test failures with their path.
