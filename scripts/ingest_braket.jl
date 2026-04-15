@@ -16,6 +16,7 @@ Pkg.activate(dirname(@__DIR__))
 
 using QuantumHardware
 using Dates
+using Downloads
 
 const REPO_ROOT = dirname(@__DIR__)
 const AWS_DOCS_URL = "https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html"
@@ -30,7 +31,9 @@ function fetch_docs_snapshot()
     dest = joinpath(dest_dir, "aws-braket-devices.html")
     if !isfile(dest)
         @info "fetching AWS Braket docs"
-        run(Cmd(`curl -sSL --max-time 30 -A Mozilla/5.0 -o $dest $AWS_DOCS_URL`))
+        Downloads.download(AWS_DOCS_URL, dest;
+                           timeout=30,
+                           headers=Dict("User-Agent" => "Mozilla/5.0"))
     else
         @info "AWS Braket docs snapshot present; reusing" dest
     end
@@ -44,7 +47,8 @@ function main()
     snapshot = fetch_docs_snapshot()
     BraketIngest.ingest(; repo_root = REPO_ROOT, docs_html = snapshot)
     @info "done — validating corpus"
-    run(Cmd(`julia --project=$REPO_ROOT $(joinpath(REPO_ROOT, "scripts", "validate_all.jl"))`))
+    result = QuantumHardware.validate_corpus()
+    result.fail == 0 || error("$(result.fail) device(s) failed validation after ingest")
 end
 
 main()

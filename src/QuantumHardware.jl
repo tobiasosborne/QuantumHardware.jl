@@ -32,7 +32,8 @@ export Device, DeviceMeta, Organization, DeviceFamily, DeviceRecord, Topology,
        NativeGate, FidelityPair, NoiseModel, CalibrationSnapshot, Timing, Access,
        EnergyCarbon, Roadmap, Provenance
 export target_spec, find_devices, sturm_target, load_device, load_all_devices,
-       each_device_toml, device_toml_paths, validate_device, validate_device_file, build_db
+       each_device_toml, device_toml_paths, validate_device, validate_device_file,
+       validate_corpus, build_db
 
 _project_path(parts...) = joinpath(pkgdir(@__MODULE__), parts...)
 

@@ -165,3 +165,39 @@ function verify_archive_integrity(dev_toml::AbstractDict, root::AbstractString)
     end
     return nothing
 end
+
+"""
+    validate_corpus(devices_dir = corpus_root(); repo_root = pkgdir(QuantumHardware), io = stdout) -> NamedTuple
+
+Schema-validate every TOML under `devices_dir` and verify each provenance
+archive exists with matching sha256. Logs `ok`/`ERR` per device; returns
+`(pass=Int, fail=Int)`. Used by both `scripts/validate_all.jl` (CLI) and the
+ingest adapters (in-process post-write check) — no Julia subprocess needed.
+"""
+function validate_corpus(devices_dir::AbstractString = corpus_root();
+                         repo_root::AbstractString = pkgdir(@__MODULE__),
+                         io::IO = stdout)
+    fail = 0
+    pass = 0
+    for path in device_toml_paths(devices_dir)
+        try
+            validate_device_file(path)
+            dev = load_device(path)
+            for (i, p) in pairs(dev.provenance)
+                archive = joinpath(repo_root, p.local_path)
+                isfile(archive) || error("archive missing: $archive (provenance[$i])")
+                actual = bytes2hex(open(sha256, archive))
+                actual == p.sha256 || error(
+                    "sha256 mismatch on $archive\n  expected $(p.sha256)\n  actual   $actual")
+            end
+            pass += 1
+            println(io, "ok  ", path)
+        catch e
+            fail += 1
+            println(io, "ERR ", path, " -- ", sprint(showerror, e))
+        end
+    end
+    println(io)
+    println(io, "$pass passed, $fail failed.")
+    return (; pass, fail)
+end

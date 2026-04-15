@@ -38,7 +38,8 @@ function main()
     ensure_clone()
     QuantinuumIngest.ingest(; repo_root = REPO_ROOT)
     @info "done — validating corpus"
-    run(Cmd(`julia --project=$REPO_ROOT $(joinpath(REPO_ROOT, "scripts", "validate_all.jl"))`))
+    result = QuantumHardware.validate_corpus()
+    result.fail == 0 || error("$(result.fail) device(s) failed validation after ingest")
 end
 
 main()
