@@ -1,0 +1,172 @@
+# Universal Quantum — DLR Hamburg multi-chip trapped-ion QC — hand-curated
+#
+# Under construction at DLR facilities in Hamburg. Commissioned Nov 2022 under
+# a €67M DLR Quantum Computing Initiative (QCI) contract to Universal Quantum
+# Deutschland GmbH (German subsidiary of Universal Quantum Ltd. UK), with a
+# 4-year build timeline (→ ~Nov 2026). Multi-chip modular architecture per
+# the 2015/2017 "Blueprint for a microwave trapped-ion quantum computer"
+# (Lekitsch, Weidt, Fowler, Mølmer, Devitt, Wunderlich, Hensinger — Sci. Adv.).
+#
+# The DLR contract also funds a *single-chip* sibling system; that one is not
+# yet curated here because the press release does not disclose its qubit
+# count (a research note issue tracks it).
+#
+# This build exposes several schema brittlenesses — tracked as follow-up
+# issues (labels: schema, eu-ion):
+#   - modular / multi-module topology kind (no enum member for "ion-shuttling
+#     between chips"); currently use `custom` + narrative
+#   - multi-entity ownership (Universal Quantum Ltd. UK / Universal Quantum
+#     Deutschland GmbH / DLR QCI operator / BMWK funder); consortium_members[]
+#     would capture this
+
+[meta]
+id             = "universal-quantum-dlr-hamburg-multi-chip"
+org_slug       = "universal_quantum"
+aliases        = [
+    "UQ DLR Hamburg multi-chip",
+    "Universal Quantum Deutschland multi-chip QC",
+    "DLR Hamburg multi-chip (UQ build)",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "Universal Quantum Deutschland GmbH"
+kind         = "commercial"
+country      = "DEU"
+parent       = "Universal Quantum Ltd. (UK); DLR QCI programme customer; BMWK funding"
+homepage_url = "https://universalquantum.com"
+
+[family]
+name                 = "UQ DLR Hamburg"
+modality             = "trapped_ion"
+
+[device]
+name                   = "Universal Quantum DLR Hamburg multi-chip"
+status                 = "under_construction"
+announced_date         = 2022-11-02
+num_qubits             = 100
+architecture_notes = """
+Multi-chip (modular) trapped-ion QC built by Universal Quantum Deutschland
+GmbH at DLR facilities in Hamburg. Target: initially up to 100 qubits, with
+modules "connected like a jigsaw puzzle" via voltage-driven ion shuttling
+between chips (no laser-mediated ion-ion coupling, no optical interconnects).
+Microwave/RF gates on individual ions; static magnetic-field gradient
+provides site-selective addressing, per the group's 2015/2017 blueprint.
+
+Cooling requirement: "moderate" — not dilution-refrigerator temperatures;
+positions ion traps for room-ish-temp-rack deployment.
+
+Funding / ownership: €67M DLR contract (part of the German Federal QCI
+programme, BMWK / BMBF funded); build at DLR Hamburg innovation centre;
+access opens to partners after completion. 4-year build from announcement
+(Nov 2022 → ~Nov 2026).
+
+The DLR contract also commissions a single-chip sibling system with the
+group's "most powerful chip ever developed for a quantum computer"; the
+single-chip device's qubit count is not disclosed in the public
+announcement and is not curated here.
+
+Ion species not disclosed in primary sources; likely Yb-171+ based on
+the Hensinger-group heritage but this needs confirmation.
+"""
+
+[topology]
+kind           = "custom"
+reconfigurable = true
+# Intra-module: ion shuttling within each chip gives effective all-to-all
+# over the ions on that chip. Inter-module: voltage-driven ion transport
+# between chips lets modules be composed into chains. Schema lacks a
+# "modular" enum member; `custom` + narrative is the fallback.
+
+[[native_gates]]
+name          = "1q_microwave"
+arity         = 1
+kind          = "gate"
+duration_ns   = 50000.0
+# Fidelity target per the 2015/2017 blueprint: "high-fidelity universal"
+# gate-set via long-wavelength radiation. No measured device-specific value
+# yet (system still under construction).
+
+[[native_gates]]
+name          = "2q_magnetic_gradient"
+arity         = 2
+kind          = "gate"
+duration_ns   = 300000.0
+# Two-qubit gate via static magnetic-field gradient + microwave radiation
+# (Mintert–Wunderlich scheme). No measured device-specific value yet.
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 500000.0
+
+[[native_gates]]
+name  = "reset"
+arity = 1
+kind  = "reset"
+
+[noise_model]
+# Device under construction; no calibration snapshots.
+
+[timing]
+single_qubit_gate_ns = 50000.0
+two_qubit_gate_ns    = 300000.0
+readout_ns           = 500000.0
+
+[access]
+cloud_provider = "juniq"
+api_kind       = "custom"
+tier           = "research_only"
+auth_required  = true
+pricing_notes  = "Post-delivery partner access through DLR QCI programme."
+sdk_packages   = []
+
+[roadmap]
+originally_targeted_year   = 2026
+originally_targeted_qubits = 100
+narrative = "€67M DLR QCI contract (announced 2022-11-02); 4-year build at DLR Hamburg; two commissioned systems (single-chip + multi-chip, 100q initial target on the multi-chip); modular architecture scalable by adding chip modules."
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 100
+source_url   = "https://universalquantum.com/knowledge-hub/uq-wins-%E2%82%AC67m-contract-to-build-full-scalable-trapped-ion-quantum-computer"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/uq-67m-dlr-contract.html"
+sha256       = "27842fea28d8c0bb91bb36ee917b63c421a8aa52e5a187d1e772f269c3e4ef44"
+notes        = "UQ contract page (dated 2 Nov 2022): 'The second one will be a multi-chip quantum computer that will initially consist of up to 100 qubits.' 'Up to' — treated as the announced initial target."
+
+[[provenance]]
+field_path   = "device.announced_date"
+value        = "2022-11-02"
+source_url   = "https://universalquantum.com/knowledge-hub/uq-wins-%E2%82%AC67m-contract-to-build-full-scalable-trapped-ion-quantum-computer"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/uq-67m-dlr-contract.html"
+sha256       = "27842fea28d8c0bb91bb36ee917b63c421a8aa52e5a187d1e772f269c3e4ef44"
+notes        = "UQ announcement dated 2 Nov 2022. 4-year build horizon states the DLR contract."
+
+[[provenance]]
+field_path   = "organization"
+value        = "Universal Quantum Deutschland GmbH (UQ Ltd. UK subsidiary) × DLR QCI"
+source_url   = "https://universalquantum.com/knowledge-hub/uq-wins-%E2%82%AC67m-contract-to-build-full-scalable-trapped-ion-quantum-computer"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/uq-67m-dlr-contract.html"
+sha256       = "27842fea28d8c0bb91bb36ee917b63c421a8aa52e5a187d1e772f269c3e4ef44"
+notes        = "DLR 'commissioned Universal Quantum Deutschland GmbH, a subsidiary of British startup Universal Quantum, with building a fully scalable trapped ion quantum computer.' Parent entity: Universal Quantum Ltd. (UK); operator/customer: DLR (German Federal Aerospace Center) Hamburg innovation centre."
+
+[[provenance]]
+field_path   = "topology"
+value        = "modular multi-chip ion-shuttling architecture"
+source_url   = "https://arxiv.org/abs/1508.00420"
+source_kind  = "paper_arxiv"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/arxiv-1508.00420-uq-blueprint.pdf"
+sha256       = "3b47271ae6cf281b4d108cabca1fa54f68e7b8bab57120575af7b0aa1ec13dc7"
+notes        = "Lekitsch, Weidt, Fowler, Mølmer, Devitt, Wunderlich, Hensinger, 'Blueprint for a microwave trapped-ion quantum computer' (arXiv:1508.00420, Sci. Adv. 2017). Modules control interactions within a chip; ions are transported between modules by voltage-driven shuttling. No optical interconnects."

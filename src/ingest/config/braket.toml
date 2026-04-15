@@ -65,10 +65,10 @@ readout_ns  = 1200.0
 slug          = "aqt-ibex-q1"
 family        = "Ibex"
 display       = "AQT Ibex-Q1"
-num_qubits    = 24
+num_qubits    = 12
 topology_kind = "all_to_all"
 announced     = 2024-01-01
-notes         = "AQT's Ibex platform; trapped-ion ytterbium / calcium QCCD. Accessible via Braket in eu-north-1."
+notes         = "AQT's Ibex platform; trapped-ion calcium linear chain. 12-qubit fully-connected register per vendor product page. Accessible via ARNICA cloud primarily + AWS Braket (eu-north-1)."
 
 [device."ionq/Forte-1"]
 slug          = "ionq-forte-1"

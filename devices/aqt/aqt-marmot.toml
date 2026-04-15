@@ -1,0 +1,176 @@
+# AQT MARMOT — hand-curated
+#
+# 20-qubit rack-integrated trapped-ion quantum computer. Successor to IBEX
+# in AQT's commercial product line. Same Paul-trap + calcium-ion + RZ/R/RXX
+# basis-gate stack as IBEX Q1, scaled to a larger fully-connected register.
+
+[meta]
+id             = "aqt-marmot"
+org_slug       = "aqt"
+aliases        = [
+    "AQT MARMOT",
+    "MARMOT",
+    "ARNICA cloud endpoint (MARMOT)",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "Alpine Quantum Technologies (AQT)"
+kind         = "commercial"
+country      = "AUT"
+parent       = "Univ. Innsbruck / IQOQI spinout (Blatt group heritage)"
+homepage_url = "https://www.aqt.eu"
+
+[family]
+name                = "MARMOT"
+modality            = "trapped_ion"
+lineage_predecessor = "aqt-ibex-q1"
+
+[device]
+name                   = "AQT MARMOT"
+status                 = "in_service"
+num_qubits             = 20
+architecture_notes = """
+Rack-integrated fully-connected 20-qubit Paul-trap system — successor to
+IBEX in the AQT commercial line. Room-temperature operation (<2 kW power
+draw, single plug), ideal for HPC / data-centre installation.
+
+Native basis set: RZ, R(θ, φ), RXX(θ). Typical gate times 10-100 μs;
+quantum memory persists for up to ~1000 gate operations. T1 for 20-qubit
+register matches the natural lifetime of the qubit transition (per vendor
+product page — no specific numerical T1 value published with this round
+of documentation).
+
+The same gate stack powers the PINE SET-UP (research lab variant, up to 50
+Ca ions) and is building toward AQT's PINE SYSTEM roadmap. The 24-qubit
+entanglement / error-correction / first-universal-logical-gate demonstrations
+cited by the vendor arise from this platform family (e.g. arXiv:2101.11390,
+2308.05071 — Ringbauer et al.).
+
+Announcement date not published on the product page at the fetch time. Kept
+as in_service based on vendor-cited customer usage.
+"""
+
+[topology]
+kind           = "all_to_all"
+reconfigurable = false
+
+[[native_gates]]
+name          = "R"
+arity         = 1
+kind          = "gate"
+params        = ["theta", "phi"]
+duration_ns   = 50000.0                 # 10-100 μs typical gate time; 50 μs midpoint
+fidelity_mean = 0.99963                 # 1 − (3.7 ± 0.8)E-4 on 11-qubit register
+
+[[native_gates]]
+name        = "RZ"
+arity       = 1
+kind        = "gate"
+params      = ["phi"]
+duration_ns = 0.0                       # virtual-Z
+
+[[native_gates]]
+name          = "RXX"
+arity         = 2
+kind          = "gate"
+params        = ["theta"]
+duration_ns   = 300000.0
+fidelity_mean = 0.99                    # 2q error < 1E-2 on 11-qubit register
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 200000.0
+
+[[native_gates]]
+name  = "reset"
+arity = 1
+kind  = "reset"
+
+[noise_model.crosstalk]
+nn_crosstalk_mean = 0.015
+
+[timing]
+single_qubit_gate_ns = 50000.0
+two_qubit_gate_ns    = 300000.0
+readout_ns           = 200000.0
+
+[access]
+cloud_provider = "none"
+api_kind       = "custom"
+tier           = "paid"
+auth_required  = true
+pricing_notes  = "Direct access via AQT ARNICA cloud; no public Braket / Azure / IBM presence observed for this specific device."
+sdk_packages   = ["qiskit-aqt-provider", "pytket-aqt"]
+
+[benchmarks.quantum_volume]
+value            = 128
+register_size    = 7
+methodology_url  = "https://www.aqt.eu/products/marmot/"
+notes            = "QV = 128 on 7-qubit register subset of the 20q array."
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 20
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "'Qubit register size 20 fully connected qubits' per the product page specifications table."
+
+[[provenance]]
+field_path   = "native_gates[R].fidelity_mean"
+value        = 0.99963
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "(3.7 ± 0.8)E-4 single-qubit error on an 11-qubit register subset."
+
+[[provenance]]
+field_path   = "native_gates[RXX].fidelity_mean"
+value        = 0.99
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "'Avg. two-qubit errors on an 11-qubit register < 1.0E-2'; using 0.99 as the conservative lower-bound fidelity."
+
+[[provenance]]
+field_path   = "benchmarks.quantum_volume"
+value        = 128
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "QV = 128 on a 7-qubit register subset."
+
+[[provenance]]
+field_path   = "noise_model.crosstalk"
+value        = "(1.5 ± 0.3)E-2"
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "NN crosstalk (1.5 ± 0.3)E-2."
+
+[[provenance]]
+field_path   = "family.lineage_predecessor"
+value        = "aqt-ibex-q1"
+source_url   = "https://www.aqt.eu/products/marmot/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/aqt-marmot-product-page.html"
+sha256       = "75c39be928f8d1336df3094283f8fd222ba1c893d0417dc668a46f93441d6463"
+notes        = "Product page explicitly links MARMOT to 'its predecessor IBEX' ('long error rates and long coherence times demonstrated with MARMOT and it's predecessor IBEX')."
