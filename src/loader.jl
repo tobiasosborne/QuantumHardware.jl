@@ -1,64 +1,60 @@
-# Thin adapter layer: TOML-parsed Dict → Device struct tree.
-# Kept deliberately dumb — all validation is upstream in `validator.jl`.
+# Thin adapter: TOML-parsed Dict → Device struct tree.
+# All validation lives upstream in `validator.jl`.
+# AbstractDict-accepting outer constructors live next to each struct's
+# field declaration in `schema.jl`'s ordering — collected here so the
+# parsing-helper primitives (`_sym`, `_as_date`, `_maybe`) stay co-located
+# with their consumers.
 
 _sym(x::AbstractString) = Symbol(x)
-_sym(::Nothing) = nothing
+_sym(::Nothing)         = nothing
 
-function _maybe(d::AbstractDict, k::AbstractString)
-    haskey(d, k) ? d[k] : nothing
-end
+_maybe(d::AbstractDict, k::AbstractString) = haskey(d, k) ? d[k] : nothing
 
-function _as_date(x)
-    x === nothing      ? nothing :
-    x isa Date         ? x       :
-    Date(x)
-end
+_as_date(::Nothing)         = nothing
+_as_date(d::Date)           = d
+_as_date(s::AbstractString) = Date(s)
+_as_date(x)                 = Date(x)
 
-function _as_datetime(x)
-    x === nothing      ? nothing :
-    x isa DateTime     ? x       :
-    x isa Date         ? DateTime(x) :
-    DateTime(x)
-end
+_as_datetime(::Nothing)         = nothing
+_as_datetime(t::DateTime)       = t
+_as_datetime(d::Date)           = DateTime(d)
+_as_datetime(s::AbstractString) = DateTime(s)
+_as_datetime(x)                 = DateTime(x)
 
-function _to_meta(d::AbstractDict)
-    DeviceMeta(
-        d["id"], d["org_slug"],
-        get(d, "aliases", String[]),
-        d["schema_version"],
-        _as_datetime(d["created_at"]),
-        _as_datetime(d["updated_at"]),
-    )
-end
+# --- Outer constructors: TOML-dict → struct ----------------------------------
 
-function _to_org(d::AbstractDict)
-    Organization(
-        d["name"], _sym(d["kind"]), d["country"],
-        _maybe(d, "parent"), _maybe(d, "homepage_url"),
-    )
-end
+DeviceMeta(d::AbstractDict) = DeviceMeta(
+    d["id"], d["org_slug"],
+    get(d, "aliases", String[]),
+    d["schema_version"],
+    _as_datetime(d["created_at"]),
+    _as_datetime(d["updated_at"]),
+)
 
-function _to_family(d::AbstractDict)
-    DeviceFamily(d["name"], _sym(d["modality"]), _maybe(d, "lineage_predecessor"))
-end
+Organization(d::AbstractDict) = Organization(
+    d["name"], _sym(d["kind"]), d["country"],
+    _maybe(d, "parent"), _maybe(d, "homepage_url"),
+)
 
-function _to_device(d::AbstractDict)
-    DeviceRecord(
-        d["name"], _sym(d["status"]),
-        _as_date(_maybe(d, "announced_date")),
-        _as_date(_maybe(d, "first_operational_date")),
-        _as_date(_maybe(d, "decommissioned_date")),
-        d["num_qubits"],
-        _maybe(d, "num_logical"),
-        _sym(_maybe(d, "logical_code")),
-        _maybe(d, "code_distance"),
-        _maybe(d, "architecture_notes"),
-    )
-end
+DeviceFamily(d::AbstractDict) = DeviceFamily(
+    d["name"], _sym(d["modality"]), _maybe(d, "lineage_predecessor"),
+)
 
-function _to_topology(d::AbstractDict)
+DeviceRecord(d::AbstractDict) = DeviceRecord(
+    d["name"], _sym(d["status"]),
+    _as_date(_maybe(d, "announced_date")),
+    _as_date(_maybe(d, "first_operational_date")),
+    _as_date(_maybe(d, "decommissioned_date")),
+    d["num_qubits"],
+    _maybe(d, "num_logical"),
+    _sym(_maybe(d, "logical_code")),
+    _maybe(d, "code_distance"),
+    _maybe(d, "architecture_notes"),
+)
+
+function Topology(d::AbstractDict)
     cm = _maybe(d, "coupling_map")
-    cm_tuples = cm === nothing ? nothing : [(e[1], e[2]) for e in cm]
+    cm_tuples = cm === nothing ? nothing : Tuple{Int,Int}[(e[1], e[2]) for e in cm]
     Topology(
         _sym(d["kind"]), d["reconfigurable"], cm_tuples,
         _maybe(d, "position_constraints"),
@@ -66,7 +62,10 @@ function _to_topology(d::AbstractDict)
     )
 end
 
-function _to_gate(d::AbstractDict)
+function NativeGate(d::AbstractDict)
+    fp = _maybe(d, "fidelity_per_pair")
+    fp_vec = fp === nothing ? nothing :
+             FidelityPair[FidelityPair((e["pair"][1], e["pair"][2]), e["fidelity"]) for e in fp]
     NativeGate(
         d["name"], d["arity"], _sym(d["kind"]),
         get(d, "params", String[]),
@@ -74,90 +73,99 @@ function _to_gate(d::AbstractDict)
         _maybe(d, "fidelity_mean"),
         _maybe(d, "fidelity_median"),
         _maybe(d, "fidelity_per_qubit"),
-        let pairs = _maybe(d, "fidelity_per_pair")
-            pairs === nothing ? nothing :
-            [FidelityPair((e["pair"][1], e["pair"][2]), e["fidelity"]) for e in pairs]
-        end,
+        fp_vec,
         _maybe(d, "kraus_operators_file"),
         _maybe(d, "ptm_file"),
     )
 end
 
-function _to_noise(d::AbstractDict)
-    t1 = haskey(d, "t1_us") ? T1Block(
-            _maybe(d["t1_us"], "mean"),
-            _maybe(d["t1_us"], "median"),
-            _maybe(d["t1_us"], "per_qubit")) : nothing
-    t2 = haskey(d, "t2_us") ? T2Block(
-            _sym(_maybe(d["t2_us"], "kind")),
-            _maybe(d["t2_us"], "mean"),
-            _maybe(d["t2_us"], "median"),
-            _maybe(d["t2_us"], "per_qubit")) : nothing
-    ro = haskey(d, "readout") ? ReadoutBlock(
-            _maybe(d["readout"], "fidelity_mean"),
-            _maybe(d["readout"], "fidelity_per_qubit"),
-            _maybe(d["readout"], "confusion_matrix_file")) : nothing
-    NoiseModel(t1, t2, ro, _maybe(d, "crosstalk"))
-end
+T1Block(d::AbstractDict) = T1Block(
+    _maybe(d, "mean"), _maybe(d, "median"), _maybe(d, "per_qubit"),
+)
 
-function _to_snap(d::AbstractDict)
-    CalibrationSnapshot(
-        _as_datetime(d["timestamp"]),
-        _maybe(d, "t1_us_mean"), _maybe(d, "t2_us_mean"),
-        _maybe(d, "gate_err_1q_mean"), _maybe(d, "gate_err_2q_mean"),
-        _maybe(d, "readout_err_mean"),
-        d["raw_file"], d["provenance_idx"],
-    )
-end
+T2Block(d::AbstractDict) = T2Block(
+    _sym(_maybe(d, "kind")),
+    _maybe(d, "mean"), _maybe(d, "median"), _maybe(d, "per_qubit"),
+)
 
-function _to_timing(d::AbstractDict)
-    Timing(
-        d["single_qubit_gate_ns"], d["two_qubit_gate_ns"], d["readout_ns"],
-        _maybe(d, "reset_ns"), _maybe(d, "shot_rate_hz"),
-        _maybe(d, "queue_depth_notes"),
-    )
-end
+ReadoutBlock(d::AbstractDict) = ReadoutBlock(
+    _maybe(d, "fidelity_mean"),
+    _maybe(d, "fidelity_per_qubit"),
+    _maybe(d, "confusion_matrix_file"),
+)
 
-function _to_access(d::AbstractDict)
-    Access(
-        _sym(_maybe(d, "cloud_provider")),
-        _sym(d["api_kind"]),
-        _maybe(d, "api_endpoint"),
-        _sym(d["tier"]),
-        d["auth_required"],
-        _maybe(d, "pricing_notes"),
-        get(d, "sdk_packages", String[]),
-    )
-end
+NoiseModel(d::AbstractDict) = NoiseModel(
+    haskey(d, "t1_us")   ? T1Block(d["t1_us"])     : nothing,
+    haskey(d, "t2_us")   ? T2Block(d["t2_us"])     : nothing,
+    haskey(d, "readout") ? ReadoutBlock(d["readout"]) : nothing,
+    _maybe(d, "crosstalk"),
+)
 
-function _to_energy(d::AbstractDict)
-    EnergyCarbon(
-        _maybe(d, "fridge_kw"), _maybe(d, "system_kw"),
-        _maybe(d, "per_shot_j"), _maybe(d, "kgco2_per_shot"),
-        _maybe(d, "cooling_notes"), _maybe(d, "helium3_notes"),
-    )
-end
+CalibrationSnapshot(d::AbstractDict) = CalibrationSnapshot(
+    _as_datetime(d["timestamp"]),
+    _maybe(d, "t1_us_mean"), _maybe(d, "t2_us_mean"),
+    _maybe(d, "gate_err_1q_mean"), _maybe(d, "gate_err_2q_mean"),
+    _maybe(d, "readout_err_mean"),
+    d["raw_file"], d["provenance_idx"],
+)
 
-function _to_roadmap(d::AbstractDict)
-    Roadmap(
-        _maybe(d, "originally_targeted_year"),
-        _maybe(d, "originally_targeted_qubits"),
-        _maybe(d, "originally_targeted_logical"),
-        _maybe(d, "originally_targeted_fidelity_1q"),
-        _maybe(d, "originally_targeted_fidelity_2q"),
-        _maybe(d, "narrative"),
-    )
-end
+Timing(d::AbstractDict) = Timing(
+    d["single_qubit_gate_ns"], d["two_qubit_gate_ns"], d["readout_ns"],
+    _maybe(d, "reset_ns"), _maybe(d, "shot_rate_hz"),
+    _maybe(d, "queue_depth_notes"),
+)
 
-function _to_prov(d::AbstractDict)
-    Provenance(
-        d["field_path"], d["value"], d["source_url"], _sym(d["source_kind"]),
-        _as_datetime(d["retrieved_at"]),
-        d["local_path"], d["sha256"],
-        _maybe(d, "notes"),
-        get(d, "conflict", false),
-    )
-end
+Access(d::AbstractDict) = Access(
+    _sym(_maybe(d, "cloud_provider")),
+    _sym(d["api_kind"]),
+    _maybe(d, "api_endpoint"),
+    _sym(d["tier"]),
+    d["auth_required"],
+    _maybe(d, "pricing_notes"),
+    get(d, "sdk_packages", String[]),
+)
+
+EnergyCarbon(d::AbstractDict) = EnergyCarbon(
+    _maybe(d, "fridge_kw"), _maybe(d, "system_kw"),
+    _maybe(d, "per_shot_j"), _maybe(d, "kgco2_per_shot"),
+    _maybe(d, "cooling_notes"), _maybe(d, "helium3_notes"),
+)
+
+Roadmap(d::AbstractDict) = Roadmap(
+    _maybe(d, "originally_targeted_year"),
+    _maybe(d, "originally_targeted_qubits"),
+    _maybe(d, "originally_targeted_logical"),
+    _maybe(d, "originally_targeted_fidelity_1q"),
+    _maybe(d, "originally_targeted_fidelity_2q"),
+    _maybe(d, "narrative"),
+)
+
+Provenance(d::AbstractDict) = Provenance(
+    d["field_path"], d["value"], d["source_url"], _sym(d["source_kind"]),
+    _as_datetime(d["retrieved_at"]),
+    d["local_path"], d["sha256"],
+    _maybe(d, "notes"),
+    get(d, "conflict", false),
+)
+
+Device(d::AbstractDict) = Device(
+    DeviceMeta(d["meta"]),
+    Organization(d["organization"]),
+    DeviceFamily(d["family"]),
+    DeviceRecord(d["device"]),
+    Topology(d["topology"]),
+    NativeGate[NativeGate(g) for g in d["native_gates"]],
+    NoiseModel(d["noise_model"]),
+    CalibrationSnapshot[CalibrationSnapshot(s) for s in get(d, "calibration_snapshots", [])],
+    Timing(d["timing"]),
+    Access(d["access"]),
+    haskey(d, "benchmarks") ? d["benchmarks"] : nothing,
+    haskey(d, "energy_carbon") ? EnergyCarbon(d["energy_carbon"]) : nothing,
+    haskey(d, "roadmap") ? Roadmap(d["roadmap"]) : nothing,
+    Provenance[Provenance(p) for p in d["provenance"]],
+)
+
+# --- Public API --------------------------------------------------------------
 
 """
     load_device(path::AbstractString) -> Device
@@ -167,22 +175,7 @@ Parse and validate a single device TOML file; return a typed `Device`.
 function load_device(path::AbstractString)
     dict = TOML.parsefile(path)
     validate_device(dict; filename=path)
-    Device(
-        _to_meta(dict["meta"]),
-        _to_org(dict["organization"]),
-        _to_family(dict["family"]),
-        _to_device(dict["device"]),
-        _to_topology(dict["topology"]),
-        [_to_gate(g) for g in dict["native_gates"]],
-        _to_noise(dict["noise_model"]),
-        [_to_snap(s) for s in get(dict, "calibration_snapshots", [])],
-        _to_timing(dict["timing"]),
-        _to_access(dict["access"]),
-        haskey(dict, "benchmarks") ? dict["benchmarks"] : nothing,
-        haskey(dict, "energy_carbon") ? _to_energy(dict["energy_carbon"]) : nothing,
-        haskey(dict, "roadmap") ? _to_roadmap(dict["roadmap"]) : nothing,
-        [_to_prov(p) for p in dict["provenance"]],
-    )
+    return Device(dict)
 end
 
 """
