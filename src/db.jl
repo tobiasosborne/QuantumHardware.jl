@@ -100,15 +100,12 @@ const _DEVICES_COLS = ColumnSpec[
     ColumnSpec(:topology_diagram_url,               "TEXT",    true,  d -> d.topology.diagram_url),
     ColumnSpec(:t1_us_mean,                         "DOUBLE",  true,  d -> _field(d.noise_model.t1_us, :mean)),
     ColumnSpec(:t1_us_median,                       "DOUBLE",  true,  d -> _field(d.noise_model.t1_us, :median)),
-    ColumnSpec(:t1_us_per_qubit_json,               "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.t1_us, :per_qubit))),
     ColumnSpec(:t2_kind,                            "TEXT",    true,  d -> _sym_or_null(_field(d.noise_model.t2_us, :kind))),
     ColumnSpec(:t2_us_mean,                         "DOUBLE",  true,  d -> _field(d.noise_model.t2_us, :mean)),
     ColumnSpec(:t2_us_median,                       "DOUBLE",  true,  d -> _field(d.noise_model.t2_us, :median)),
-    ColumnSpec(:t2_us_per_qubit_json,               "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.t2_us, :per_qubit))),
     ColumnSpec(:readout_fidelity_mean,              "DOUBLE",  true,  d -> _field(d.noise_model.readout, :fidelity_mean)),
-    ColumnSpec(:readout_fidelity_per_qubit_json,    "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.readout, :fidelity_per_qubit))),
     ColumnSpec(:readout_confusion_matrix_file,      "TEXT",    true,  d -> _field(d.noise_model.readout, :confusion_matrix_file)),
-    ColumnSpec(:crosstalk_json,                     "TEXT",    true,  d -> _json_or_null(d.noise_model.crosstalk)),
+    ColumnSpec(:crosstalk_json,                     "TEXT",    true,  d -> _json_or_null(d.noise_model.crosstalk)),  # free-form: kept as JSON
     ColumnSpec(:single_qubit_gate_ns,               "DOUBLE",  false, d -> d.timing.single_qubit_gate_ns),
     ColumnSpec(:two_qubit_gate_ns,                  "DOUBLE",  false, d -> d.timing.two_qubit_gate_ns),
     ColumnSpec(:readout_ns,                         "DOUBLE",  false, d -> d.timing.readout_ns),
@@ -121,8 +118,7 @@ const _DEVICES_COLS = ColumnSpec[
     ColumnSpec(:tier,                               "TEXT",    false, d -> String(d.access.tier)),
     ColumnSpec(:auth_required,                      "BOOLEAN", false, d -> d.access.auth_required),
     ColumnSpec(:pricing_notes,                      "TEXT",    true,  d -> d.access.pricing_notes),
-    ColumnSpec(:sdk_packages_json,                  "TEXT",    true,  d -> _json_or_null(d.access.sdk_packages)),
-    ColumnSpec(:benchmarks_json,                    "TEXT",    true,  d -> _json_or_null(d.benchmarks)),
+    ColumnSpec(:benchmarks_json,                    "TEXT",    true,  d -> _json_or_null(d.benchmarks)),  # free-form: kept as JSON
     ColumnSpec(:fridge_kw,                          "DOUBLE",  true,  d -> _field(d.energy_carbon, :fridge_kw)),
     ColumnSpec(:system_kw,                          "DOUBLE",  true,  d -> _field(d.energy_carbon, :system_kw)),
     ColumnSpec(:per_shot_j,                         "DOUBLE",  true,  d -> _field(d.energy_carbon, :per_shot_j)),
@@ -135,7 +131,6 @@ const _DEVICES_COLS = ColumnSpec[
     ColumnSpec(:roadmap_targeted_fidelity_1q,       "DOUBLE",  true,  d -> _field(d.roadmap, :originally_targeted_fidelity_1q)),
     ColumnSpec(:roadmap_targeted_fidelity_2q,       "DOUBLE",  true,  d -> _field(d.roadmap, :originally_targeted_fidelity_2q)),
     ColumnSpec(:roadmap_narrative,                  "TEXT",    true,  d -> _field(d.roadmap, :narrative)),
-    ColumnSpec(:aliases_json,                       "TEXT",    true,  d -> _json_or_null(d.meta.aliases)),
     ColumnSpec(:schema_version,                     "TEXT",    false, d -> d.meta.schema_version),
     ColumnSpec(:created_at,                         "TEXT",    false, d -> _iso(d.meta.created_at)),
     ColumnSpec(:updated_at,                         "TEXT",    false, d -> _iso(d.meta.updated_at)),
@@ -155,8 +150,6 @@ const _NATIVE_GATES_COLS = ColumnSpec[
     ColumnSpec(:duration_ns,             "DOUBLE",  true,  (d, i, g) -> g.duration_ns),
     ColumnSpec(:fidelity_mean,           "DOUBLE",  true,  (d, i, g) -> g.fidelity_mean),
     ColumnSpec(:fidelity_median,         "DOUBLE",  true,  (d, i, g) -> g.fidelity_median),
-    ColumnSpec(:fidelity_per_qubit_json, "TEXT",    true,  (d, i, g) -> _json_or_null(g.fidelity_per_qubit)),
-    ColumnSpec(:fidelity_per_pair_json,  "TEXT",    true,  (d, i, g) -> _json_or_null(g.fidelity_per_pair)),
     ColumnSpec(:kraus_operators_file,    "TEXT",    true,  (d, i, g) -> g.kraus_operators_file),
     ColumnSpec(:ptm_file,                "TEXT",    true,  (d, i, g) -> g.ptm_file),
 ]
@@ -181,6 +174,65 @@ const _SNAPSHOTS_COLS = ColumnSpec[
     ColumnSpec(:readout_err_mean, "DOUBLE",  true,  (d, s) -> s.readout_err_mean),
     ColumnSpec(:raw_file,         "TEXT",    false, (d, s) -> s.raw_file),
     ColumnSpec(:provenance_idx,   "INTEGER", false, (d, s) -> s.provenance_idx),
+]
+
+const _SNAPSHOTS_TABLE = "calibration_snapshots"  # (forward-compat ordering preserved below)
+
+# --- Denormalized child tables (e82) ----------------------------------------
+# JSON-in-TEXT was the original encoding for tall list-shaped fields. These
+# tables make analytical queries (e.g. "count devices with mean T1 > X")
+# index- and SQL-friendly. The original JSON columns are gone.
+#
+# Free-form structures (`crosstalk`, `position_constraints`, `benchmarks`,
+# `native_gates.params`) keep their `*_json` text columns — they have no
+# stable inner schema worth a child table. Use DuckDB's `json_extract` /
+# `->`/`->>` to query into them.
+
+const _DEVICE_ALIASES_TABLE = "device_aliases"
+const _DEVICE_ALIASES_PK    = [:device_id, :alias_idx]
+const _DEVICE_ALIASES_COLS = ColumnSpec[
+    ColumnSpec(:device_id, "TEXT",    false, (d, i, a) -> d.meta.id),
+    ColumnSpec(:alias_idx, "INTEGER", false, (d, i, a) -> i),
+    ColumnSpec(:alias,     "TEXT",    false, (d, i, a) -> a),
+]
+
+const _DEVICE_SDK_PACKAGES_TABLE = "device_sdk_packages"
+const _DEVICE_SDK_PACKAGES_PK    = [:device_id, :pkg_idx]
+const _DEVICE_SDK_PACKAGES_COLS = ColumnSpec[
+    ColumnSpec(:device_id, "TEXT",    false, (d, i, p) -> d.meta.id),
+    ColumnSpec(:pkg_idx,   "INTEGER", false, (d, i, p) -> i),
+    ColumnSpec(:package,   "TEXT",    false, (d, i, p) -> p),
+]
+
+# One row per (device, qubit) when ANY per-qubit calibration field is populated.
+# t1_us / t2_us / readout_fidelity NULL for unmeasured slots.
+const _QUBIT_COHERENCE_TABLE = "qubit_coherence"
+const _QUBIT_COHERENCE_PK    = [:device_id, :qubit_idx]
+const _QUBIT_COHERENCE_COLS = ColumnSpec[
+    ColumnSpec(:device_id,         "TEXT",    false, (d, q, t1, t2, ro) -> d.meta.id),
+    ColumnSpec(:qubit_idx,         "INTEGER", false, (d, q, t1, t2, ro) -> q),
+    ColumnSpec(:t1_us,             "DOUBLE",  true,  (d, q, t1, t2, ro) -> t1),
+    ColumnSpec(:t2_us,             "DOUBLE",  true,  (d, q, t1, t2, ro) -> t2),
+    ColumnSpec(:readout_fidelity,  "DOUBLE",  true,  (d, q, t1, t2, ro) -> ro),
+]
+
+const _GATE_QUBIT_FIDELITY_TABLE = "gate_qubit_fidelity"
+const _GATE_QUBIT_FIDELITY_PK    = [:device_id, :gate_idx, :qubit_idx]
+const _GATE_QUBIT_FIDELITY_COLS = ColumnSpec[
+    ColumnSpec(:device_id, "TEXT",    false, (d, gi, qi, f) -> d.meta.id),
+    ColumnSpec(:gate_idx,  "INTEGER", false, (d, gi, qi, f) -> gi),
+    ColumnSpec(:qubit_idx, "INTEGER", false, (d, gi, qi, f) -> qi),
+    ColumnSpec(:fidelity,  "DOUBLE",  false, (d, gi, qi, f) -> f),
+]
+
+const _GATE_PAIR_FIDELITY_TABLE = "gate_pair_fidelity"
+const _GATE_PAIR_FIDELITY_PK    = [:device_id, :gate_idx, :qubit_a, :qubit_b]
+const _GATE_PAIR_FIDELITY_COLS = ColumnSpec[
+    ColumnSpec(:device_id, "TEXT",    false, (d, gi, fp) -> d.meta.id),
+    ColumnSpec(:gate_idx,  "INTEGER", false, (d, gi, fp) -> gi),
+    ColumnSpec(:qubit_a,   "INTEGER", false, (d, gi, fp) -> fp.pair[1]),
+    ColumnSpec(:qubit_b,   "INTEGER", false, (d, gi, fp) -> fp.pair[2]),
+    ColumnSpec(:fidelity,  "DOUBLE",  false, (d, gi, fp) -> fp.fidelity),
 ]
 
 const _PROVENANCE_TABLE = "provenance"
@@ -214,11 +266,16 @@ function _connect(path::AbstractString, backend::Symbol)
 end
 
 function _create_tables(conn)
-    DBInterface.execute(conn, _ddl(_DEVICES_TABLE,        _DEVICES_COLS,        _DEVICES_PK))
-    DBInterface.execute(conn, _ddl(_NATIVE_GATES_TABLE,   _NATIVE_GATES_COLS,   _NATIVE_GATES_PK))
-    DBInterface.execute(conn, _ddl(_COUPLING_EDGES_TABLE, _COUPLING_EDGES_COLS, _COUPLING_EDGES_PK))
-    DBInterface.execute(conn, _ddl(_SNAPSHOTS_TABLE,      _SNAPSHOTS_COLS,      _SNAPSHOTS_PK))
-    DBInterface.execute(conn, _ddl(_PROVENANCE_TABLE,     _PROVENANCE_COLS,     _PROVENANCE_PK))
+    DBInterface.execute(conn, _ddl(_DEVICES_TABLE,             _DEVICES_COLS,             _DEVICES_PK))
+    DBInterface.execute(conn, _ddl(_NATIVE_GATES_TABLE,        _NATIVE_GATES_COLS,        _NATIVE_GATES_PK))
+    DBInterface.execute(conn, _ddl(_COUPLING_EDGES_TABLE,      _COUPLING_EDGES_COLS,      _COUPLING_EDGES_PK))
+    DBInterface.execute(conn, _ddl(_SNAPSHOTS_TABLE,           _SNAPSHOTS_COLS,           _SNAPSHOTS_PK))
+    DBInterface.execute(conn, _ddl(_PROVENANCE_TABLE,          _PROVENANCE_COLS,          _PROVENANCE_PK))
+    DBInterface.execute(conn, _ddl(_DEVICE_ALIASES_TABLE,      _DEVICE_ALIASES_COLS,      _DEVICE_ALIASES_PK))
+    DBInterface.execute(conn, _ddl(_DEVICE_SDK_PACKAGES_TABLE, _DEVICE_SDK_PACKAGES_COLS, _DEVICE_SDK_PACKAGES_PK))
+    DBInterface.execute(conn, _ddl(_QUBIT_COHERENCE_TABLE,     _QUBIT_COHERENCE_COLS,     _QUBIT_COHERENCE_PK))
+    DBInterface.execute(conn, _ddl(_GATE_QUBIT_FIDELITY_TABLE, _GATE_QUBIT_FIDELITY_COLS, _GATE_QUBIT_FIDELITY_PK))
+    DBInterface.execute(conn, _ddl(_GATE_PAIR_FIDELITY_TABLE,  _GATE_PAIR_FIDELITY_COLS,  _GATE_PAIR_FIDELITY_PK))
 end
 
 # --- Per-table inserters -----------------------------------------------------
@@ -264,6 +321,73 @@ function _insert_provenance(conn, dev::Device)
     end
 end
 
+function _insert_device_aliases(conn, dev::Device)
+    isempty(dev.meta.aliases) && return 0
+    sql = _insert_sql(_DEVICE_ALIASES_TABLE, _DEVICE_ALIASES_COLS)
+    for (i, a) in pairs(dev.meta.aliases)
+        DBInterface.execute(conn, sql, Tuple(c.extract(dev, i, a) for c in _DEVICE_ALIASES_COLS))
+    end
+    return length(dev.meta.aliases)
+end
+
+function _insert_sdk_packages(conn, dev::Device)
+    isempty(dev.access.sdk_packages) && return 0
+    sql = _insert_sql(_DEVICE_SDK_PACKAGES_TABLE, _DEVICE_SDK_PACKAGES_COLS)
+    for (i, p) in pairs(dev.access.sdk_packages)
+        DBInterface.execute(conn, sql, Tuple(c.extract(dev, i, p) for c in _DEVICE_SDK_PACKAGES_COLS))
+    end
+    return length(dev.access.sdk_packages)
+end
+
+# Per-qubit coherence: emit one row per qubit when ANY of t1/t2/readout per_qubit
+# is populated. NULLs fill the unmeasured slots.
+function _insert_qubit_coherence(conn, dev::Device)
+    nm = dev.noise_model
+    t1_per = _field(nm.t1_us,   :per_qubit)
+    t2_per = _field(nm.t2_us,   :per_qubit)
+    ro_per = _field(nm.readout, :fidelity_per_qubit)
+    (t1_per === nothing && t2_per === nothing && ro_per === nothing) && return 0
+    n = dev.device.num_qubits
+    sql = _insert_sql(_QUBIT_COHERENCE_TABLE, _QUBIT_COHERENCE_COLS)
+    for q in 0:(n-1)
+        t1 = t1_per === nothing || q+1 > length(t1_per) ? nothing : t1_per[q+1]
+        t2 = t2_per === nothing || q+1 > length(t2_per) ? nothing : t2_per[q+1]
+        ro = ro_per === nothing || q+1 > length(ro_per) ? nothing : ro_per[q+1]
+        DBInterface.execute(conn, sql,
+            Tuple(c.extract(dev, q, t1, t2, ro) for c in _QUBIT_COHERENCE_COLS))
+    end
+    return n
+end
+
+function _insert_gate_qubit_fidelity(conn, dev::Device)
+    sql = _insert_sql(_GATE_QUBIT_FIDELITY_TABLE, _GATE_QUBIT_FIDELITY_COLS)
+    n = 0
+    for (gi, g) in pairs(dev.native_gates)
+        g.fidelity_per_qubit === nothing && continue
+        for (qi, f) in pairs(g.fidelity_per_qubit)
+            f === nothing && continue
+            DBInterface.execute(conn, sql,
+                Tuple(c.extract(dev, gi, qi - 1, f) for c in _GATE_QUBIT_FIDELITY_COLS))
+            n += 1
+        end
+    end
+    return n
+end
+
+function _insert_gate_pair_fidelity(conn, dev::Device)
+    sql = _insert_sql(_GATE_PAIR_FIDELITY_TABLE, _GATE_PAIR_FIDELITY_COLS)
+    n = 0
+    for (gi, g) in pairs(dev.native_gates)
+        g.fidelity_per_pair === nothing && continue
+        for fp in g.fidelity_per_pair
+            DBInterface.execute(conn, sql,
+                Tuple(c.extract(dev, gi, fp) for c in _GATE_PAIR_FIDELITY_COLS))
+            n += 1
+        end
+    end
+    return n
+end
+
 # --- Public API --------------------------------------------------------------
 
 """
@@ -283,6 +407,7 @@ function build_db(output_path::AbstractString;
     try
         _create_tables(conn)
         n_devices = n_gates = n_edges = n_snaps = n_prov = 0
+        n_aliases = n_pkgs = n_qcoh = n_gqfid = n_gpfid = 0
         for id in sort!(collect(keys(corpus)))
             dev = corpus[id]
             _insert_devices(conn, dev)
@@ -290,6 +415,11 @@ function build_db(output_path::AbstractString;
             _insert_coupling_edges(conn, dev)
             _insert_snapshots(conn, dev)
             _insert_provenance(conn, dev)
+            n_aliases += _insert_device_aliases(conn, dev)
+            n_pkgs    += _insert_sdk_packages(conn, dev)
+            n_qcoh    += _insert_qubit_coherence(conn, dev)
+            n_gqfid   += _insert_gate_qubit_fidelity(conn, dev)
+            n_gpfid   += _insert_gate_pair_fidelity(conn, dev)
             n_devices += 1
             n_gates   += length(dev.native_gates)
             n_edges   += dev.topology.coupling_map === nothing ? 0 : length(dev.topology.coupling_map)
@@ -297,7 +427,11 @@ function build_db(output_path::AbstractString;
             n_prov    += length(dev.provenance)
         end
         return (; devices=n_devices, native_gates=n_gates, coupling_edges=n_edges,
-                calibration_snapshots=n_snaps, provenance=n_prov, backend, path=output_path)
+                calibration_snapshots=n_snaps, provenance=n_prov,
+                device_aliases=n_aliases, device_sdk_packages=n_pkgs,
+                qubit_coherence=n_qcoh, gate_qubit_fidelity=n_gqfid,
+                gate_pair_fidelity=n_gpfid,
+                backend, path=output_path)
     finally
         DBInterface.close!(conn)
     end

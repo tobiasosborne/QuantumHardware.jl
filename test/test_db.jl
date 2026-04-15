@@ -27,9 +27,15 @@ import SQLite
         @test duck_stats.provenance == expected_prov
 
         # Both backends agree on every counted table
-        for k in (:devices, :native_gates, :coupling_edges, :calibration_snapshots, :provenance)
+        for k in (:devices, :native_gates, :coupling_edges, :calibration_snapshots,
+                  :provenance, :device_aliases, :device_sdk_packages,
+                  :qubit_coherence, :gate_qubit_fidelity, :gate_pair_fidelity)
             @test duck_stats[k] == sqlite_stats[k]
         end
+
+        # Denormalized child tables actually populate from the corpus
+        @test duck_stats.device_aliases > 0       # most devices carry aliases
+        @test duck_stats.device_sdk_packages > 0   # all devices carry sdk_packages
 
         # Query-level: a hand-curated device round-trips correctly
         @testset "duckdb round-trip quera-aquila" begin
@@ -103,5 +109,32 @@ import SQLite
         # Overwrite behaviour: a second build on the same path must succeed
         duck_stats_2 = build_db(duck_path; backend=:duckdb, devices=corpus)
         @test duck_stats_2.devices == duck_stats.devices
+
+        # Denormalized aliases queryable directly (no JSON extract needed)
+        @testset "device_aliases denormalized" begin
+            d = DBInterface.connect(DuckDB.DB, duck_path)
+            try
+                rows = collect(DBInterface.execute(d,
+                    "SELECT alias FROM device_aliases WHERE device_id = 'ibm-heron-r2' ORDER BY alias_idx"))
+                @test "Heron r2" ∈ [r.alias for r in rows]
+                @test "ibm_torino" ∈ [r.alias for r in rows]
+            finally
+                DBInterface.close!(d)
+            end
+        end
+
+        # device_sdk_packages denormalized
+        @testset "device_sdk_packages denormalized" begin
+            d = DBInterface.connect(DuckDB.DB, duck_path)
+            try
+                rows = collect(DBInterface.execute(d,
+                    "SELECT package FROM device_sdk_packages WHERE device_id = 'ibm-heron-r2'"))
+                pkgs = [r.package for r in rows]
+                @test "qiskit" ∈ pkgs
+                @test "qiskit-ibm-runtime" ∈ pkgs
+            finally
+                DBInterface.close!(d)
+            end
+        end
     end
 end
