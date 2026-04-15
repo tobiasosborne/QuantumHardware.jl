@@ -155,6 +155,12 @@ _json_or_null(x)         = JSON3.write(x)
 _sym_or_null(::Nothing) = nothing
 _sym_or_null(s::Symbol) = String(s)
 
+# Optional-wrapper field access. Composes naturally with _json_or_null /
+# _sym_or_null because both already dispatch on Nothing — so a missing
+# wrapper short-circuits cleanly through any number of transforms.
+_field(::Nothing, ::Symbol) = nothing
+_field(x,         f::Symbol) = getfield(x, f)
+
 function _connect(path::AbstractString, backend::Symbol)
     isfile(path) && rm(path)
     mkpath(dirname(path))
@@ -233,16 +239,16 @@ function _device_values(dev::Device)
         topo.reconfigurable,
         _json_or_null(topo.position_constraints),
         topo.diagram_url,
-        t1 === nothing ? nothing : t1.mean,
-        t1 === nothing ? nothing : t1.median,
-        t1 === nothing ? nothing : _json_or_null(t1.per_qubit),
-        t2 === nothing ? nothing : _sym_or_null(t2.kind),
-        t2 === nothing ? nothing : t2.mean,
-        t2 === nothing ? nothing : t2.median,
-        t2 === nothing ? nothing : _json_or_null(t2.per_qubit),
-        ro === nothing ? nothing : ro.fidelity_mean,
-        ro === nothing ? nothing : _json_or_null(ro.fidelity_per_qubit),
-        ro === nothing ? nothing : ro.confusion_matrix_file,
+        _field(t1, :mean),
+        _field(t1, :median),
+        _json_or_null(_field(t1, :per_qubit)),
+        _sym_or_null(_field(t2, :kind)),
+        _field(t2, :mean),
+        _field(t2, :median),
+        _json_or_null(_field(t2, :per_qubit)),
+        _field(ro, :fidelity_mean),
+        _json_or_null(_field(ro, :fidelity_per_qubit)),
+        _field(ro, :confusion_matrix_file),
         _json_or_null(nm.crosstalk),
         dev.timing.single_qubit_gate_ns,
         dev.timing.two_qubit_gate_ns,
@@ -258,18 +264,18 @@ function _device_values(dev::Device)
         dev.access.pricing_notes,
         _json_or_null(dev.access.sdk_packages),
         _json_or_null(dev.benchmarks),
-        ec === nothing ? nothing : ec.fridge_kw,
-        ec === nothing ? nothing : ec.system_kw,
-        ec === nothing ? nothing : ec.per_shot_j,
-        ec === nothing ? nothing : ec.kgco2_per_shot,
-        ec === nothing ? nothing : ec.cooling_notes,
-        ec === nothing ? nothing : ec.helium3_notes,
-        rd === nothing ? nothing : rd.originally_targeted_year,
-        rd === nothing ? nothing : rd.originally_targeted_qubits,
-        rd === nothing ? nothing : rd.originally_targeted_logical,
-        rd === nothing ? nothing : rd.originally_targeted_fidelity_1q,
-        rd === nothing ? nothing : rd.originally_targeted_fidelity_2q,
-        rd === nothing ? nothing : rd.narrative,
+        _field(ec, :fridge_kw),
+        _field(ec, :system_kw),
+        _field(ec, :per_shot_j),
+        _field(ec, :kgco2_per_shot),
+        _field(ec, :cooling_notes),
+        _field(ec, :helium3_notes),
+        _field(rd, :originally_targeted_year),
+        _field(rd, :originally_targeted_qubits),
+        _field(rd, :originally_targeted_logical),
+        _field(rd, :originally_targeted_fidelity_1q),
+        _field(rd, :originally_targeted_fidelity_2q),
+        _field(rd, :narrative),
         _json_or_null(dev.meta.aliases),
         dev.meta.schema_version,
         _iso(dev.meta.created_at),
