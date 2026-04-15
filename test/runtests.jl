@@ -77,6 +77,18 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
         @test_throws KeyError QuantumHardware.target_spec("does-not-exist"; root=DEVICES_DIR)
     end
 
+    @testset "target_spec uses cached path index" begin
+        # Cold call (may build the cache); warm call should be sub-millisecond.
+        QuantumHardware.reload_corpus!()
+        QuantumHardware.target_spec("ibm-heron-r2"; root=DEVICES_DIR)
+        # Warm call: cached index + single TOML parse + validate. Should be <50ms.
+        warm = @elapsed QuantumHardware.target_spec("ibm-heron-r2"; root=DEVICES_DIR)
+        @test warm < 0.050
+        # Cache invalidation
+        QuantumHardware.reload_corpus!()
+        @test QuantumHardware.target_spec("ibm-heron-r2"; root=DEVICES_DIR).device.num_qubits == 156
+    end
+
     @testset "find_devices filters" begin
         all_in_service = find_devices(; root=DEVICES_DIR, in_service_only=true)
         @test length(all_in_service) >= 3

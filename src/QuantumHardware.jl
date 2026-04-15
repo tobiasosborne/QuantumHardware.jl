@@ -42,7 +42,8 @@ export AbstractModality,
        Molecular, RareEarthCavity,
        modality_type, MODALITY_TYPES
 export Target, Coherence, coherence_at, Verdict, feasibility
-export target_spec, find_devices, sturm_target, load_device, load_all_devices,
+export target_spec, find_devices, sturm_target, reload_corpus!,
+       load_device, load_all_devices,
        each_device_toml, device_toml_paths, validate_device, validate_device_file,
        validate_corpus, build_db
 
