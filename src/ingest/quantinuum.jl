@@ -307,6 +307,7 @@ function ingest(; repo_root::AbstractString,
             @info "skipping — target is hand-curated (no ingest marker)" target
             continue
         end
+        mkpath(dirname(target))
         open(target, "w") do io
             header = """
             # $(meta.display)
