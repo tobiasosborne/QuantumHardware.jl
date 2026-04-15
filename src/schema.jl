@@ -3,6 +3,61 @@
 # loaded from the JSON Schema at module init (see ENUMS in QuantumHardware.jl)
 # so there is one source of truth for enum values.
 
+# --- Modality type hierarchy -------------------------------------------------
+# One singleton type per `family.modality` enum value. Used as the type
+# parameter of `Target{M}` so Sturm.jl's compile pipeline can dispatch on
+# modality directly (e.g. `lower(dag, ::Target{NeutralAtom})`) instead of
+# branching on a Symbol field.
+
+abstract type AbstractModality end
+
+struct SCTransmon          <: AbstractModality end
+struct SCFluxonium         <: AbstractModality end
+struct SCCat               <: AbstractModality end
+struct SCDualRail          <: AbstractModality end
+struct TrappedIon          <: AbstractModality end
+struct NeutralAtom         <: AbstractModality end
+struct PhotonicDiscrete    <: AbstractModality end
+struct PhotonicCV          <: AbstractModality end
+struct SiSpin              <: AbstractModality end
+struct GeSpin              <: AbstractModality end
+struct NVDiamond           <: AbstractModality end
+struct SiCDefect           <: AbstractModality end
+struct TopologicalMajorana <: AbstractModality end
+struct NMR                 <: AbstractModality end
+struct AnnealerDwave       <: AbstractModality end
+struct AnnealerParametron  <: AbstractModality end
+struct Molecular           <: AbstractModality end
+struct RareEarthCavity     <: AbstractModality end
+
+const MODALITY_TYPES = Dict{Symbol, Type{<:AbstractModality}}(
+    :sc_transmon          => SCTransmon,
+    :sc_fluxonium         => SCFluxonium,
+    :sc_cat               => SCCat,
+    :sc_dual_rail         => SCDualRail,
+    :trapped_ion          => TrappedIon,
+    :neutral_atom         => NeutralAtom,
+    :photonic_discrete    => PhotonicDiscrete,
+    :photonic_cv          => PhotonicCV,
+    :si_spin              => SiSpin,
+    :ge_spin              => GeSpin,
+    :nv_diamond           => NVDiamond,
+    :sic_defect           => SiCDefect,
+    :topological_majorana => TopologicalMajorana,
+    :nmr                  => NMR,
+    :annealer_dwave       => AnnealerDwave,
+    :annealer_parametron  => AnnealerParametron,
+    :molecular            => Molecular,
+    :rare_earth_cavity    => RareEarthCavity,
+)
+
+"""
+    modality_type(::Symbol) -> Type{<:AbstractModality}
+
+Resolve a `family.modality` enum value to its concrete singleton type.
+"""
+modality_type(s::Symbol) = MODALITY_TYPES[s]
+
 struct DeviceMeta
     id::String
     org_slug::String

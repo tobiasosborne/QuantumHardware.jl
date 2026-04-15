@@ -26,11 +26,22 @@ include("validator.jl")
 include("loader.jl")
 include("queries.jl")
 include("db.jl")
+include("target.jl")
 include("ingest/common.jl")
 
 export Device, DeviceMeta, Organization, DeviceFamily, DeviceRecord, Topology,
        NativeGate, FidelityPair, NoiseModel, CalibrationSnapshot, Timing, Access,
        EnergyCarbon, Roadmap, Provenance
+export AbstractModality,
+       SCTransmon, SCFluxonium, SCCat, SCDualRail,
+       TrappedIon, NeutralAtom,
+       PhotonicDiscrete, PhotonicCV,
+       SiSpin, GeSpin, NVDiamond, SiCDefect,
+       TopologicalMajorana, NMR,
+       AnnealerDwave, AnnealerParametron,
+       Molecular, RareEarthCavity,
+       modality_type, MODALITY_TYPES
+export Target, Coherence, coherence_at, Verdict, feasibility
 export target_spec, find_devices, sturm_target, load_device, load_all_devices,
        each_device_toml, device_toml_paths, validate_device, validate_device_file,
        validate_corpus, build_db

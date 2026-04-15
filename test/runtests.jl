@@ -93,16 +93,65 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
         @test any(d -> d.meta.id == "quandela-ascella", tiny)
     end
 
-    @testset "sturm_target API shape" begin
+    @testset "sturm_target -> Target{M}" begin
         d = QuantumHardware.target_spec("ibm-heron-r2"; root=DEVICES_DIR)
         t = sturm_target(d)
-        @test t.num_qubits == 156
+        # Type-parameter dispatch: Target{SCTransmon}, not just a NamedTuple.
+        @test t isa Target{SCTransmon}
         @test t.modality == :sc_transmon
+        @test t.num_qubits == 156
         @test t.api_kind == :qiskit_runtime
         @test t.single_qubit_gate_ns == 36.0
         @test t.two_qubit_gate_ns == 68.0
-        # T1/T2 not populated on the seed; fallback vector is all `nothing`
-        @test length(t.t1_us) == 156
+        # No T1 data on this seed → Nothing, not a sentinel-filled vector.
+        @test t.t1_us === nothing
+        @test t.t2_us === nothing
+
+        # Modality dispatch works generically.
+        a = sturm_target(QuantumHardware.target_spec("quera-aquila"; root=DEVICES_DIR))
+        @test a isa Target{NeutralAtom}
+        @test a.topology_kind == :analog_hamiltonian
+        @test a.reconfigurable
+
+        q = sturm_target(QuantumHardware.target_spec("quantinuum-h2-1"; root=DEVICES_DIR))
+        @test q isa Target{TrappedIon}
+        @test q.fidelity_2q_mean !== nothing  # ingested from the spec-sheet CSV
+    end
+
+    @testset "feasibility verdicts" begin
+        # In-service device meeting the spec → :now
+        h = sturm_target(QuantumHardware.target_spec("ibm-heron-r2"; root=DEVICES_DIR))
+        v = feasibility(h; need_qubits=100)
+        @test v.verdict == :now
+        @test v.when == h.first_operational_date
+
+        # In-service but caller asks for too many qubits → falls through to roadmap (none here) → :unknown
+        v_big = feasibility(h; need_qubits=1_000_000)
+        @test v_big.verdict ∈ (:unknown, :infeasible, :on_roadmap)
+
+        # Projected device → roadmap-driven
+        bs = sturm_target(QuantumHardware.target_spec("qudora-bs-200"; root=DEVICES_DIR))
+        @test bs.status == :projected
+        v_pr = feasibility(bs; need_qubits=100)
+        @test v_pr.verdict ∈ (:near_term, :on_roadmap, :unknown)
+    end
+
+    @testset "modality_type mapping" begin
+        @test modality_type(:sc_transmon) === SCTransmon
+        @test modality_type(:neutral_atom) === NeutralAtom
+        @test modality_type(:trapped_ion) === TrappedIon
+        @test modality_type(:photonic_discrete) === PhotonicDiscrete
+        # All 18 schema enums must have a Julia type
+        for m in QuantumHardware.ENUMS[:modality]
+            @test haskey(MODALITY_TYPES, Symbol(m))
+        end
+    end
+
+    @testset "coherence_at dispatch" begin
+        @test coherence_at(nothing, 0) === nothing
+        @test coherence_at(75.0, 5) == 75.0
+        @test coherence_at([10.0, 20.0, 30.0], 0) == 10.0
+        @test coherence_at([10.0, 20.0, 30.0], 2) == 30.0
     end
 
     include("test_db.jl")
