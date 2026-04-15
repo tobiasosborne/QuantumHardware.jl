@@ -106,4 +106,6 @@ const DEVICES_DIR = joinpath(REPO_ROOT, "devices")
     end
 
     include("test_db.jl")
+    include("test_ingest_braket.jl")
+    include("test_ingest_quantinuum.jl")
 end

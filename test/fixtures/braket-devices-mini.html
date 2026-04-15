@@ -1,0 +1,18 @@
+<html><body>
+<h1>Test fixture for BraketIngest.parse_braket_devices</h1>
+
+<p>IonQ Forte-1 (US East):
+<code>arn:aws:braket:us-east-1::device/qpu/ionq/Forte-1</code></p>
+
+<p>IQM Garnet (EU North):
+<code>arn:aws:braket:eu-north-1::device/qpu/iqm/Garnet</code></p>
+
+<p>Rigetti Ankaa-3 (US West):
+<code>arn:aws:braket:us-west-1::device/qpu/rigetti/Ankaa-3</code></p>
+
+<!-- Duplicate of the first ARN — must be deduplicated -->
+<p>Mentioned again: arn:aws:braket:us-east-1::device/qpu/ionq/Forte-1</p>
+
+<!-- Simulator ARN (different qpu segment shape) — should NOT match the qpu regex -->
+<p>SV1 simulator: arn:aws:braket:::device/quantum-simulator/amazon/sv1</p>
+</body></html>
