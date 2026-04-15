@@ -1,6 +1,13 @@
 # Compile the TOML corpus into a query-ready DuckDB (primary) or SQLite
 # (fallback) artefact. Never hand-edit the output — regenerate from scratch.
 #
+# Each table is declared once via a `ColumnSpec[]` list. The list drives:
+#   - the CREATE TABLE DDL,
+#   - the INSERT SQL (column list + placeholder count),
+#   - the per-row value tuple (via each spec's `extract` closure).
+# Single source of truth — adding a column means editing one entry; the
+# previous "lockstep mismatch crashes loudly at INSERT time" pattern is gone.
+#
 # Tables:
 #   devices               one row per DeviceRevision, scalars flattened
 #   native_gates          one row per (device_id, gate_idx)
@@ -17,133 +24,7 @@ import DuckDB
 import SQLite
 import JSON3
 
-const _DDL = (
-    """
-    CREATE TABLE devices (
-        id TEXT PRIMARY KEY,
-        org_slug TEXT NOT NULL,
-        org_name TEXT NOT NULL,
-        org_kind TEXT NOT NULL,
-        org_country TEXT NOT NULL,
-        org_parent TEXT,
-        org_homepage_url TEXT,
-        family_name TEXT NOT NULL,
-        modality TEXT NOT NULL,
-        lineage_predecessor TEXT,
-        device_name TEXT NOT NULL,
-        status TEXT NOT NULL,
-        announced_date TEXT,
-        first_operational_date TEXT,
-        decommissioned_date TEXT,
-        num_qubits INTEGER NOT NULL,
-        num_logical INTEGER,
-        logical_code TEXT,
-        code_distance INTEGER,
-        architecture_notes TEXT,
-        topology_kind TEXT NOT NULL,
-        topology_reconfigurable BOOLEAN NOT NULL,
-        topology_position_constraints_json TEXT,
-        topology_diagram_url TEXT,
-        t1_us_mean DOUBLE,
-        t1_us_median DOUBLE,
-        t1_us_per_qubit_json TEXT,
-        t2_kind TEXT,
-        t2_us_mean DOUBLE,
-        t2_us_median DOUBLE,
-        t2_us_per_qubit_json TEXT,
-        readout_fidelity_mean DOUBLE,
-        readout_fidelity_per_qubit_json TEXT,
-        readout_confusion_matrix_file TEXT,
-        crosstalk_json TEXT,
-        single_qubit_gate_ns DOUBLE NOT NULL,
-        two_qubit_gate_ns DOUBLE NOT NULL,
-        readout_ns DOUBLE NOT NULL,
-        reset_ns DOUBLE,
-        shot_rate_hz DOUBLE,
-        queue_depth_notes TEXT,
-        cloud_provider TEXT,
-        api_kind TEXT NOT NULL,
-        api_endpoint TEXT,
-        tier TEXT NOT NULL,
-        auth_required BOOLEAN NOT NULL,
-        pricing_notes TEXT,
-        sdk_packages_json TEXT,
-        benchmarks_json TEXT,
-        fridge_kw DOUBLE,
-        system_kw DOUBLE,
-        per_shot_j DOUBLE,
-        kgco2_per_shot DOUBLE,
-        cooling_notes TEXT,
-        helium3_notes TEXT,
-        roadmap_targeted_year INTEGER,
-        roadmap_targeted_qubits INTEGER,
-        roadmap_targeted_logical INTEGER,
-        roadmap_targeted_fidelity_1q DOUBLE,
-        roadmap_targeted_fidelity_2q DOUBLE,
-        roadmap_narrative TEXT,
-        aliases_json TEXT,
-        schema_version TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL
-    )
-    """,
-    """
-    CREATE TABLE native_gates (
-        device_id TEXT NOT NULL,
-        gate_idx INTEGER NOT NULL,
-        name TEXT NOT NULL,
-        arity INTEGER NOT NULL,
-        kind TEXT NOT NULL,
-        params_json TEXT,
-        duration_ns DOUBLE,
-        fidelity_mean DOUBLE,
-        fidelity_median DOUBLE,
-        fidelity_per_qubit_json TEXT,
-        fidelity_per_pair_json TEXT,
-        kraus_operators_file TEXT,
-        ptm_file TEXT,
-        PRIMARY KEY (device_id, gate_idx)
-    )
-    """,
-    """
-    CREATE TABLE coupling_edges (
-        device_id TEXT NOT NULL,
-        qubit_a INTEGER NOT NULL,
-        qubit_b INTEGER NOT NULL,
-        PRIMARY KEY (device_id, qubit_a, qubit_b)
-    )
-    """,
-    """
-    CREATE TABLE calibration_snapshots (
-        device_id TEXT NOT NULL,
-        ts TEXT NOT NULL,
-        t1_us_mean DOUBLE,
-        t2_us_mean DOUBLE,
-        gate_err_1q_mean DOUBLE,
-        gate_err_2q_mean DOUBLE,
-        readout_err_mean DOUBLE,
-        raw_file TEXT NOT NULL,
-        provenance_idx INTEGER NOT NULL,
-        PRIMARY KEY (device_id, ts)
-    )
-    """,
-    """
-    CREATE TABLE provenance (
-        device_id TEXT NOT NULL,
-        prov_idx INTEGER NOT NULL,
-        field_path TEXT NOT NULL,
-        value_json TEXT NOT NULL,
-        source_url TEXT NOT NULL,
-        source_kind TEXT NOT NULL,
-        retrieved_at TEXT NOT NULL,
-        local_path TEXT NOT NULL,
-        sha256 TEXT NOT NULL,
-        notes TEXT,
-        conflict BOOLEAN NOT NULL,
-        PRIMARY KEY (device_id, prov_idx)
-    )
-    """,
-)
+# --- Primitives --------------------------------------------------------------
 
 _iso(d::Date)     = string(d)
 _iso(t::DateTime) = Dates.format(t, dateformat"yyyy-mm-ddTHH:MM:SS")
@@ -155,11 +36,170 @@ _json_or_null(x)         = JSON3.write(x)
 _sym_or_null(::Nothing) = nothing
 _sym_or_null(s::Symbol) = String(s)
 
-# Optional-wrapper field access. Composes naturally with _json_or_null /
-# _sym_or_null because both already dispatch on Nothing — so a missing
-# wrapper short-circuits cleanly through any number of transforms.
+# Optional-wrapper field access. Composes with _json_or_null / _sym_or_null
+# because both already dispatch on Nothing — a missing wrapper short-circuits
+# cleanly through any number of transforms.
 _field(::Nothing, ::Symbol) = nothing
 _field(x,         f::Symbol) = getfield(x, f)
+
+# --- Column-spec abstraction -------------------------------------------------
+
+"""
+One column in one table. `extract` is invoked with whatever per-row context
+the owning table's inserter passes (`Device` for devices; `(Device, idx, gate)`
+for native_gates; etc.). All columns in a table share the same extract
+arity — the table's inserter is responsible for the calling convention.
+"""
+struct ColumnSpec
+    name::Symbol
+    sql_type::String
+    nullable::Bool
+    extract::Function
+end
+
+_ddl(table::String, cols::Vector{ColumnSpec}, pk::Vector{Symbol}) =
+    string("CREATE TABLE ", table, " (\n",
+           join(("  $(c.name) $(c.sql_type)" * (c.nullable ? "" : " NOT NULL")
+                 for c in cols), ",\n"),
+           ",\n  PRIMARY KEY (", join(string.(pk), ", "), ")\n)")
+
+_insert_sql(table::String, cols::Vector{ColumnSpec}) =
+    string("INSERT INTO ", table, " (",
+           join((string(c.name) for c in cols), ","),
+           ") VALUES (", join(fill("?", length(cols)), ","), ")")
+
+# --- Table specifications ----------------------------------------------------
+
+const _DEVICES_TABLE = "devices"
+const _DEVICES_PK    = [:id]
+
+const _DEVICES_COLS = ColumnSpec[
+    ColumnSpec(:id,                                 "TEXT",    false, d -> d.meta.id),
+    ColumnSpec(:org_slug,                           "TEXT",    false, d -> d.meta.org_slug),
+    ColumnSpec(:org_name,                           "TEXT",    false, d -> d.organization.name),
+    ColumnSpec(:org_kind,                           "TEXT",    false, d -> String(d.organization.kind)),
+    ColumnSpec(:org_country,                        "TEXT",    false, d -> d.organization.country),
+    ColumnSpec(:org_parent,                         "TEXT",    true,  d -> d.organization.parent),
+    ColumnSpec(:org_homepage_url,                   "TEXT",    true,  d -> d.organization.homepage_url),
+    ColumnSpec(:family_name,                        "TEXT",    false, d -> d.family.name),
+    ColumnSpec(:modality,                           "TEXT",    false, d -> String(d.family.modality)),
+    ColumnSpec(:lineage_predecessor,                "TEXT",    true,  d -> d.family.lineage_predecessor),
+    ColumnSpec(:device_name,                        "TEXT",    false, d -> d.device.name),
+    ColumnSpec(:status,                             "TEXT",    false, d -> String(d.device.status)),
+    ColumnSpec(:announced_date,                     "TEXT",    true,  d -> _iso(d.device.announced_date)),
+    ColumnSpec(:first_operational_date,             "TEXT",    true,  d -> _iso(d.device.first_operational_date)),
+    ColumnSpec(:decommissioned_date,                "TEXT",    true,  d -> _iso(d.device.decommissioned_date)),
+    ColumnSpec(:num_qubits,                         "INTEGER", false, d -> d.device.num_qubits),
+    ColumnSpec(:num_logical,                        "INTEGER", true,  d -> d.device.num_logical),
+    ColumnSpec(:logical_code,                       "TEXT",    true,  d -> _sym_or_null(d.device.logical_code)),
+    ColumnSpec(:code_distance,                      "INTEGER", true,  d -> d.device.code_distance),
+    ColumnSpec(:architecture_notes,                 "TEXT",    true,  d -> d.device.architecture_notes),
+    ColumnSpec(:topology_kind,                      "TEXT",    false, d -> String(d.topology.kind)),
+    ColumnSpec(:topology_reconfigurable,            "BOOLEAN", false, d -> d.topology.reconfigurable),
+    ColumnSpec(:topology_position_constraints_json, "TEXT",    true,  d -> _json_or_null(d.topology.position_constraints)),
+    ColumnSpec(:topology_diagram_url,               "TEXT",    true,  d -> d.topology.diagram_url),
+    ColumnSpec(:t1_us_mean,                         "DOUBLE",  true,  d -> _field(d.noise_model.t1_us, :mean)),
+    ColumnSpec(:t1_us_median,                       "DOUBLE",  true,  d -> _field(d.noise_model.t1_us, :median)),
+    ColumnSpec(:t1_us_per_qubit_json,               "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.t1_us, :per_qubit))),
+    ColumnSpec(:t2_kind,                            "TEXT",    true,  d -> _sym_or_null(_field(d.noise_model.t2_us, :kind))),
+    ColumnSpec(:t2_us_mean,                         "DOUBLE",  true,  d -> _field(d.noise_model.t2_us, :mean)),
+    ColumnSpec(:t2_us_median,                       "DOUBLE",  true,  d -> _field(d.noise_model.t2_us, :median)),
+    ColumnSpec(:t2_us_per_qubit_json,               "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.t2_us, :per_qubit))),
+    ColumnSpec(:readout_fidelity_mean,              "DOUBLE",  true,  d -> _field(d.noise_model.readout, :fidelity_mean)),
+    ColumnSpec(:readout_fidelity_per_qubit_json,    "TEXT",    true,  d -> _json_or_null(_field(d.noise_model.readout, :fidelity_per_qubit))),
+    ColumnSpec(:readout_confusion_matrix_file,      "TEXT",    true,  d -> _field(d.noise_model.readout, :confusion_matrix_file)),
+    ColumnSpec(:crosstalk_json,                     "TEXT",    true,  d -> _json_or_null(d.noise_model.crosstalk)),
+    ColumnSpec(:single_qubit_gate_ns,               "DOUBLE",  false, d -> d.timing.single_qubit_gate_ns),
+    ColumnSpec(:two_qubit_gate_ns,                  "DOUBLE",  false, d -> d.timing.two_qubit_gate_ns),
+    ColumnSpec(:readout_ns,                         "DOUBLE",  false, d -> d.timing.readout_ns),
+    ColumnSpec(:reset_ns,                           "DOUBLE",  true,  d -> d.timing.reset_ns),
+    ColumnSpec(:shot_rate_hz,                       "DOUBLE",  true,  d -> d.timing.shot_rate_hz),
+    ColumnSpec(:queue_depth_notes,                  "TEXT",    true,  d -> d.timing.queue_depth_notes),
+    ColumnSpec(:cloud_provider,                     "TEXT",    true,  d -> _sym_or_null(d.access.cloud_provider)),
+    ColumnSpec(:api_kind,                           "TEXT",    false, d -> String(d.access.api_kind)),
+    ColumnSpec(:api_endpoint,                       "TEXT",    true,  d -> d.access.api_endpoint),
+    ColumnSpec(:tier,                               "TEXT",    false, d -> String(d.access.tier)),
+    ColumnSpec(:auth_required,                      "BOOLEAN", false, d -> d.access.auth_required),
+    ColumnSpec(:pricing_notes,                      "TEXT",    true,  d -> d.access.pricing_notes),
+    ColumnSpec(:sdk_packages_json,                  "TEXT",    true,  d -> _json_or_null(d.access.sdk_packages)),
+    ColumnSpec(:benchmarks_json,                    "TEXT",    true,  d -> _json_or_null(d.benchmarks)),
+    ColumnSpec(:fridge_kw,                          "DOUBLE",  true,  d -> _field(d.energy_carbon, :fridge_kw)),
+    ColumnSpec(:system_kw,                          "DOUBLE",  true,  d -> _field(d.energy_carbon, :system_kw)),
+    ColumnSpec(:per_shot_j,                         "DOUBLE",  true,  d -> _field(d.energy_carbon, :per_shot_j)),
+    ColumnSpec(:kgco2_per_shot,                     "DOUBLE",  true,  d -> _field(d.energy_carbon, :kgco2_per_shot)),
+    ColumnSpec(:cooling_notes,                      "TEXT",    true,  d -> _field(d.energy_carbon, :cooling_notes)),
+    ColumnSpec(:helium3_notes,                      "TEXT",    true,  d -> _field(d.energy_carbon, :helium3_notes)),
+    ColumnSpec(:roadmap_targeted_year,              "INTEGER", true,  d -> _field(d.roadmap, :originally_targeted_year)),
+    ColumnSpec(:roadmap_targeted_qubits,            "INTEGER", true,  d -> _field(d.roadmap, :originally_targeted_qubits)),
+    ColumnSpec(:roadmap_targeted_logical,           "INTEGER", true,  d -> _field(d.roadmap, :originally_targeted_logical)),
+    ColumnSpec(:roadmap_targeted_fidelity_1q,       "DOUBLE",  true,  d -> _field(d.roadmap, :originally_targeted_fidelity_1q)),
+    ColumnSpec(:roadmap_targeted_fidelity_2q,       "DOUBLE",  true,  d -> _field(d.roadmap, :originally_targeted_fidelity_2q)),
+    ColumnSpec(:roadmap_narrative,                  "TEXT",    true,  d -> _field(d.roadmap, :narrative)),
+    ColumnSpec(:aliases_json,                       "TEXT",    true,  d -> _json_or_null(d.meta.aliases)),
+    ColumnSpec(:schema_version,                     "TEXT",    false, d -> d.meta.schema_version),
+    ColumnSpec(:created_at,                         "TEXT",    false, d -> _iso(d.meta.created_at)),
+    ColumnSpec(:updated_at,                         "TEXT",    false, d -> _iso(d.meta.updated_at)),
+]
+
+# Child tables — extract closures take (Device, ctx...) per-row context.
+
+const _NATIVE_GATES_TABLE = "native_gates"
+const _NATIVE_GATES_PK    = [:device_id, :gate_idx]
+const _NATIVE_GATES_COLS = ColumnSpec[
+    ColumnSpec(:device_id,               "TEXT",    false, (d, i, g) -> d.meta.id),
+    ColumnSpec(:gate_idx,                "INTEGER", false, (d, i, g) -> i),
+    ColumnSpec(:name,                    "TEXT",    false, (d, i, g) -> g.name),
+    ColumnSpec(:arity,                   "INTEGER", false, (d, i, g) -> g.arity),
+    ColumnSpec(:kind,                    "TEXT",    false, (d, i, g) -> String(g.kind)),
+    ColumnSpec(:params_json,             "TEXT",    true,  (d, i, g) -> _json_or_null(g.params)),
+    ColumnSpec(:duration_ns,             "DOUBLE",  true,  (d, i, g) -> g.duration_ns),
+    ColumnSpec(:fidelity_mean,           "DOUBLE",  true,  (d, i, g) -> g.fidelity_mean),
+    ColumnSpec(:fidelity_median,         "DOUBLE",  true,  (d, i, g) -> g.fidelity_median),
+    ColumnSpec(:fidelity_per_qubit_json, "TEXT",    true,  (d, i, g) -> _json_or_null(g.fidelity_per_qubit)),
+    ColumnSpec(:fidelity_per_pair_json,  "TEXT",    true,  (d, i, g) -> _json_or_null(g.fidelity_per_pair)),
+    ColumnSpec(:kraus_operators_file,    "TEXT",    true,  (d, i, g) -> g.kraus_operators_file),
+    ColumnSpec(:ptm_file,                "TEXT",    true,  (d, i, g) -> g.ptm_file),
+]
+
+const _COUPLING_EDGES_TABLE = "coupling_edges"
+const _COUPLING_EDGES_PK    = [:device_id, :qubit_a, :qubit_b]
+const _COUPLING_EDGES_COLS = ColumnSpec[
+    ColumnSpec(:device_id, "TEXT",    false, (d, e) -> d.meta.id),
+    ColumnSpec(:qubit_a,   "INTEGER", false, (d, e) -> e[1]),
+    ColumnSpec(:qubit_b,   "INTEGER", false, (d, e) -> e[2]),
+]
+
+const _SNAPSHOTS_TABLE = "calibration_snapshots"
+const _SNAPSHOTS_PK    = [:device_id, :ts]
+const _SNAPSHOTS_COLS = ColumnSpec[
+    ColumnSpec(:device_id,        "TEXT",    false, (d, s) -> d.meta.id),
+    ColumnSpec(:ts,               "TEXT",    false, (d, s) -> _iso(s.timestamp)),
+    ColumnSpec(:t1_us_mean,       "DOUBLE",  true,  (d, s) -> s.t1_us_mean),
+    ColumnSpec(:t2_us_mean,       "DOUBLE",  true,  (d, s) -> s.t2_us_mean),
+    ColumnSpec(:gate_err_1q_mean, "DOUBLE",  true,  (d, s) -> s.gate_err_1q_mean),
+    ColumnSpec(:gate_err_2q_mean, "DOUBLE",  true,  (d, s) -> s.gate_err_2q_mean),
+    ColumnSpec(:readout_err_mean, "DOUBLE",  true,  (d, s) -> s.readout_err_mean),
+    ColumnSpec(:raw_file,         "TEXT",    false, (d, s) -> s.raw_file),
+    ColumnSpec(:provenance_idx,   "INTEGER", false, (d, s) -> s.provenance_idx),
+]
+
+const _PROVENANCE_TABLE = "provenance"
+const _PROVENANCE_PK    = [:device_id, :prov_idx]
+const _PROVENANCE_COLS = ColumnSpec[
+    ColumnSpec(:device_id,    "TEXT",    false, (d, i, p) -> d.meta.id),
+    ColumnSpec(:prov_idx,     "INTEGER", false, (d, i, p) -> i),
+    ColumnSpec(:field_path,   "TEXT",    false, (d, i, p) -> p.field_path),
+    ColumnSpec(:value_json,   "TEXT",    false, (d, i, p) -> JSON3.write(p.value)),
+    ColumnSpec(:source_url,   "TEXT",    false, (d, i, p) -> p.source_url),
+    ColumnSpec(:source_kind,  "TEXT",    false, (d, i, p) -> String(p.source_kind)),
+    ColumnSpec(:retrieved_at, "TEXT",    false, (d, i, p) -> _iso(p.retrieved_at)),
+    ColumnSpec(:local_path,   "TEXT",    false, (d, i, p) -> p.local_path),
+    ColumnSpec(:sha256,       "TEXT",    false, (d, i, p) -> p.sha256),
+    ColumnSpec(:notes,        "TEXT",    true,  (d, i, p) -> p.notes),
+    ColumnSpec(:conflict,     "BOOLEAN", false, (d, i, p) -> p.conflict),
+]
+
+# --- Connection + table creation --------------------------------------------
 
 function _connect(path::AbstractString, backend::Symbol)
     isfile(path) && rm(path)
@@ -174,182 +214,57 @@ function _connect(path::AbstractString, backend::Symbol)
 end
 
 function _create_tables(conn)
-    for ddl in _DDL
-        DBInterface.execute(conn, ddl)
-    end
+    DBInterface.execute(conn, _ddl(_DEVICES_TABLE,        _DEVICES_COLS,        _DEVICES_PK))
+    DBInterface.execute(conn, _ddl(_NATIVE_GATES_TABLE,   _NATIVE_GATES_COLS,   _NATIVE_GATES_PK))
+    DBInterface.execute(conn, _ddl(_COUPLING_EDGES_TABLE, _COUPLING_EDGES_COLS, _COUPLING_EDGES_PK))
+    DBInterface.execute(conn, _ddl(_SNAPSHOTS_TABLE,      _SNAPSHOTS_COLS,      _SNAPSHOTS_PK))
+    DBInterface.execute(conn, _ddl(_PROVENANCE_TABLE,     _PROVENANCE_COLS,     _PROVENANCE_PK))
 end
 
-# Columns for the `devices` table, in DDL order. Must stay in lockstep with
-# `_device_values` and the CREATE TABLE above — a mismatch surfaces loudly at
-# INSERT time rather than silently shifting columns.
-const _DEVICE_COLUMNS = (
-    :id, :org_slug, :org_name, :org_kind, :org_country, :org_parent, :org_homepage_url,
-    :family_name, :modality, :lineage_predecessor,
-    :device_name, :status,
-    :announced_date, :first_operational_date, :decommissioned_date,
-    :num_qubits, :num_logical, :logical_code, :code_distance, :architecture_notes,
-    :topology_kind, :topology_reconfigurable,
-    :topology_position_constraints_json, :topology_diagram_url,
-    :t1_us_mean, :t1_us_median, :t1_us_per_qubit_json,
-    :t2_kind, :t2_us_mean, :t2_us_median, :t2_us_per_qubit_json,
-    :readout_fidelity_mean, :readout_fidelity_per_qubit_json, :readout_confusion_matrix_file,
-    :crosstalk_json,
-    :single_qubit_gate_ns, :two_qubit_gate_ns, :readout_ns, :reset_ns,
-    :shot_rate_hz, :queue_depth_notes,
-    :cloud_provider, :api_kind, :api_endpoint, :tier, :auth_required,
-    :pricing_notes, :sdk_packages_json,
-    :benchmarks_json,
-    :fridge_kw, :system_kw, :per_shot_j, :kgco2_per_shot, :cooling_notes, :helium3_notes,
-    :roadmap_targeted_year, :roadmap_targeted_qubits, :roadmap_targeted_logical,
-    :roadmap_targeted_fidelity_1q, :roadmap_targeted_fidelity_2q, :roadmap_narrative,
-    :aliases_json,
-    :schema_version, :created_at, :updated_at,
-)
+# --- Per-table inserters -----------------------------------------------------
+# Each calls its column specs' `extract` with the per-row context. Because
+# column names + extractors live in the same ColumnSpec, drift is impossible.
 
-function _device_values(dev::Device)
-    topo = dev.topology
-    nm   = dev.noise_model
-    t1   = nm.t1_us
-    t2   = nm.t2_us
-    ro   = nm.readout
-    rd   = dev.roadmap
-    ec   = dev.energy_carbon
-    return (
-        dev.meta.id,
-        dev.meta.org_slug,
-        dev.organization.name,
-        String(dev.organization.kind),
-        dev.organization.country,
-        dev.organization.parent,
-        dev.organization.homepage_url,
-        dev.family.name,
-        String(dev.family.modality),
-        dev.family.lineage_predecessor,
-        dev.device.name,
-        String(dev.device.status),
-        _iso(dev.device.announced_date),
-        _iso(dev.device.first_operational_date),
-        _iso(dev.device.decommissioned_date),
-        dev.device.num_qubits,
-        dev.device.num_logical,
-        _sym_or_null(dev.device.logical_code),
-        dev.device.code_distance,
-        dev.device.architecture_notes,
-        String(topo.kind),
-        topo.reconfigurable,
-        _json_or_null(topo.position_constraints),
-        topo.diagram_url,
-        _field(t1, :mean),
-        _field(t1, :median),
-        _json_or_null(_field(t1, :per_qubit)),
-        _sym_or_null(_field(t2, :kind)),
-        _field(t2, :mean),
-        _field(t2, :median),
-        _json_or_null(_field(t2, :per_qubit)),
-        _field(ro, :fidelity_mean),
-        _json_or_null(_field(ro, :fidelity_per_qubit)),
-        _field(ro, :confusion_matrix_file),
-        _json_or_null(nm.crosstalk),
-        dev.timing.single_qubit_gate_ns,
-        dev.timing.two_qubit_gate_ns,
-        dev.timing.readout_ns,
-        dev.timing.reset_ns,
-        dev.timing.shot_rate_hz,
-        dev.timing.queue_depth_notes,
-        _sym_or_null(dev.access.cloud_provider),
-        String(dev.access.api_kind),
-        dev.access.api_endpoint,
-        String(dev.access.tier),
-        dev.access.auth_required,
-        dev.access.pricing_notes,
-        _json_or_null(dev.access.sdk_packages),
-        _json_or_null(dev.benchmarks),
-        _field(ec, :fridge_kw),
-        _field(ec, :system_kw),
-        _field(ec, :per_shot_j),
-        _field(ec, :kgco2_per_shot),
-        _field(ec, :cooling_notes),
-        _field(ec, :helium3_notes),
-        _field(rd, :originally_targeted_year),
-        _field(rd, :originally_targeted_qubits),
-        _field(rd, :originally_targeted_logical),
-        _field(rd, :originally_targeted_fidelity_1q),
-        _field(rd, :originally_targeted_fidelity_2q),
-        _field(rd, :narrative),
-        _json_or_null(dev.meta.aliases),
-        dev.meta.schema_version,
-        _iso(dev.meta.created_at),
-        _iso(dev.meta.updated_at),
-    )
-end
-
-const _DEVICE_INSERT_SQL = string(
-    "INSERT INTO devices (",
-    join(string.(_DEVICE_COLUMNS), ","),
-    ") VALUES (",
-    join(fill("?", length(_DEVICE_COLUMNS)), ","),
-    ")",
-)
-
-function _insert_device(conn, dev::Device)
-    vals = _device_values(dev)
-    length(vals) == length(_DEVICE_COLUMNS) ||
-        error("devices insert: $(length(vals)) values for $(length(_DEVICE_COLUMNS)) columns")
-    DBInterface.execute(conn, _DEVICE_INSERT_SQL, vals)
+function _insert_devices(conn, dev::Device)
+    sql = _insert_sql(_DEVICES_TABLE, _DEVICES_COLS)
+    vals = Tuple(c.extract(dev) for c in _DEVICES_COLS)
+    DBInterface.execute(conn, sql, vals)
 end
 
 function _insert_native_gates(conn, dev::Device)
+    sql = _insert_sql(_NATIVE_GATES_TABLE, _NATIVE_GATES_COLS)
     for (i, g) in pairs(dev.native_gates)
-        DBInterface.execute(conn,
-            "INSERT INTO native_gates VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (
-                dev.meta.id, i,
-                g.name, g.arity, String(g.kind),
-                _json_or_null(g.params),
-                g.duration_ns, g.fidelity_mean, g.fidelity_median,
-                _json_or_null(g.fidelity_per_qubit),
-                _json_or_null(g.fidelity_per_pair),
-                g.kraus_operators_file, g.ptm_file,
-            ))
+        vals = Tuple(c.extract(dev, i, g) for c in _NATIVE_GATES_COLS)
+        DBInterface.execute(conn, sql, vals)
     end
 end
 
 function _insert_coupling_edges(conn, dev::Device)
     dev.topology.coupling_map === nothing && return
-    for (a, b) in dev.topology.coupling_map
-        DBInterface.execute(conn,
-            "INSERT INTO coupling_edges VALUES (?,?,?)",
-            (dev.meta.id, a, b))
+    sql = _insert_sql(_COUPLING_EDGES_TABLE, _COUPLING_EDGES_COLS)
+    for e in dev.topology.coupling_map
+        vals = Tuple(c.extract(dev, e) for c in _COUPLING_EDGES_COLS)
+        DBInterface.execute(conn, sql, vals)
     end
 end
 
 function _insert_snapshots(conn, dev::Device)
+    sql = _insert_sql(_SNAPSHOTS_TABLE, _SNAPSHOTS_COLS)
     for s in dev.calibration_snapshots
-        DBInterface.execute(conn,
-            "INSERT INTO calibration_snapshots VALUES (?,?,?,?,?,?,?,?,?)",
-            (
-                dev.meta.id, _iso(s.timestamp),
-                s.t1_us_mean, s.t2_us_mean,
-                s.gate_err_1q_mean, s.gate_err_2q_mean, s.readout_err_mean,
-                s.raw_file, s.provenance_idx,
-            ))
+        vals = Tuple(c.extract(dev, s) for c in _SNAPSHOTS_COLS)
+        DBInterface.execute(conn, sql, vals)
     end
 end
 
 function _insert_provenance(conn, dev::Device)
+    sql = _insert_sql(_PROVENANCE_TABLE, _PROVENANCE_COLS)
     for (i, p) in pairs(dev.provenance)
-        DBInterface.execute(conn,
-            "INSERT INTO provenance VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-            (
-                dev.meta.id, i,
-                p.field_path, JSON3.write(p.value),
-                p.source_url, String(p.source_kind),
-                _iso(p.retrieved_at),
-                p.local_path, p.sha256,
-                p.notes, p.conflict,
-            ))
+        vals = Tuple(c.extract(dev, i, p) for c in _PROVENANCE_COLS)
+        DBInterface.execute(conn, sql, vals)
     end
 end
+
+# --- Public API --------------------------------------------------------------
 
 """
     build_db(output_path; backend=:duckdb, devices=nothing) -> NamedTuple
@@ -370,7 +285,7 @@ function build_db(output_path::AbstractString;
         n_devices = n_gates = n_edges = n_snaps = n_prov = 0
         for id in sort!(collect(keys(corpus)))
             dev = corpus[id]
-            _insert_device(conn, dev)
+            _insert_devices(conn, dev)
             _insert_native_gates(conn, dev)
             _insert_coupling_edges(conn, dev)
             _insert_snapshots(conn, dev)
