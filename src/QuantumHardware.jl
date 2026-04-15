@@ -26,6 +26,7 @@ include("validator.jl")
 include("loader.jl")
 include("queries.jl")
 include("db.jl")
+include("ingest/common.jl")
 
 export Device, DeviceMeta, Organization, DeviceFamily, DeviceRecord, Topology,
        NativeGate, FidelityPair, NoiseModel, CalibrationSnapshot, Timing, Access,

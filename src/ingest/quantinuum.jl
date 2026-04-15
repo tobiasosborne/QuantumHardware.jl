@@ -29,8 +29,7 @@ using TOML
 using SHA
 using Dates
 
-include("common.jl")
-using .IngestCommon: is_hand_curated
+using QuantumHardware.IngestCommon: is_hand_curated, snapshot_file
 
 const GITHUB_RAW_BASE =
     "https://raw.githubusercontent.com/CQCL/quantinuum-hardware-specifications/main"
@@ -77,22 +76,6 @@ function parse_spec_csv(path::AbstractString)
         ))
     end
     return rows
-end
-
-"""
-    snapshot_file(src, dest_dir, dest_name) -> (rel_path, sha256)
-
-Copy `src` into `dest_dir/dest_name`, return the relative path (from repo root)
-and sha256 of the destination file.
-"""
-function snapshot_file(src::AbstractString, repo_root::AbstractString,
-                       dest_dir::AbstractString, dest_name::AbstractString)
-    mkpath(dest_dir)
-    dest = joinpath(dest_dir, dest_name)
-    cp(src, dest; force=true)
-    sha = bytes2hex(open(sha256, dest))
-    rel = relpath(dest, repo_root)
-    return rel, sha
 end
 
 # --- Per-system metadata -----------------------------------------------------

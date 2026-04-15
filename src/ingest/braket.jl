@@ -21,8 +21,7 @@ using TOML
 using SHA
 using Dates
 
-include("common.jl")
-using .IngestCommon: is_hand_curated
+using QuantumHardware.IngestCommon: is_hand_curated, snapshot_file
 
 const AWS_DOCS_URL = "https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html"
 
@@ -166,15 +165,6 @@ function parse_braket_devices(html_path::AbstractString)
         push!(parsed, (m.captures[1], m.captures[2], arn))
     end
     return parsed
-end
-
-function snapshot_file(src, repo_root, dest_dir, dest_name)
-    mkpath(dest_dir)
-    dest = joinpath(dest_dir, dest_name)
-    cp(src, dest; force=true)
-    sha = bytes2hex(open(sha256, dest))
-    rel = relpath(dest, repo_root)
-    return rel, sha
 end
 
 """
