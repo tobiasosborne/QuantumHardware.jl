@@ -1,0 +1,120 @@
+# eleQtron EPIQ HiQ+ @ Forschungszentrum Jülich — hand-curated
+#
+# Second (cryogenic) stage of the eleQtron × FZ Jülich EPIQ delivery. Up to
+# 60 qubits; installed 2026. Successor / upgrade path from the room-
+# temperature HiQ pilot.
+
+[meta]
+id             = "eleqtron-epiq-hiq-plus-juelich"
+org_slug       = "eleqtron"
+aliases        = [
+    "eleQtron HiQ+",
+    "EPIQ HiQ+",
+    "eleQtron Quantencomputer @ FZ Jülich (stage 2)",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "eleQtron GmbH"
+kind         = "commercial"
+country      = "DEU"
+parent       = "Quantum Optics Chair spinout, Universität Siegen (Wunderlich group); EPIQ consortium with Forschungszentrum Jülich / JSC; NRW state funding"
+homepage_url = "https://eleqtron.com"
+
+[family]
+name                = "HiQ"
+modality            = "trapped_ion"
+lineage_predecessor = "eleqtron-epiq-hiq-juelich"
+
+[device]
+name                = "eleQtron EPIQ HiQ+ (JSC)"
+status              = "projected"
+announced_date      = 2022-06-01
+num_qubits          = 60
+architecture_notes = """
+Cryogenic MAGIC trapped-ion QPU — the expansion stage of eleQtron's EPIQ
+project at Forschungszentrum Jülich. Up to 60 qubits, targeted for
+installation in 2026. Direct successor / upgrade path from the HiQ 30-qubit
+room-temperature pilot (stage 1).
+
+Cryogenic operation (vs HiQ's room-temperature operation) is the
+distinguishing architectural change; still uses MAGIC (MAgnetic Gradient
+Induced Coupling) for qubit addressing. Will be offered to end-users of the
+JUNIQ cloud facility once commissioned.
+
+As with HiQ, EPIQ is a multi-partner build: eleQtron (hardware vendor) +
+Forschungszentrum Jülich (host/operator/integrator) + NRW state funding.
+"""
+
+[topology]
+kind           = "all_to_all"
+reconfigurable = false
+
+[[native_gates]]
+name          = "R_microwave"
+arity         = 1
+kind          = "gate"
+params        = ["theta", "phi"]
+duration_ns   = 100000.0
+
+[[native_gates]]
+name          = "MS_magic"
+arity         = 2
+kind          = "gate"
+params        = ["theta"]
+duration_ns   = 500000.0
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 500000.0
+
+[[native_gates]]
+name  = "reset"
+arity = 1
+kind  = "reset"
+
+[noise_model]
+
+[timing]
+single_qubit_gate_ns = 100000.0
+two_qubit_gate_ns    = 500000.0
+readout_ns           = 500000.0
+
+[access]
+cloud_provider = "juniq"
+api_kind       = "custom"
+tier           = "research_only"
+auth_required  = true
+pricing_notes  = "Future access via JUNIQ at Jülich Supercomputing Centre."
+sdk_packages   = []
+
+[roadmap]
+originally_targeted_year   = 2026
+originally_targeted_qubits = 60
+narrative = "Cryogenic 60-qubit upgrade of the EPIQ pilot system, targeting installation at JSC in 2026."
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 60
+source_url   = "https://eleqtron.com/forschungszentrum-juelich-und-eleqtron-entwickeln-modularen-quanten-supercomputer-made-in-nrw/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/eleqtron-epiq-juelich.html"
+sha256       = "fd9e299b369c47896c2199fdcc85b5441b8b5ddb478428837236cc5ab318361c"
+notes        = "'In der zweiten Phase wird eleQtron das Pilotsystem zu einem Endnutzersystem mit der Kryo-QPU HiQ+ mit bis zu 60 Qubits ausbauen und es 2026 in Jülich installieren.'"
+
+[[provenance]]
+field_path   = "family.lineage_predecessor"
+value        = "eleqtron-epiq-hiq-juelich"
+source_url   = "https://eleqtron.com/forschungszentrum-juelich-und-eleqtron-entwickeln-modularen-quanten-supercomputer-made-in-nrw/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/eleqtron-epiq-juelich.html"
+sha256       = "fd9e299b369c47896c2199fdcc85b5441b8b5ddb478428837236cc5ab318361c"
+notes        = "Press release describes two-stage build: stage 1 HiQ 30q pilot, stage 2 HiQ+ 60q cryo. Stage 2 is the direct upgrade of stage 1."

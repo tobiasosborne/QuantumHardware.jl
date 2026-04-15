@@ -9,15 +9,22 @@
 [meta]
 id = "qudora-hamburg-50"
 org_slug = "qudora"
-aliases = ["QUDORA DLR-50", "Qudora Hamburg 50-qubit"]
+aliases = [
+    "QUDORA DLR-50",
+    "Qudora Hamburg 50-qubit",
+    "XAPHIRO",
+    "QUDORA × NXP XAPHIRO",
+    "Project Xaphiro",
+]
 schema_version = "0.1"
 created_at = 2026-04-14T15:27:00Z
-updated_at = 2026-04-14T15:27:00Z
+updated_at = 2026-04-15T00:00:00Z
 
 [organization]
 name = "QUDORA Technologies"
 kind = "commercial"
 country = "DEU"
+parent = "Deep-tech spin-off of PTB + TU Braunschweig + Leibniz U Hannover; QVLS ecosystem member; DLR QCI programme contractor"
 homepage_url = "https://qudora.com/"
 
 [family]
@@ -25,15 +32,28 @@ name = "QUDORA NFQC"
 modality = "trapped_ion"
 
 [device]
-name = "QUDORA Hamburg-50"
-status = "projected"
+name = "QUDORA Hamburg-50 (XAPHIRO)"
+status = "under_construction"
 announced_date = 2024-01-01
 num_qubits = 50
 architecture_notes = """
-Microwave-driven surface-electrode Paul trap. QUDORA's proprietary Near-Field
-Quantum Control (NFQC) replaces laser systems with integrated microwave
-electronics. Being built in Hamburg with NXP Semiconductors Germany GmbH
-under a €42M DLR (German Aerospace Center) contract; delivery January 2027.
+XAPHIRO — the DLR QCI project name for QUDORA × NXP's Hamburg system. A 50-
+qubit quantum processor built around "several interconnected registers that
+can be used for preparation, storage, manipulation, or detection of the
+qubits" (per DLR QCI kickoff page). Qubits are transported between registers
+by electric fields; elementary quantum gates are implemented by chip-
+integrated microwave circuit elements (QUDORA's Near-Field Quantum Control
+= NFQC — no laser systems in the gate path). Qubit-state readout uses a
+photon detector based on CMOS technology developed by NXP Semiconductors.
+
+€42M DLR (German Aerospace Center / Quantum Computing Initiative) contract.
+Four-year build at the DLR innovation centre in Hamburg; delivery target
+January 2027. Physical qudora + NXP team presence at the Hamburg facility
+since the project kickoff (XAPHIRO press event).
+
+QUDORA is a 2021 deep-tech spin-off of the Physikalisch-Technische Bundes-
+anstalt (PTB), Technische Universität Braunschweig, and Leibniz Universität
+Hannover; part of the Quantum Valley Lower Saxony (QVLS) ecosystem.
 """
 
 [topology]
@@ -93,19 +113,29 @@ pending.
 [[provenance]]
 field_path = "device.num_qubits"
 value = 50
-source_url = "https://qudora.com/news/"
+source_url = "https://qci.dlr.de/en/project-xaphiro-kick-off-for-the-ion-trap-consortium-qudora-x-nxp-at-the-innovation-center-hamburg/"
 source_kind = "vendor_doc"
-retrieved_at = 2026-04-14T15:27:00Z
-local_path = "sources/2026/04/14/qudora-news.html"
-sha256 = "7fae93d386d759b3766ec6932f4a53df8c10d6484e242cd65bc003246ff77f13"
-notes = "QUDORA news page references 50-qubit Hamburg system, NXP partnership, DLR €42M contract, Jan 2027 delivery."
+retrieved_at = 2026-04-15T00:00:00Z
+local_path = "sources/2026/04/15/dlr-qci-xaphiro-kickoff.html"
+sha256 = "0a432cfb1a61772f630db037cb99c6a07fd35684baa7747151d4ae1519ede347"
+notes = "DLR QCI XAPHIRO kickoff page: 'The hardware core is a 50-qubit quantum processor developed by Qudora with several interconnected registers...'"
 
 [[provenance]]
-field_path = "family.modality"
-value = "trapped_ion"
-source_url = "https://thequantuminsider.com/2026/02/26/qudora-parityqc-optimize-quantum-algorithms-trapped-ion/"
-source_kind = "blog_post"
-retrieved_at = 2026-04-14T15:27:00Z
-local_path = "sources/2026/04/14/qudora-parityqc-partnership.html"
-sha256 = "1727cd668e3e07b29a389b7be0b61537b7e5243de903d9f5d8620512e30fdf4a"
-notes = "TQI write-up of the ParityQC partnership describes QUDORA as trapped-ion with NFQC microwave gate drive."
+field_path = "device.architecture_notes"
+value = "interconnected registers + electric-field ion shuttling + microwave gates + NXP CMOS photon detector"
+source_url = "https://qci.dlr.de/en/project-xaphiro-kick-off-for-the-ion-trap-consortium-qudora-x-nxp-at-the-innovation-center-hamburg/"
+source_kind = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path = "sources/2026/04/15/dlr-qci-xaphiro-kickoff.html"
+sha256 = "0a432cfb1a61772f630db037cb99c6a07fd35684baa7747151d4ae1519ede347"
+notes = "DLR QCI XAPHIRO kickoff page details the architecture: ion transport between registers via electric fields; chip-integrated microwave circuits for gates; NXP-developed CMOS photon detector for state readout."
+
+[[provenance]]
+field_path = "organization.parent"
+value = "PTB + TU Braunschweig + Leibniz U Hannover spinout; QVLS ecosystem"
+source_url = "https://qci.dlr.de/en/partner/qudora/"
+source_kind = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path = "sources/2026/04/15/dlr-qci-qudora-partner-page.html"
+sha256 = "23964c805948ab30e333399e406e1c4da3ce372e393d77fbfb1cb8c89eea4337"
+notes = "DLR QCI partner page: 'QUDORA is a deep tech spin-off of the Physikalisch-Technische Bundesanstalt (PTB), Technische Universität Braunschweig and Leibniz Universität Hannover and part of the Quantum Valley Lower Saxony (QVLS) ecosystem.'"

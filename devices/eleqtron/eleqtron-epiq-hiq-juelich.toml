@@ -1,0 +1,149 @@
+# eleQtron EPIQ HiQ @ Forschungszentrum Jülich — hand-curated
+#
+# First of two EPIQ-project delivery stages. Room-temperature MAGIC trapped-
+# ion QPU with up to 30 ion-trap qubits, installed at Jülich Supercomputing
+# Centre for integration with JURECA DC. Second stage (HiQ+ cryogenic,
+# up to 60 qubits) is curated as a separate DeviceRevision.
+#
+# MAGIC = MAgnetic Gradient Induced Coupling — eleQtron's core IP. Qubits
+# are not addressed by individual laser beams but by radio-frequency /
+# microwave waves in a static magnetic-field gradient.
+#
+# EPIQ is a multi-partner project (eleQtron + FZ Jülich + NRW state funding
+# ~€21M). Organisation ambiguity is real here and would benefit from a
+# `consortium_members[]` schema field (tracked as separate issue).
+
+[meta]
+id             = "eleqtron-epiq-hiq-juelich"
+org_slug       = "eleqtron"
+aliases        = [
+    "eleQtron HiQ",
+    "EPIQ HiQ",
+    "eleQtron Quantencomputer @ FZ Jülich (stage 1)",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "eleQtron GmbH"
+kind         = "commercial"
+country      = "DEU"
+parent       = "Quantum Optics Chair spinout, Universität Siegen (Wunderlich group); EPIQ consortium with Forschungszentrum Jülich / JSC; NRW state funding"
+homepage_url = "https://eleqtron.com"
+
+[family]
+name     = "HiQ"
+modality = "trapped_ion"
+
+[device]
+name                   = "eleQtron EPIQ HiQ (JSC)"
+status                 = "in_service"
+announced_date         = 2022-06-01
+num_qubits             = 30
+architecture_notes = """
+Room-temperature MAGIC (MAgnetic Gradient Induced Coupling) trapped-ion
+quantum processor. Ion qubits are addressed collectively by radio-frequency
+/ microwave waves in a static magnetic-field gradient rather than by
+individual laser beams — the key feature of Wunderlich-group MAGIC
+architectures. Up to 30 ion-trap qubits in this first EPIQ-project stage.
+
+Installed at Forschungszentrum Jülich (JSC) for integration with the JURECA
+DC supercomputer via JUNIQ (JUelicher Nutzer-Infrastruktur für
+Quantencomputing). Jülich's Michielsen / Lippert groups operate the
+hybrid HPC+QC platform.
+
+Multi-partner build: eleQtron GmbH (Siegen, DE) is the hardware vendor;
+Forschungszentrum Jülich is the host / operator / integrator; NRW state
+funding (~€21M) underwrites the EPIQ project. Exact announcement date
+for the EPIQ contract not pinned to a specific day in the German-language
+press release — placeholder 2022-06-01; status in_service per the
+"two-stage delivery with pilot system by end of this year" narrative.
+
+eleQtron GmbH was founded in 2020 as a spin-off of the Quantum Optics Chair
+at Universität Siegen by Prof. Christof Wunderlich, Dr. Michael Johanning
+(CTO), and Jan Leisse (CEO). "First German manufacturer of quantum-computer
+hardware."
+"""
+
+[topology]
+kind           = "all_to_all"
+reconfigurable = false
+# Ion chain in a linear Paul trap with MAGIC addressing; all-to-all coupling
+# via the gradient-induced interaction across the chain.
+
+[[native_gates]]
+name          = "R_microwave"
+arity         = 1
+kind          = "gate"
+params        = ["theta", "phi"]
+duration_ns   = 100000.0                 # rough microwave-driven ion estimate
+# No device-specific fidelity published for HiQ as of this curation.
+
+[[native_gates]]
+name          = "MS_magic"
+arity         = 2
+kind          = "gate"
+params        = ["theta"]
+duration_ns   = 500000.0
+# Two-qubit gate via MAGIC gradient + microwave dressing (Mintert-Wunderlich
+# scheme); device-specific fidelity not published.
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 500000.0
+
+[[native_gates]]
+name  = "reset"
+arity = 1
+kind  = "reset"
+
+[noise_model]
+# No device-specific calibration published for HiQ as of this curation.
+
+[timing]
+single_qubit_gate_ns = 100000.0
+two_qubit_gate_ns    = 500000.0
+readout_ns           = 500000.0
+
+[access]
+cloud_provider = "juniq"
+api_kind       = "custom"
+tier           = "research_only"
+auth_required  = true
+pricing_notes  = "Accessed via JUNIQ at Jülich Supercomputing Centre. Not publicly cloud-listed."
+sdk_packages   = []
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 30
+source_url   = "https://eleqtron.com/forschungszentrum-juelich-und-eleqtron-entwickeln-modularen-quanten-supercomputer-made-in-nrw/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/eleqtron-epiq-juelich.html"
+sha256       = "fd9e299b369c47896c2199fdcc85b5441b8b5ddb478428837236cc5ab318361c"
+notes        = "eleQtron press release (DE): 'Pilotsystem mit der Raumtemperatur-QPU HiQ mit bis zu 30 Ionenfallen-Qubits aufbauen und im Laufe des nächsten Jahres für die Integration mit dem Jülicher Supercomputer JURECA DC installieren.'"
+
+[[provenance]]
+field_path   = "organization"
+value        = "eleQtron GmbH × FZ Jülich; NRW state funding"
+source_url   = "https://eleqtron.com/en/company/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/eleqtron-company.html"
+sha256       = "e5cfc2fbe7bd9b31ecae8a94ab1b48a1bd7f684b723916f357f8b9000c91fb9a"
+notes        = "eleQtron corporate page: founded 2020; Quantum Optics Chair Siegen spinout; founders Wunderlich, Johanning, Leisse; MAGIC technology; order volume >€50M."
+
+[[provenance]]
+field_path   = "family.modality"
+value        = "trapped_ion (MAGIC)"
+source_url   = "https://eleqtron.com/forschungszentrum-juelich-und-eleqtron-entwickeln-modularen-quanten-supercomputer-made-in-nrw/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/eleqtron-epiq-juelich.html"
+sha256       = "fd9e299b369c47896c2199fdcc85b5441b8b5ddb478428837236cc5ab318361c"
+notes        = "MAGIC ('MAgnetic Gradient Induced Coupling') — qubits addressed by RF/microwave in static B-field gradient, not individual laser beams."

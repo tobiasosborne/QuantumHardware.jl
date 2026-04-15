@@ -87,9 +87,19 @@ follows the 50-qubit Hamburg delivery (January 2027).
 [[provenance]]
 field_path = "device.num_qubits"
 value = 200
-source_url = "https://qudora.com/news/"
+source_url = "https://qudora.com/news/qudora-presents-its-upcoming-quantum-computer-system-at-braunschweig-headquarters/"
+source_kind = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path = "sources/2026/04/15/qudora-bs-200-announcement.html"
+sha256 = "accee5f5834c0b4d0f5964438984233195c82d0f2ffeb91a5abbcd7d2874b347"
+notes = "QUDORA Braunschweig-HQ announcement: 'will be put in operation starting next year and reaching 200 high-fidelity qubits through 2027.' Company operates across Braunschweig, Hannover, and Hamburg; QVLS member; >40 employees at the Rolleiwerke HQ."
+
+[[provenance]]
+field_path = "organization.parent"
+value = "PTB + TU Braunschweig + Leibniz U Hannover spinout"
+source_url = "https://qci.dlr.de/en/partner/qudora/"
 source_kind = "vendor_doc"
-retrieved_at = 2026-04-14T15:27:00Z
-local_path = "sources/2026/04/14/qudora-news.html"
-sha256 = "7fae93d386d759b3766ec6932f4a53df8c10d6484e242cd65bc003246ff77f13"
-notes = "QUDORA news page: 'reaching 200 high-fidelity qubits through 2027'."
+retrieved_at = 2026-04-15T00:00:00Z
+local_path = "sources/2026/04/15/dlr-qci-qudora-partner-page.html"
+sha256 = "23964c805948ab30e333399e406e1c4da3ce372e393d77fbfb1cb8c89eea4337"
+notes = "DLR QCI partner page confirms QUDORA's spinout heritage from PTB + TU BS + LU Hannover; QVLS ecosystem member."
