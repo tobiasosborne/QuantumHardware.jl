@@ -1,0 +1,1651 @@
+<!DOCTYPE HTML>
+<!--[if IEMobile 7 ]><html class="no-js iem7" manifest="default.appcache?v=1"><![endif]-->
+<!--[if lt IE 7 ]><html class="no-js ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<head> <script type="text/javascript">
+/* <![CDATA[ */
+var gform;gform||(document.addEventListener("gform_main_scripts_loaded",function(){gform.scriptsLoaded=!0}),document.addEventListener("gform/theme/scripts_loaded",function(){gform.themeScriptsLoaded=!0}),window.addEventListener("DOMContentLoaded",function(){gform.domLoaded=!0}),gform={domLoaded:!1,scriptsLoaded:!1,themeScriptsLoaded:!1,isFormEditor:()=>"function"==typeof InitializeEditor,callIfLoaded:function(o){return!(!gform.domLoaded||!gform.scriptsLoaded||!gform.themeScriptsLoaded&&!gform.isFormEditor()||(gform.isFormEditor()&&console.warn("The use of gform.initializeOnLoaded() is deprecated in the form editor context and will be removed in Gravity Forms 3.1."),o(),0))},initializeOnLoaded:function(o){gform.callIfLoaded(o)||(document.addEventListener("gform_main_scripts_loaded",()=>{gform.scriptsLoaded=!0,gform.callIfLoaded(o)}),document.addEventListener("gform/theme/scripts_loaded",()=>{gform.themeScriptsLoaded=!0,gform.callIfLoaded(o)}),window.addEventListener("DOMContentLoaded",()=>{gform.domLoaded=!0,gform.callIfLoaded(o)}))},hooks:{action:{},filter:{}},addAction:function(o,r,e,t){gform.addHook("action",o,r,e,t)},addFilter:function(o,r,e,t){gform.addHook("filter",o,r,e,t)},doAction:function(o){gform.doHook("action",o,arguments)},applyFilters:function(o){return gform.doHook("filter",o,arguments)},removeAction:function(o,r){gform.removeHook("action",o,r)},removeFilter:function(o,r,e){gform.removeHook("filter",o,r,e)},addHook:function(o,r,e,t,n){null==gform.hooks[o][r]&&(gform.hooks[o][r]=[]);var d=gform.hooks[o][r];null==n&&(n=r+"_"+d.length),gform.hooks[o][r].push({tag:n,callable:e,priority:t=null==t?10:t})},doHook:function(r,o,e){var t;if(e=Array.prototype.slice.call(e,1),null!=gform.hooks[r][o]&&((o=gform.hooks[r][o]).sort(function(o,r){return o.priority-r.priority}),o.forEach(function(o){"function"!=typeof(t=o.callable)&&(t=window[t]),"action"==r?t.apply(null,e):e[0]=t.apply(null,e)})),"filter"==r)return e[0]},removeHook:function(o,r,t,n){var e;null!=gform.hooks[o][r]&&(e=(e=gform.hooks[o][r]).filter(function(o,r,e){return!!(null!=n&&n!=o.tag||null!=t&&t!=o.priority)}),gform.hooks[o][r]=e)}});
+/* ]]> */
+</script>
+<meta charset="UTF-8" /><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	<title>Products &#8226; Oxford Ionics</title>
+<link data-rocket-prefetch href="https://cdn.jsdelivr.net" rel="dns-prefetch">
+<link data-rocket-prefetch href="https://kit.fontawesome.com" rel="dns-prefetch"><link rel="preload" data-rocket-preload as="image" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/logo.png" fetchpriority="high">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="pingback" href="" />
+	<link rel="icon" type="image/png" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/favicon.svg" />
+	<link rel="shortcut icon" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/apple-touch-icon.png" />
+	<link rel="manifest" href="https://www.oxionics.com/wp-content/themes/oxionics/img/framework/site.webmanifest" />
+
+	<!-- Styles all enqueued within functions/enqueue/enqueue-styles.php -->
+
+	<!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-4M72YCE5L6"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4M72YCE5L6');
+</script>
+	<!-- FONTS -->
+	<link data-minify="1" rel="stylesheet" href="https://www.oxionics.com/wp-content/cache/min/1/qwg1cge.css?ver=1772110781">
+
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<script type="text/rocketlazyloadscript" data-minify="1" id="cookieyes" data-rocket-type="text/javascript" data-rocket-src="https://www.oxionics.com/wp-content/cache/min/1/client_data/2e3dd4ffd1fb53c818efb007/script.js?ver=1772110781" data-rocket-defer defer></script>
+	<!-- This site is optimized with the Yoast SEO plugin v27.3 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<link rel="canonical" href="https://www.oxionics.com/products/" />
+	<meta property="og:locale" content="en_GB" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Products &#8226; Oxford Ionics" />
+	<meta property="og:url" content="https://www.oxionics.com/products/" />
+	<meta property="og:site_name" content="Oxford Ionics" />
+	<meta property="article:modified_time" content="2025-10-24T15:56:14+00:00" />
+	<meta property="og:image" content="https://www.oxionics.com/wp-content/uploads/2025/08/facebook-share-oxionics.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="675" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@oxfordionics" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"WebPage","@id":"https:\/\/www.oxionics.com\/products\/","url":"https:\/\/www.oxionics.com\/products\/","name":"Products &#8226; Oxford Ionics","isPartOf":{"@id":"https:\/\/www.oxionics.com\/#website"},"datePublished":"2025-08-26T12:47:23+00:00","dateModified":"2025-10-24T15:56:14+00:00","breadcrumb":{"@id":"https:\/\/www.oxionics.com\/products\/#breadcrumb"},"inLanguage":"en-GB","potentialAction":[{"@type":"ReadAction","target":["https:\/\/www.oxionics.com\/products\/"]}]},{"@type":"BreadcrumbList","@id":"https:\/\/www.oxionics.com\/products\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www.oxionics.com\/"},{"@type":"ListItem","position":2,"name":"Products"}]},{"@type":"WebSite","@id":"https:\/\/www.oxionics.com\/#website","url":"https:\/\/www.oxionics.com\/","name":"Oxford Ionics","description":"Oxford Ionics are world-leading innovators, creating the unique technologies which will bring Quantum Computing from the theoretical to the indispensable.","publisher":{"@id":"https:\/\/www.oxionics.com\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.oxionics.com\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-GB"},{"@type":"Organization","@id":"https:\/\/www.oxionics.com\/#organization","name":"Oxford Ionics","url":"https:\/\/www.oxionics.com\/","logo":{"@type":"ImageObject","inLanguage":"en-GB","@id":"https:\/\/www.oxionics.com\/#\/schema\/logo\/image\/","url":"https:\/\/www.oxionics.com\/wp-content\/uploads\/2025\/08\/OI_HeroWordmark_RGB_Black-scaled-e1757583974406.png","contentUrl":"https:\/\/www.oxionics.com\/wp-content\/uploads\/2025\/08\/OI_HeroWordmark_RGB_Black-scaled-e1757583974406.png","width":2300,"height":1400,"caption":"Oxford Ionics"},"image":{"@id":"https:\/\/www.oxionics.com\/#\/schema\/logo\/image\/"},"sameAs":["https:\/\/x.com\/oxfordionics","https:\/\/www.linkedin.com\/company\/oxfordionics\/"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//ajax.googleapis.com' />
+<link rel='dns-prefetch' href='//cdn.plyr.io' />
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//kit.fontawesome.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://www.oxionics.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.oxionics.com%2Fproducts%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://www.oxionics.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.oxionics.com%2Fproducts%2F&#038;format=xml" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='fancybox-css' href='https://www.oxionics.com/wp-content/cache/min/1/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css?ver=1772110781' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='plyr-css-css' href='https://www.oxionics.com/wp-content/cache/min/1/3.6.12/plyr.css?ver=1772110781' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='animate-css' href='https://www.oxionics.com/wp-content/cache/min/1/ajax/libs/animate.css/4.1.1/animate.min.css?ver=1772110781' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='main-css' href='https://www.oxionics.com/wp-content/cache/min/1/wp-content/themes/oxionics/style.min.css?ver=1772110781' type='text/css' media='all' />
+<link rel="https://api.w.org/" href="https://www.oxionics.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://www.oxionics.com/wp-json/wp/v2/pages/2129" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.oxionics.com/xmlrpc.php?rsd" />
+<link rel='shortlink' href='https://www.oxionics.com/?p=2129' />
+<link rel="icon" href="https://www.oxionics.com/wp-content/uploads/2025/08/cropped-Symbol-in-box-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.oxionics.com/wp-content/uploads/2025/08/cropped-Symbol-in-box-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.oxionics.com/wp-content/uploads/2025/08/cropped-Symbol-in-box-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.oxionics.com/wp-content/uploads/2025/08/cropped-Symbol-in-box-270x270.png" />
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link rel='stylesheet' id='gravity_forms_theme_reset-css' href='https://www.oxionics.com/wp-content/plugins/gravityforms/assets/css/dist/gravity-forms-theme-reset.min.css?ver=2.9.31' type='text/css' media='all' />
+<link rel='stylesheet' id='gravity_forms_theme_foundation-css' href='https://www.oxionics.com/wp-content/plugins/gravityforms/assets/css/dist/gravity-forms-theme-foundation.min.css?ver=2.9.31' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='gravity_forms_theme_framework-css' href='https://www.oxionics.com/wp-content/cache/min/1/wp-content/plugins/gravityforms/assets/css/dist/gravity-forms-theme-framework.min.css?ver=1772110781' type='text/css' media='all' />
+<link rel='stylesheet' id='gravity_forms_orbital_theme-css' href='https://www.oxionics.com/wp-content/plugins/gravityforms/assets/css/dist/gravity-forms-orbital-theme.min.css?ver=2.9.31' type='text/css' media='all' />
+
+<style id="rocket-lazyrender-inline-css">[data-wpr-lazyrender] {content-visibility: auto;}</style><meta name="generator" content="WP Rocket 3.21.0.1" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_preconnect_external_domains wpr_automatic_lazy_rendering wpr_oci wpr_minify_css wpr_preload_links wpr_desktop" /></head>
+
+<body class="wp-singular page-template page-template-template-product page-template-template-product-php page page-id-2129 wp-theme-oxionics products">
+
+
+<header  class="siteheader">
+			<nav class="mobnav" id="mobnav">
+		<div class="mobnav__bd bd">
+      <div class="mobnav__wrap">
+      
+        <nav class="sitenav sitenav--mobile">
+          <ul class="noline">
+                        <li class="sitenav__item " data-index="0">
+                
+    	<a class="sitenav__link text-smlsitenav__link--current" href="https://www.oxionics.com/products" target="">Products</a>
+
+                    <div class="sitenav__item__dropdownarrow"></div>
+                              </li>
+                                    <li class="sitenav__item sitenav__item--hasdropdown" data-index="1">
+                
+    	<a class="sitenav__link text-sml" href="https://www.oxionics.com/our-technology/" target="">Technology</a>
+
+                    <div class="sitenav__item__dropdownarrow"></div>
+                                    <div class="sitenav__item__dropdown dropdown">
+                      <ul class="dropdown__list color-dark-70">
+                                                  <li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/our-technology/" target="">Our Technology</a>
+
+    </li>
+                                                  <li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/about-quantum/" target="">About Quantum</a>
+
+    </li>
+                                              </ul>
+                    </div>
+                                                </li>
+                                    <li class="sitenav__item sitenav__item--hasdropdown" data-index="2">
+                
+    	<a class="sitenav__link text-sml" href="https://www.oxionics.com/about-us/" target="">Company</a>
+
+                    <div class="sitenav__item__dropdownarrow"></div>
+                                    <div class="sitenav__item__dropdown dropdown">
+                      <ul class="dropdown__list color-dark-70">
+                                                  <li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/about-us/" target="">About us</a>
+
+    </li>
+                                                  <li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/news-events/" target="">News & Events</a>
+
+    </li>
+                                              </ul>
+                    </div>
+                                                </li>
+                                    <li class="sitenav__item " data-index="3">
+                
+    	<a class="sitenav__link text-sml" href="https://www.oxionics.com/blogs/" target="">Resources</a>
+
+                    <div class="sitenav__item__dropdownarrow"></div>
+                              </li>
+                                              <li class="sitenav__item ">
+                
+    	<a class="sitenav__link text-sml " href="https://www.oxionics.com/careers/" target="">Careers</a>
+
+                    <div class="sitenav__item__dropdownarrow"></div>
+                              </li>
+                                
+          </ul> 
+        </nav>
+
+        <div class="mobnav__footer">
+          <div class="row align-end">
+            <div class="col col-1-2">
+                              <ul class="mobnav__legallinks text-sml list-style-none noline">
+                                        <li>
+    	<a class="sitefooter__link" href="https://www.oxionics.com/privacy-policy/" target="">Privacy Policy</a>
+
+    </li>
+                                                        <li><a href="javascript:;" class="cky-banner-element">Cookie Settings</a></li>
+                </ul>
+                          </div>
+            <div class="col col-1-2">
+                              
+    	<a class="sitenav__btn btn" href="https://www.oxionics.com/contact-us/" target="">Contact us</a>
+
+    </li>
+                          </div>
+          </div>
+        </div>
+      </div><!-- /mobnav__wrap -->
+       
+		</div><!-- /mobnav__bd -->
+	</nav>
+	<div  class="siteheader__wrap">
+		<div  class="siteheader__bd bd">
+			<div class="siteheader__logo noline">
+				<a href="https://www.oxionics.com">
+					<div class="siteheader__logo__img" alt="Oxford Ionics"></div>
+				</a>
+			</div>
+			<div class="visuallyhidden">Oxford Ionics are world-leading innovators, creating the unique technologies which will bring Quantum Computing from the theoretical to the indispensable.</div>
+			<nav class="siteheader__mobtools">
+				<ul class="inlinenavlist noline">
+					<li><a href="#mobnav" class="mobnav-toggle" title="Menu"><span class="mobnav-toggle__icon"></span></a></li>
+				</ul>
+			</nav>
+			
+<nav class="sitenav sitenav--center text-xsml">
+	<ul class="inlinenavlist noline">
+    				<li class="sitenav__item " data-index="0">
+					
+    	<a class="sitenav__link sitenav__link--current" href="https://www.oxionics.com/products" target="">Products</a>
+
+    					<div class="sitenav__item__dropdownarrow"></div>
+									</li>
+									<li class="sitenav__item sitenav__item--hasdropdown" data-index="1">
+					
+    	<a class="sitenav__link " href="https://www.oxionics.com/our-technology/" target="">Technology</a>
+
+    					<div class="sitenav__item__dropdownarrow"></div>
+												<div class="sitenav__item__dropdown dropdown">
+								<ul class="dropdown__list">
+                  <span class="dot"></span>
+																			<li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/our-technology/" target="">Our Technology</a>
+
+    </li>
+																			<li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/about-quantum/" target="">About Quantum</a>
+
+    </li>
+																	</ul>
+							</div>
+															</li>
+									<li class="sitenav__item sitenav__item--hasdropdown" data-index="2">
+					
+    	<a class="sitenav__link " href="https://www.oxionics.com/about-us/" target="">Company</a>
+
+    					<div class="sitenav__item__dropdownarrow"></div>
+												<div class="sitenav__item__dropdown dropdown">
+								<ul class="dropdown__list">
+                  <span class="dot"></span>
+																			<li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/about-us/" target="">About us</a>
+
+    </li>
+																			<li>
+    	<a class="dropdown__link " href="https://www.oxionics.com/news-events/" target="">News & Events</a>
+
+    </li>
+																	</ul>
+							</div>
+															</li>
+									<li class="sitenav__item " data-index="3">
+					
+    	<a class="sitenav__link " href="https://www.oxionics.com/blogs/" target="">Resources</a>
+
+    					<div class="sitenav__item__dropdownarrow"></div>
+									</li>
+					
+	</ul>
+</nav>
+<nav class="sitenav sitenav--right text-xsml">
+	<ul class="inlinenavlist">
+						<li class="sitenav__item ">
+					
+    	<a class="sitenav__link noline " href="https://www.oxionics.com/careers/" target="">Careers</a>
+
+    					<div class="sitenav__item__dropdownarrow"></div>
+									</li>
+										<li class="sitenav__item sitenav__item--btn">
+    	<a class="sitenav__btn btn" href="https://www.oxionics.com/contact-us/" target="">Contact us</a>
+
+    </li>
+			</ul>
+</nav>		</div><!-- /siteheader__bd -->
+	</div><!-- /siteheader__wrap -->
+  </header><!-- /siteheader -->
+<div  class="layoutgrid">
+  <div  class="layoutgrid__bd bd">
+    <div  class="row">
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+      <div class="col col-1 col-1-12"><span></span></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div  class="siteheader siteheader--padder">
+	<div  class="siteheader__wrap">
+	</div>
+</div>
+
+
+	<section  class="main main--singlepost">
+
+		<header  class="pageheader pageheader--product pageheader--100vh pageheader--img mb color-white pageheader--bg">
+	<div  class="pageheader__bd bd">
+    <div class="pageheader__100vhwrap">
+      <div class="pageheader__body pt--double pb--double">
+        <div class="pageheader__top">
+          <div class="product__mark"><svg width="103" height="86" viewBox="0 0 103 86" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mark" clip-path="url(#clip0_3817_5999)">
+<path id="Vector" d="M93.235 19.48C98.6256 19.48 103 15.1182 103 9.73998C103 4.36176 98.6256 0 93.235 0C87.8444 0 83.4702 4.36176 83.4702 9.73998C83.4702 15.1182 87.8444 19.48 93.235 19.48Z" fill="#7BF179"/>
+<path id="Vector_2" d="M93.235 41.7133C98.6256 41.7133 103 37.3516 103 31.9734C103 26.5952 98.6256 22.2334 93.235 22.2334C87.8444 22.2334 83.4702 26.5952 83.4702 31.9734C83.4702 37.3516 87.8444 41.7133 93.235 41.7133Z" fill="white"/>
+<path id="Vector_3" d="M93.235 63.831C98.6256 63.831 103 59.4693 103 54.0911C103 48.7128 98.6256 44.3511 93.235 44.3511C87.8444 44.3511 83.4702 48.7128 83.4702 54.0911C83.4702 59.4693 87.8444 63.831 93.235 63.831Z" fill="white"/>
+<path id="Vector_4" d="M54.1501 63.831C59.5406 63.831 63.9149 59.4693 63.9149 54.0911C63.9149 48.7128 59.5406 44.3511 54.1501 44.3511C48.7595 44.3511 44.3853 48.7128 44.3853 54.0911C44.3853 59.4693 48.7595 63.831 54.1501 63.831Z" fill="white"/>
+<path id="Vector_5" d="M9.7648 41.7133C15.1554 41.7133 19.5296 37.3516 19.5296 31.9734C19.5296 26.5952 15.1554 22.2334 9.7648 22.2334C4.37422 22.2334 0 26.5952 0 31.9734C0 37.3516 4.37422 41.7133 9.7648 41.7133Z" fill="white"/>
+<path id="Vector_6" d="M93.235 86C98.6256 86 103 81.6382 103 76.26C103 70.8818 98.6256 66.52 93.235 66.52C87.8444 66.52 83.4702 70.8818 83.4702 76.26C83.4702 81.6382 87.8444 86 93.235 86Z" fill="white"/>
+<path id="Vector_7" d="M63.9727 31.9475C63.9727 27.7272 61.2646 24.1761 57.5079 22.7929C54.4202 21.6542 49.1712 23.2561 44.9513 19.0359C40.7315 14.8157 42.3332 9.56611 41.2011 6.48457C39.8116 2.72754 36.2608 0.0126953 32.0409 0.0126953C29.3199 0.0126953 26.927 1.10635 25.1322 2.8948C23.3375 4.68325 22.2568 7.10216 22.2568 9.7977C22.2568 14.0179 24.965 17.5691 28.7217 18.9523C31.8094 20.0909 37.0584 18.4891 41.2783 22.7093C45.5045 26.9359 43.8964 32.1791 45.0285 35.2606C46.4115 39.0176 49.9624 41.726 54.1822 41.726C56.8775 41.726 59.3026 40.6324 61.0845 38.8439C62.8663 37.0619 63.9663 34.6366 63.9663 31.941L63.9727 31.9475Z" fill="white"/>
+<path id="Vector_8" d="M41.7158 76.215C41.7158 71.9947 39.0077 68.4436 35.251 67.0604C32.1633 65.9217 26.9142 67.5236 22.6944 63.3034C18.4681 59.0767 20.0763 53.8336 18.9441 50.7521C17.5611 46.995 14.0103 44.2866 9.79045 44.2866C7.06943 44.2866 4.67647 45.3803 2.88175 47.1687C1.09347 48.9572 0.00634766 51.3761 0.00634766 54.0716C0.00634766 58.2919 2.7145 61.843 6.47119 63.2262C9.55887 64.3649 14.8079 62.763 19.0278 66.9832C23.254 71.2099 21.6459 76.453 22.778 79.5345C24.161 83.2916 27.7119 86 31.9317 86C34.627 86 37.0521 84.9063 38.834 83.1179C40.6158 81.3358 41.7158 78.9105 41.7158 76.215Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_3817_5999">
+<rect width="103" height="86" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+</div>
+                      <h1 class="pageheader__producttag text-tiny">Products</h1>
+                  </div>
+        <h2 class="pageheader__heading text-large">The Oxford Ionics Quantum Computer</h2>                  <div class="pageheader__leader o-70">A scalable quantum platform that delivers revolutionary power, accelerating your journey into the next era of computing.</div>
+                          <div class="pageheader__cta">
+                  <a class="btn btn--primary" data-fancybox data-src="#popupForm1">Schedule a call</a>
+    
+      
+    	<a class="btn btn--border" href="https://www.oxionics.com/our-technology/" target="">Our technology</a>
+
+              </div>
+              </div><!-- /pageheader__body -->
+      <div class="pageheader__scrollcta text-tiny">Scroll to explore</div>
+    </div>
+	</div><!-- /pageheader__bd -->
+			<div  class="pageheader__bg">
+						<div class="mediaimg pageheader__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy mediaimg__img--bg--cover" role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7340-00200-edit-5-reduced-2000x1334.jpg" style="background-position: center center"></div>
+							</div>
+					</div>
+	</header><!-- pageheader -->
+		<!-- HIDES ACF FIELDS for use with WP password protect feature -->
+		
+			<section  class="module module--text-content-columns text-content-columns mt mb  pt pb  module--bg bg-dark color-white">
+	<div  class="module__bd bd">
+            <div class="row row--mb justify-end">
+		  <div class="col col-1 col-lg-3-4">
+
+				<div class="row row--mb">
+											<div class="col col-1 col-md-2-3 col-ws-5-9 effect effect--default">
+																						<div class="contentarea text-reg o-70">
+									<p><span style="font-weight: 400">Our high-performance, trapped-ion quantum computers are engineered to drive value for your business from day one. Powered by our proprietary <a href="https://www.oxionics.com/our-technology/#:~:text=Our%20approach-,Electronic%20Qubit%20Control,-A%20fundamentally%20unique">Electronic Qubit Control</a> technology, </span><span style="font-weight: 400">Oxford Ionics quantum computers deliver unparalleled performance, seamless integration, and field-upgradeable architecture. This fundamental technology is manufactured via the existing semiconductor supply chain, making it inherently scalable and allowing our customers to benefit from access to increased compute power at unprecedented speed. </span></p>
+<p><span style="font-weight: 400">Whether you’re exploring early applications or scaling to production workloads, our systems evolve with your organisation – ensuring your business remains at the very forefront of quantum innovation.</span></p>
+								</div>
+																				</div>
+									</div>
+			</div>
+		</div><!-- /row -->
+    	</div>
+</section><!-- /module--text-content-columns -->
+<section  class="module module--list-grid list-grid mt mb  pt pb  module--bg bg-dark color-white module--reduce-mt ">
+	<div  class="module__bd bd">
+
+        <div class="section-heading effect effect--default section-heading--preheadingonly">
+      <div class="row">
+        <div class="col__preheading col col-1 col-lg-1-4">
+                      <h2 class="section-heading__preheading text-xsml">Key features</h2>
+                  </div>
+        <div class="col col-1 col-md-2-3 col-xl-1-2">
+                  </div>
+      </div>
+    </div><!-- section-heading -->    
+  
+		<div class="row row--mb justify-end">
+			<div class="col col-1 col-lg-3-4">
+        
+				<div class="row row--grid row--mb">
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 58 58">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="31.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="56.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											Ultra-high fidelity qubits										</h4>
+																												<div class="item__textarea o-70 text-xsml">Our trapped-ion qubits have record-breaking performance in all key quantum computing metrics, including 99.99% two-qubit fidelity, drastically reducing error correction overheads and unlocking value sooner. </div>
+															
+								</div>
+							</div>
+						</div>
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 53 63">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="46.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="61.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											Field-upgradable systems										</h4>
+																												<div class="item__textarea o-70 text-xsml">Oxford Ionics’ quantum computers can be upgraded to the highest performing systems by swapping out the credit-card-sized Quantum Processor Unit (QPU) – keeping your business at the cutting edge. </div>
+															
+								</div>
+							</div>
+						</div>
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 53 73">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="21.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="61.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="61.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="61.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="71.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="71.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="71.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="56.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="66.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											Ultra-low cross-talk parallel gates										</h4>
+																												<div class="item__textarea o-70 text-xsml">Modular, unit-cell based architecture means we can run many gates in parallel with no effect on neighbouring operations. Running operations in parallel, rather than sequentially, dramatically reduces time to solution and increases algorithm efficiency.</div>
+															
+								</div>
+							</div>
+						</div>
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 53 53">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="6.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											All-to-all connectivity										</h4>
+																												<div class="item__textarea o-70 text-xsml">Our flexible QPU architecture enables all-to-all qubit connectivity, vastly increasing algorithm efficiency and enabling a wider array of Quantum Error Correction (QEC) protocols.</div>
+															
+								</div>
+							</div>
+						</div>
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 53 28">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="1.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											Mid-circuit measurement										</h4>
+																												<div class="item__textarea o-70 text-xsml">Feed-forward by mid-circuit measurement supports Quantum Error Correction (QEC) protocols and unlocks multiple applications, including quantum-classical algorithms.</div>
+															
+								</div>
+							</div>
+						</div>
+											<div class="col col-1-2 col-lg-1-3 effect effect--default">
+							<div class="list-grid__item item item--icon flex row--column">
+								<div class="icon__wrap">
+																	<div class="item__icon icon icon--animation">
+									<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 53 53">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <circle cx="31.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="1.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="16.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="36.5" cy="51.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="51.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="1.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="31.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="16.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="36.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="21.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="26.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="31.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="26.5" cy="21.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="46.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="41.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="6.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="11.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="6.5" cy="41.5" r="1.5" fill="#2f2f3b"/>
+  <circle cx="11.5" cy="46.5" r="1.5" fill="#2f2f3b"/>
+</svg>									</div>
+																</div>
+								<div class="item__content">
+																			<h4 class="item__heading text-reg">
+											Highly automated										</h4>
+																												<div class="item__textarea o-70 text-xsml">Our technology minimises physical upkeep requirements and is self-calibrating, delivering ultra-stable, highly automated turnkey quantum computers designed to maximise uptime.</div>
+															
+								</div>
+							</div>
+						</div>
+									</div>
+			</div>
+		</div><!-- /row -->
+	</div>
+</section><!-- /module--list-grid -->
+<section  class="module module--feature-carousel feature-carousel mt mb  pt pb  module--bg bg-dark color-white">
+	<div  class="module__bd bd">
+   <div class="section-heading effect effect--default">
+              <h3 class="section-heading__heading heading-large">Benefits</h3>
+          </div><!-- section-heading -->    
+    <div class="feature-carousel__items items effect effect--default">
+
+      <div class="items__textitems row">
+        <div class="owl-carousel" data-dots="true">
+                      <div class="col col-1 col-md-1-2 col-lg-1-4">
+              <div class="item" data-id="item-0">
+                <div class="item__progress"></div>
+                                  <h4 class="item__heading text-reg">Unparalleled compute power</h4>
+                
+                                  <div class="item__description text-reg o-50">
+                    <p><span style="font-weight: 400">Our quantum computers enable you to run complex algorithms and novel error correction protocols with speed and efficiency, unlocking a breadth of possible applications.</span></p>
+                  </div>
+                              </div>
+            </div>
+                      <div class="col col-1 col-md-1-2 col-lg-1-4">
+              <div class="item" data-id="item-1">
+                <div class="item__progress"></div>
+                                  <h4 class="item__heading text-reg">High uptime &amp; reliable results</h4>
+                
+                                  <div class="item__description text-reg o-50">
+                    <p><span style="font-weight: 400">Our systems are highly automated, robust, and low-maintenance. This delivers maximum stability and uptime, allowing you to run your solutions consistently and with ease.</span></p>
+                  </div>
+                              </div>
+            </div>
+                      <div class="col col-1 col-md-1-2 col-lg-1-4">
+              <div class="item" data-id="item-2">
+                <div class="item__progress"></div>
+                                  <h4 class="item__heading text-reg">Integration into your world</h4>
+                
+                                  <div class="item__description text-reg o-50">
+                    <p><span style="font-weight: 400">Our quantum computers are compact and require no specialised facilities or bespoke labs, fitting seamlessly into existing computing infrastructure and delivering value from day one.</span></p>
+                  </div>
+                              </div>
+            </div>
+                      <div class="col col-1 col-md-1-2 col-lg-1-4">
+              <div class="item" data-id="item-3">
+                <div class="item__progress"></div>
+                                  <h4 class="item__heading text-reg">Future-proof</h4>
+                
+                                  <div class="item__description text-reg o-50">
+                    <p><span style="font-weight: 400">Your business can stay at the cutting edge of innovation with simple, on-site upgrades to the most advanced QPUs – so the system you buy today continues to generate value up to thousands of qubits and beyond.</span></p>
+                  </div>
+                              </div>
+            </div>
+                  </div>
+      </div><!-- /items__textitems -->
+     
+      <div class="items__mediaitems">
+        <div class="owl-carousel">
+                        <div class="mediaitem" data-id="item-0">
+                			<div class="mediaimg mediaitem__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7340-01140-edit-purple-scaled-e1755621859120-2000x1027.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                        <div class="mediaitem" data-id="item-1">
+                			<div class="mediaimg mediaitem__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7340-01760-edit2-reduced-1600x1600.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                        <div class="mediaitem" data-id="item-2">
+                			<div class="mediaimg mediaitem__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7340-00350-edit-reduced-2000x1334.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                        <div class="mediaitem" data-id="item-3">
+                			<div class="mediaimg mediaitem__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/08/7406-2580-reduced-1.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                  </div>
+      </div>
+		</div><!-- /items -->
+    	</div>
+</section><!-- /module--featured-carousel -->
+<section  class="module module--roadmap roadmap mt mb  pt pb  module--bg bg-dark color-white">
+	<div  class="module__bd bd">
+    <div class="section-heading pt--half">
+      <div class="row">
+        <div class="col col-1 col-md-2-3 col-lg-1-2 effect effect--default">
+                      <h3 class="section-heading__heading heading-med">
+                          <span class="section-heading__headingfirstline">A powerful roadmap</span>
+                                      <span class="section-heading__headingsecondline o-40">to scalable fault-tolerant quantum computing</span>
+            
+            
+    	<a class="section-heading__cta btn btn--secondary" href="https://www.oxionics.com/blogs/unveiling-oxford-ionics-development-roadmap-to-scalable-fault-tolerant-quantum-computing/" target="">Learn more</a>
+
+                </h3>
+            
+                    
+        </div>
+      </div>
+    </div>
+    <div class="row row--carousel">
+      <div class="owl-carousel" data-equalheights="true">
+                  
+					<div class="col col-1 col-sm-1-2 col-md-1-3 col-lg-1-4 col-xl-1-5 effect effect--default">
+            <div class="roadmap__item">
+              
+              <div class="roadmap__item__content">
+                                  <div class="roadmap__item__year text-tiny mb--em">
+                    2025                  </div>
+                
+                                  <h4 class="roadmap__item__heading text-reg mb--none">Foundation</h4>
+                
+                                  <div class="roadmap__item__textcontent text-reg o-70">16-64 qubit systems at 99.99% fidelity to power early quantum research</div>
+                              </div>
+                              			<div class="mediaimg roadmap__item__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/roadmap-chip1-transparent.svg" style="background-position: center center"></div>
+							</div>
+			                          </div>
+          </div>
+                            
+					<div class="col col-1 col-sm-1-2 col-md-1-3 col-lg-1-4 col-xl-1-5 effect effect--default">
+            <div class="roadmap__item">
+              
+              <div class="roadmap__item__content">
+                                  <div class="roadmap__item__year text-tiny mb--em">
+                    2026                  </div>
+                
+                                  <h4 class="roadmap__item__heading text-reg mb--none">Enterprise-grade</h4>
+                
+                                  <div class="roadmap__item__textcontent text-reg o-70">256+ qubit devices to power advanced quantum applications development</div>
+                              </div>
+                              			<div class="mediaimg roadmap__item__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/roadmap-chip2-transparent.svg" style="background-position: center center"></div>
+							</div>
+			                          </div>
+          </div>
+                            
+					<div class="col col-1 col-sm-1-2 col-md-1-3 col-lg-1-4 col-xl-1-5 effect effect--default">
+            <div class="roadmap__item">
+              
+              <div class="roadmap__item__content">
+                                  <div class="roadmap__item__year text-tiny mb--em">
+                    2027                  </div>
+                
+                                  <h4 class="roadmap__item__heading text-reg mb--none">Value at scale</h4>
+                
+                                  <div class="roadmap__item__textcontent text-reg o-70">10,000+ qubit systems to realise broad commercial value across industries</div>
+                              </div>
+                              			<div class="mediaimg roadmap__item__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/roadmap-chip3-transparent-1000x956.png" style="background-position: center center"></div>
+							</div>
+			                          </div>
+          </div>
+                        </div>
+    </div>
+	</div>
+</section><!-- /module--roadmap -->
+<section  class="module module--listed-content listed-content mt mb  pt pb  module--bg bg-dark color-white">
+	<div  class="module__bd bd effect effect--default">
+        <div class="section-heading effect effect--default ">
+      <div class="row">
+        <div class="col__preheading col col-1 col-lg-1-4">
+                      <h2 class="section-heading__preheading text-xsml">Use cases</h2>
+                  </div>
+        <div class="col col-1 col-md-2-3 col-xl-1-2">
+                      <h3 class="section-heading__heading heading-large">
+                          <span class="section-heading__headingfirstline">Unlock the power of quantum</span>
+                                      <span class="section-heading__headingsecondline o-40">Shaping the future for every user</span>
+                        </h3>
+                  </div>
+      </div>
+    </div><!-- section-heading -->    
+      <div class="listed-content__content row justify-end">
+			<div class="col col-1 col-lg-3-4">
+        <div class="row row--rowreverse--md">
+          <div class="col col-1 col-md-1-2">
+            <div class="listed-content__items items items--media">
+                          <div class="item item--media active" data-id="item-0">
+                			<div class="mediaimg item__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/2025-05-02OxfordIonics-32-reduced-scaled.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                          <div class="item item--media " data-id="item-1">
+                			<div class="mediaimg item__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7635-1910-reduced-scaled.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                          <div class="item item--media " data-id="item-2">
+                			<div class="mediaimg item__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/7340-00040-edit2-reduced-scaled.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                          <div class="item item--media " data-id="item-3">
+                			<div class="mediaimg item__image">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/08/7406-2260-reduced.jpg" style="background-position: center center"></div>
+							</div>
+			              </div>
+                        </div>
+          </div>
+          <div class="col col-1 col-md-1-2 col--textcontent">
+            <div class="listed-content__nav">
+              <ul class="listed-content__options text-reg">
+                <span class="dot"></span>
+                              <li class="listed-content__option active" data-id="0"><button >Universities and research labs</button></li>
+                                              <li class="listed-content__option " data-id="1"><button >Government institutions</button></li>
+                                              <li class="listed-content__option " data-id="2"><button >HPC and data centres</button></li>
+                                              <li class="listed-content__option " data-id="3"><button >Enterprises</button></li>
+                                            </ul>
+            </div>
+            <div class="listed-content__items items items--textcontent">
+                              <div class="item item--textcontent active" data-id="item-0">
+                  <div class="inner">
+                   
+                      <div class="item__textcontent">
+                                                  <div class="item__content contentarea text-xsml o-70">
+                            <p><span style="font-weight: 400">Whether conducting crucial early research or groundbreaking algorithm development, our quantum computers empower universities and national laboratories to explore complex problems beyond the reach of classical computing. By leveraging our high-performance quantum computers, researchers can experiment with cutting-edge quantum architectures, validate theoretical models, and train the next generation of scientists in quantum technologies. </span></p>
+                          </div>
+                        
+                                              </div>
+                  </div>
+                </div>
+                              <div class="item item--textcontent " data-id="item-1">
+                  <div class="inner">
+                   
+                      <div class="item__textcontent">
+                                                  <div class="item__content contentarea text-xsml o-70">
+                            <p><span style="font-weight: 400">Quantum computers are a crucial technology for government institutions, addressing key national priorities like digital security, climate modelling, and infrastructure optimisation. Oxford Ionics’ quantum computers can enable government agencies to simulate complex physical systems, strengthen cybersecurity defences, and accelerate breakthroughs in materials science and energy research – driving national innovation, security, and digital sovereignty. </span></p>
+                          </div>
+                        
+                                              </div>
+                  </div>
+                </div>
+                              <div class="item item--textcontent " data-id="item-2">
+                  <div class="inner">
+                   
+                      <div class="item__textcontent">
+                                                  <div class="item__content contentarea text-xsml o-70">
+                            <p><span style="font-weight: 400">With seamless integration into existing data centres, Oxford Ionics quantum computers help HPC customers extend their capabilities beyond classical computing to tackle problems such as advanced machine learning, material modelling, engineering simulation, and large-scale optimisation. By leveraging our quantum computers alongside traditional supercomputers, HPC facilities can accelerate time-to-solution for complex workloads, reduce energy consumption for certain tasks, and offer cutting-edge computational services for their clients. </span></p>
+                          </div>
+                        
+                                              </div>
+                  </div>
+                </div>
+                              <div class="item item--textcontent " data-id="item-3">
+                  <div class="inner">
+                   
+                      <div class="item__textcontent">
+                                                  <div class="item__content contentarea text-xsml o-70">
+                            <p><span style="font-weight: 400">Quantum computing will pave the way for enterprises to develop fundamental, cutting-edge innovations across a range of industries, including financial services, pharmaceuticals, engineering, and manufacturing. By deploying Oxford Ionics quantum computers today, enterprises can become quantum-ready, gaining a competitive advantage through faster insights, earlier exploration of new product and service offerings, and a head start on integrating this transformative and inevitable technology.</span></p>
+                          </div>
+                        
+                                              </div>
+                  </div>
+                </div>
+                          </div><!-- /tabbed-content__items -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /bd -->
+</section><!-- /module--tabbed-content -->
+<section  class="module module--text-content-media text-content-media mt mb  pt pb  module--bg bg-dark color-white">
+	<div  class="module__bd bd">
+        <div class="section-heading effect effect--default section-heading--preheadingonly">
+      <div class="row">
+        <div class="col__preheading col col-1 col-lg-1-4">
+                      <h2 class="section-heading__preheading text-xsml">Case studies</h2>
+                  </div>
+        <div class="col col-1 col-md-2-3 col-xl-1-2">
+                  </div>
+      </div>
+    </div><!-- section-heading -->    
+  		<div class="row row--mb justify-end">
+			<div class="col col-1 col-lg-3-4">
+				<div class="row row--grid">
+					<div class="col col-1">
+												  
+							<div class="text-media effect effect--default">
+								<div class="row row--mb justify-center ">
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__text flex row--column align-start">
+																							<h4 class="heading-med font-semibold text-media__text__heading mb--em">UK National Quantum Computing Centre</h4>
+																																		<div class="contentarea text-xsml text-media__text__content o-70">
+													
+																											<div class="text-media__content-textarea ">
+															In 2025, we deployed a quantum computer called QUARTET to the UK’s National Quantum Computing Centre (NQCC). The NQCC is the UK’s National centre for quantum computing, focused on enabling the adoption of quantum computing technology across industry, academia, and government. <br />
+<br />
+QUARTET is a full-stack, trapped-ion quantum computer that leverages Oxford Ionics’ proprietary Electronic Qubit Control technology. Quartet will be used for applications and use case research, as part of the NQCC’s flagship SparQ program, aimed at accelerating the adoption of quantum technology across UK enterprises.														</div>
+																									</div>
+											
+																							
+    	<a class="btn btn--border text-media__text__btn" href="https://www.oxionics.com/announcements/oxford-ionics-delivers-quantum-computer-to-the-uks-national-quantum-computing-centre/" target="">Find out more</a>
+
+    																					</div>
+									</div>
+
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__media">
+																										<div class="mediaimg ">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/photos-b-1000x1000.jpg" style="background-position: center center"></div>
+							</div>
+																								</div>
+									</div>
+								</div>
+							</div>
+              												  
+							<div class="text-media effect effect--default">
+								<div class="row row--mb justify-center row--rowreverse--lg">
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__text flex row--column align-start">
+																							<h4 class="heading-med font-semibold text-media__text__heading mb--em">Cyberagentur</h4>
+																																		<div class="contentarea text-xsml text-media__text__content o-70">
+													
+																											<div class="text-media__content-textarea ">
+															Oxford Ionics is developing a state-of-the-art mobile quantum computer for Agentur für Innovation in der Cybersicherheit GmbH, or 'Cyberagentur'. Founded by the German Federal Government, Cyberagentur aims to progress research and innovation in the field of cybersecurity to promote the country’s internal and external security. <br />
+<br />
+Cyberagentur will use Oxford Ionics’ portable quantum computer, called Mini-Q, for application development in national security and defence. Oxford Ionics is uniquely positioned in the industry to deliver a mobile quantum computer owing to its ability to integrate everything required to trap and control its qubits onto a standard thumbnail-sized chip.														</div>
+																									</div>
+											
+																							
+    	<a class="btn btn--border text-media__text__btn" href="https://www.oxionics.com/announcements/oxford-ionics-and-infineon-technologies-to-deliver-portable-quantum-computer-to-cyberagentur-as-part-of-e35m-investment/" target="">Find out more</a>
+
+    																					</div>
+									</div>
+
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__media">
+																										<div class="mediaimg ">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/09/cyberagentur-1-1000x1000.jpg" style="background-position: center center"></div>
+							</div>
+																								</div>
+									</div>
+								</div>
+							</div>
+              												  
+							<div class="text-media effect effect--default">
+								<div class="row row--mb justify-center ">
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__text flex row--column align-start">
+																							<h4 class="heading-med font-semibold text-media__text__heading mb--em">DARPA Quantum Benchmarking Initiative</h4>
+																																		<div class="contentarea text-xsml text-media__text__content o-70">
+													
+																											<div class="text-media__content-textarea ">
+															With a long history of backing transformational advances, DARPA is the United States’ primary research and development agency focused on identifying cutting-edge technologies with the potential for national security applications. Through its Quantum Benchmarking Initiative, the agency has solicited innovative approaches to constructing utility-scale fault-tolerant quantum computers. <br />
+<br />
+Oxford Ionics was selected by DARPA to advance to the first round of its QBI program after showing DARPA its existing technology capabilities and its clear roadmap towards fault-tolerant quantum computers. Its proposed approach rests on three crucial pillars: unmatched operation fidelities, unparalleled scalability, and built using technologies that exist today. 														</div>
+																									</div>
+											
+																							
+    	<a class="btn btn--border text-media__text__btn" href="https://www.oxionics.com/announcements/darpa-selects-oxford-ionics-for-quantum-benchmarking-initiative/" target="">Find out more</a>
+
+    																					</div>
+									</div>
+
+									<div class="col col-1 col-md-1-2">
+										<div class="text-media__media">
+																										<div class="mediaimg ">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/09/photos-3-1000x1000.jpg" style="background-position: center center"></div>
+							</div>
+																								</div>
+									</div>
+								</div>
+							</div>
+              											</div>
+				</div>
+			</div>
+		</div><!-- /row -->
+	</div>
+</section><!-- /module--text-content-media -->
+	<section  class="module module--featured-resources module--featured-resources--grid mt mb  pt pb  module--bg bg-dark color-white">
+		<div  class="module__bd bd">
+
+			
+									<div class="featured__header effect effect--default">
+            <div class="featured__header__headingwrap">
+            						<h4 class="featured__header__heading text-xsml">Further reading</h4>
+                        </div>
+            
+    	<a class="btn btn--secondary" href="https://www.oxionics.com/blogs/" target="">View all blogs</a>
+
+    					</div>
+								<div class="row row--mb">
+											<div class="col col-1 col-md-1-2 col-lg-1-3 effect effect--default">
+							
+    <article class="tile tile--resource tile--default tile--blog">
+      <a class="tile__link noline" href="https://www.oxionics.com/blogs/accelerating-towards-fault-tolerance-unlocking-99-99-two-qubit-gate-fidelities/" target="_self">Read Accelerating Towards Fault Tolerance: Unlocking 99.99% Two-Qubit Gate Fidelities</a>
+      <div class="tile__wrap">
+        <div class="tile__media color-white">
+                      			<div class="mediaimg tile__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/10/www-blog2-1000x667.jpg" style="background-position: "></div>
+							</div>
+			          
+          <div class="tile__cta blockcta">
+            <div class="blockcta__link link noline text-xsml">
+              <span class="link__text">Read</span>
+              <div class="link__arrow"><div class="icon icon--hover"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.9997 0.499975C12.4034 0.499975 12.7906 0.660348 13.0761 0.945816C13.3616 1.23128 13.5219 1.61846 13.5219 2.02217C13.5219 2.42589 13.3616 2.81306 13.0761 3.09853C12.7906 3.384 12.4034 3.54437 11.9997 3.54437C11.596 3.54437 11.2088 3.384 10.9234 3.09853C10.6379 2.81306 10.4775 2.42589 10.4775 2.02217C10.4775 1.61846 10.6379 1.23128 10.9234 0.945816C11.2088 0.660348 11.596 0.499975 11.9997 0.499975Z" fill="#2F2F3B"/>
+<path d="M17.2263 5.75159C17.63 5.75159 18.0172 5.91197 18.3027 6.19743C18.5881 6.4829 18.7485 6.87008 18.7485 7.27379C18.7485 7.6775 18.5881 8.06468 18.3027 8.35015C18.0172 8.63562 17.63 8.79599 17.2263 8.79599C16.8226 8.79599 16.4354 8.63562 16.1499 8.35015C15.8645 8.06468 15.7041 7.6775 15.7041 7.27379C15.7041 6.87008 15.8645 6.4829 16.1499 6.19743C16.4354 5.91197 16.8226 5.75159 17.2263 5.75159Z" fill="#2F2F3B"/>
+<path d="M1.5222 10.9778C1.7221 10.9778 1.92004 11.0172 2.10472 11.0937C2.2894 11.1702 2.45721 11.2823 2.59856 11.4236C2.73991 11.565 2.85203 11.7328 2.92853 11.9175C3.00502 12.1021 3.0444 12.3001 3.0444 12.5C3.0444 12.6999 3.00502 12.8978 2.92853 13.0825C2.85203 13.2672 2.73991 13.435 2.59856 13.5763C2.45721 13.7177 2.2894 13.8298 2.10472 13.9063C1.92004 13.9828 1.7221 14.0222 1.5222 14.0222C1.11849 14.0222 0.731309 13.8618 0.445842 13.5763C0.160374 13.2909 -4.88906e-08 12.9037 -6.65374e-08 12.5C-8.41842e-08 12.0963 0.160374 11.7091 0.445841 11.4236C0.731309 11.1382 1.11849 10.9778 1.5222 10.9778Z" fill="#2F2F3B"/>
+<path d="M11.9997 10.9778C12.1996 10.9778 12.3976 11.0172 12.5823 11.0937C12.7669 11.1702 12.9347 11.2823 13.0761 11.4236C13.2174 11.565 13.3296 11.7328 13.4061 11.9175C13.4826 12.1021 13.5219 12.3001 13.5219 12.5C13.5219 12.6999 13.4826 12.8978 13.4061 13.0825C13.3296 13.2672 13.2174 13.435 13.0761 13.5763C12.9347 13.7177 12.7669 13.8298 12.5823 13.9063C12.3976 13.9828 12.1996 14.0222 11.9997 14.0222C11.596 14.0222 11.2088 13.8618 10.9234 13.5763C10.6379 13.2909 10.4775 12.9037 10.4775 12.5C10.4775 12.0963 10.6379 11.7091 10.9234 11.4236C11.2088 11.1382 11.596 10.9778 11.9997 10.9778Z" fill="#2F2F3B"/>
+<path d="M17.2263 10.9778C17.4262 10.9778 17.6241 11.0172 17.8088 11.0937C17.9935 11.1702 18.1613 11.2823 18.3027 11.4236C18.444 11.565 18.5561 11.7328 18.6326 11.9175C18.7091 12.1021 18.7485 12.3001 18.7485 12.5C18.7485 12.6999 18.7091 12.8978 18.6326 13.0825C18.5561 13.2672 18.444 13.435 18.3027 13.5763C18.1613 13.7177 17.9935 13.8298 17.8088 13.9063C17.6241 13.9828 17.4262 14.0222 17.2263 14.0222C16.8226 14.0222 16.4354 13.8618 16.1499 13.5763C15.8645 13.2909 15.7041 12.9037 15.7041 12.5C15.7041 12.0963 15.8645 11.7091 16.1499 11.4236C16.4354 11.1382 16.8226 10.9778 17.2263 10.9778Z" fill="#2F2F3B" />
+<path d="M6.77415 10.9778C6.97405 10.9778 7.17199 11.0172 7.35667 11.0937C7.54135 11.1702 7.70916 11.2823 7.85051 11.4236C7.99186 11.565 8.10398 11.7328 8.18048 11.9175C8.25698 12.1021 8.29635 12.3001 8.29635 12.5C8.29635 12.6999 8.25698 12.8978 8.18048 13.0825C8.10398 13.2672 7.99186 13.435 7.85051 13.5763C7.70916 13.7177 7.54135 13.8298 7.35667 13.9063C7.17199 13.9828 6.97405 14.0222 6.77415 14.0222C6.37044 14.0222 5.98326 13.8618 5.69779 13.5763C5.41233 13.2909 5.25195 12.9037 5.25195 12.5C5.25195 12.0963 5.41233 11.7091 5.69779 11.4236C5.98326 11.1382 6.37044 10.9778 6.77415 10.9778Z" fill="#2F2F3B" />
+<path d="M22.4783 10.9778C22.6782 10.9778 22.8761 11.0172 23.0608 11.0937C23.2455 11.1702 23.4133 11.2823 23.5546 11.4236C23.696 11.565 23.8081 11.7328 23.8846 11.9175C23.9611 12.1021 24.0005 12.3001 24.0005 12.5C24.0005 12.6999 23.9611 12.8978 23.8846 13.0825C23.8081 13.2672 23.696 13.435 23.5546 13.5763C23.4133 13.7177 23.2455 13.8298 23.0608 13.9063C22.8761 13.9828 22.6782 14.0222 22.4783 14.0222C22.0745 14.0222 21.6874 13.8618 21.4019 13.5763C21.1164 13.2909 20.9561 12.9037 20.9561 12.5C20.9561 12.0963 21.1164 11.7091 21.4019 11.4236C21.6874 11.1382 22.0745 10.9778 22.4783 10.9778Z" fill="#2F2F3B" />
+<path d="M17.2263 16.204C17.63 16.204 18.0172 16.3644 18.3027 16.6499C18.5881 16.9353 18.7485 17.3225 18.7485 17.7262C18.7485 18.1299 18.5881 18.5171 18.3027 18.8026C18.0172 19.088 17.63 19.2484 17.2263 19.2484C16.8226 19.2484 16.4354 19.088 16.1499 18.8026C15.8645 18.5171 15.7041 18.1299 15.7041 17.7262C15.7041 17.3225 15.8645 16.9353 16.1499 16.6499C16.4354 16.3644 16.8226 16.204 17.2263 16.204Z" fill="#2F2F3B"/>
+<path d="M11.9997 21.4556C12.4034 21.4556 12.7906 21.616 13.0761 21.9014C13.3616 22.1869 13.5219 22.5741 13.5219 22.9778C13.5219 23.3815 13.3616 23.7687 13.0761 24.0542C12.7906 24.3396 12.4034 24.5 11.9997 24.5C11.596 24.5 11.2088 24.3396 10.9234 24.0542C10.6379 23.7687 10.4775 23.3815 10.4775 22.9778C10.4775 22.5741 10.6379 22.1869 10.9234 21.9014C11.2088 21.616 11.596 21.4556 11.9997 21.4556Z" fill="#2F2F3B"/>
+</g>
+</svg>
+</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile__content bg-white">
+          <div class="tile__content__top">
+            <div class="tile__tags tags text-tiny">
+              <span class="tags__tag tags__tag--feature">Blog</span>
+                            <div class="tile__categories hiddenlinkline o-70">
+                <span class="o-70">Technology</span>              </div>
+                        </div>
+            <h3 class="tile__heading heading-reg">Accelerating Towards Fault Tolerance: Unlocking 99.99% Two-Qubit Gate Fidelities</h3>
+          </div>
+          <div class="tile__details">
+                        <div class="tile__date text-tiny o-70">21 Oct 2025</div>
+          </div>
+        </div>
+      </div>
+    </article><!-- /post -->
+
+  						</div>
+											<div class="col col-1 col-md-1-2 col-lg-1-3 effect effect--default">
+							
+    <article class="tile tile--resource tile--default tile--blog">
+      <a class="tile__link noline" href="https://www.oxionics.com/blogs/unveiling-oxford-ionics-development-roadmap-to-scalable-fault-tolerant-quantum-computing/" target="_self">Read Unveiling Oxford Ionics’ development roadmap to scalable fault-tolerant quantum computing</a>
+      <div class="tile__wrap">
+        <div class="tile__media color-white">
+                      			<div class="mediaimg tile__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/68740eb81693b24e87cf54dec7ef8eff55b1a2d3-min-1000x667.jpg" style="background-position: "></div>
+							</div>
+			          
+          <div class="tile__cta blockcta">
+            <div class="blockcta__link link noline text-xsml">
+              <span class="link__text">Read</span>
+              <div class="link__arrow"><div class="icon icon--hover"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.9997 0.499975C12.4034 0.499975 12.7906 0.660348 13.0761 0.945816C13.3616 1.23128 13.5219 1.61846 13.5219 2.02217C13.5219 2.42589 13.3616 2.81306 13.0761 3.09853C12.7906 3.384 12.4034 3.54437 11.9997 3.54437C11.596 3.54437 11.2088 3.384 10.9234 3.09853C10.6379 2.81306 10.4775 2.42589 10.4775 2.02217C10.4775 1.61846 10.6379 1.23128 10.9234 0.945816C11.2088 0.660348 11.596 0.499975 11.9997 0.499975Z" fill="#2F2F3B"/>
+<path d="M17.2263 5.75159C17.63 5.75159 18.0172 5.91197 18.3027 6.19743C18.5881 6.4829 18.7485 6.87008 18.7485 7.27379C18.7485 7.6775 18.5881 8.06468 18.3027 8.35015C18.0172 8.63562 17.63 8.79599 17.2263 8.79599C16.8226 8.79599 16.4354 8.63562 16.1499 8.35015C15.8645 8.06468 15.7041 7.6775 15.7041 7.27379C15.7041 6.87008 15.8645 6.4829 16.1499 6.19743C16.4354 5.91197 16.8226 5.75159 17.2263 5.75159Z" fill="#2F2F3B"/>
+<path d="M1.5222 10.9778C1.7221 10.9778 1.92004 11.0172 2.10472 11.0937C2.2894 11.1702 2.45721 11.2823 2.59856 11.4236C2.73991 11.565 2.85203 11.7328 2.92853 11.9175C3.00502 12.1021 3.0444 12.3001 3.0444 12.5C3.0444 12.6999 3.00502 12.8978 2.92853 13.0825C2.85203 13.2672 2.73991 13.435 2.59856 13.5763C2.45721 13.7177 2.2894 13.8298 2.10472 13.9063C1.92004 13.9828 1.7221 14.0222 1.5222 14.0222C1.11849 14.0222 0.731309 13.8618 0.445842 13.5763C0.160374 13.2909 -4.88906e-08 12.9037 -6.65374e-08 12.5C-8.41842e-08 12.0963 0.160374 11.7091 0.445841 11.4236C0.731309 11.1382 1.11849 10.9778 1.5222 10.9778Z" fill="#2F2F3B"/>
+<path d="M11.9997 10.9778C12.1996 10.9778 12.3976 11.0172 12.5823 11.0937C12.7669 11.1702 12.9347 11.2823 13.0761 11.4236C13.2174 11.565 13.3296 11.7328 13.4061 11.9175C13.4826 12.1021 13.5219 12.3001 13.5219 12.5C13.5219 12.6999 13.4826 12.8978 13.4061 13.0825C13.3296 13.2672 13.2174 13.435 13.0761 13.5763C12.9347 13.7177 12.7669 13.8298 12.5823 13.9063C12.3976 13.9828 12.1996 14.0222 11.9997 14.0222C11.596 14.0222 11.2088 13.8618 10.9234 13.5763C10.6379 13.2909 10.4775 12.9037 10.4775 12.5C10.4775 12.0963 10.6379 11.7091 10.9234 11.4236C11.2088 11.1382 11.596 10.9778 11.9997 10.9778Z" fill="#2F2F3B"/>
+<path d="M17.2263 10.9778C17.4262 10.9778 17.6241 11.0172 17.8088 11.0937C17.9935 11.1702 18.1613 11.2823 18.3027 11.4236C18.444 11.565 18.5561 11.7328 18.6326 11.9175C18.7091 12.1021 18.7485 12.3001 18.7485 12.5C18.7485 12.6999 18.7091 12.8978 18.6326 13.0825C18.5561 13.2672 18.444 13.435 18.3027 13.5763C18.1613 13.7177 17.9935 13.8298 17.8088 13.9063C17.6241 13.9828 17.4262 14.0222 17.2263 14.0222C16.8226 14.0222 16.4354 13.8618 16.1499 13.5763C15.8645 13.2909 15.7041 12.9037 15.7041 12.5C15.7041 12.0963 15.8645 11.7091 16.1499 11.4236C16.4354 11.1382 16.8226 10.9778 17.2263 10.9778Z" fill="#2F2F3B" />
+<path d="M6.77415 10.9778C6.97405 10.9778 7.17199 11.0172 7.35667 11.0937C7.54135 11.1702 7.70916 11.2823 7.85051 11.4236C7.99186 11.565 8.10398 11.7328 8.18048 11.9175C8.25698 12.1021 8.29635 12.3001 8.29635 12.5C8.29635 12.6999 8.25698 12.8978 8.18048 13.0825C8.10398 13.2672 7.99186 13.435 7.85051 13.5763C7.70916 13.7177 7.54135 13.8298 7.35667 13.9063C7.17199 13.9828 6.97405 14.0222 6.77415 14.0222C6.37044 14.0222 5.98326 13.8618 5.69779 13.5763C5.41233 13.2909 5.25195 12.9037 5.25195 12.5C5.25195 12.0963 5.41233 11.7091 5.69779 11.4236C5.98326 11.1382 6.37044 10.9778 6.77415 10.9778Z" fill="#2F2F3B" />
+<path d="M22.4783 10.9778C22.6782 10.9778 22.8761 11.0172 23.0608 11.0937C23.2455 11.1702 23.4133 11.2823 23.5546 11.4236C23.696 11.565 23.8081 11.7328 23.8846 11.9175C23.9611 12.1021 24.0005 12.3001 24.0005 12.5C24.0005 12.6999 23.9611 12.8978 23.8846 13.0825C23.8081 13.2672 23.696 13.435 23.5546 13.5763C23.4133 13.7177 23.2455 13.8298 23.0608 13.9063C22.8761 13.9828 22.6782 14.0222 22.4783 14.0222C22.0745 14.0222 21.6874 13.8618 21.4019 13.5763C21.1164 13.2909 20.9561 12.9037 20.9561 12.5C20.9561 12.0963 21.1164 11.7091 21.4019 11.4236C21.6874 11.1382 22.0745 10.9778 22.4783 10.9778Z" fill="#2F2F3B" />
+<path d="M17.2263 16.204C17.63 16.204 18.0172 16.3644 18.3027 16.6499C18.5881 16.9353 18.7485 17.3225 18.7485 17.7262C18.7485 18.1299 18.5881 18.5171 18.3027 18.8026C18.0172 19.088 17.63 19.2484 17.2263 19.2484C16.8226 19.2484 16.4354 19.088 16.1499 18.8026C15.8645 18.5171 15.7041 18.1299 15.7041 17.7262C15.7041 17.3225 15.8645 16.9353 16.1499 16.6499C16.4354 16.3644 16.8226 16.204 17.2263 16.204Z" fill="#2F2F3B"/>
+<path d="M11.9997 21.4556C12.4034 21.4556 12.7906 21.616 13.0761 21.9014C13.3616 22.1869 13.5219 22.5741 13.5219 22.9778C13.5219 23.3815 13.3616 23.7687 13.0761 24.0542C12.7906 24.3396 12.4034 24.5 11.9997 24.5C11.596 24.5 11.2088 24.3396 10.9234 24.0542C10.6379 23.7687 10.4775 23.3815 10.4775 22.9778C10.4775 22.5741 10.6379 22.1869 10.9234 21.9014C11.2088 21.616 11.596 21.4556 11.9997 21.4556Z" fill="#2F2F3B"/>
+</g>
+</svg>
+</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile__content bg-white">
+          <div class="tile__content__top">
+            <div class="tile__tags tags text-tiny">
+              <span class="tags__tag tags__tag--feature">Blog</span>
+                            <div class="tile__categories hiddenlinkline o-70">
+                <span class="o-70">Technology</span>              </div>
+                        </div>
+            <h3 class="tile__heading heading-reg">Unveiling Oxford Ionics’ development roadmap to scalable fault-tolerant quantum computing</h3>
+          </div>
+          <div class="tile__details">
+                          <div class="tile__author author text-tiny">
+              			<a class="mediaimg-link noline" data-fancybox="gallery69df88e01198d" data-caption="" href="https://www.oxionics.com/wp-content/uploads/2021/04/7833-1850-reduced-scaled-e1759329546471.jpg">
+						<div class="mediaimg author__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2021/04/7833-1850-reduced-scaled-e1759329546471-600x529.jpg" style="background-position: center center"></div>
+							</div>
+						</a><!-- / mediaimg-link -->
+		                <div class="author__details">
+                  <div class="author__name">Dr Chris Ballance</div>
+                </div>
+              </div>
+                        <div class="tile__date text-tiny o-70">8 May 2025</div>
+          </div>
+        </div>
+      </div>
+    </article><!-- /post -->
+
+  						</div>
+											<div class="col col-1 col-md-1-2 col-lg-1-3 effect effect--default">
+							
+    <article class="tile tile--resource tile--default tile--blog">
+      <a class="tile__link noline" href="https://www.oxionics.com/blogs/engineering-margin-the-hidden-factor-that-separates-demo-from-deployment/" target="_self">Read Engineering margin: The hidden factor that separates demo from deployment</a>
+      <div class="tile__wrap">
+        <div class="tile__media color-white">
+                      			<div class="mediaimg tile__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/08/5832-3550-EDIT-7-cropped-red-1000x1000.jpg" style="background-position: "></div>
+							</div>
+			          
+          <div class="tile__cta blockcta">
+            <div class="blockcta__link link noline text-xsml">
+              <span class="link__text">Read</span>
+              <div class="link__arrow"><div class="icon icon--hover"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.9997 0.499975C12.4034 0.499975 12.7906 0.660348 13.0761 0.945816C13.3616 1.23128 13.5219 1.61846 13.5219 2.02217C13.5219 2.42589 13.3616 2.81306 13.0761 3.09853C12.7906 3.384 12.4034 3.54437 11.9997 3.54437C11.596 3.54437 11.2088 3.384 10.9234 3.09853C10.6379 2.81306 10.4775 2.42589 10.4775 2.02217C10.4775 1.61846 10.6379 1.23128 10.9234 0.945816C11.2088 0.660348 11.596 0.499975 11.9997 0.499975Z" fill="#2F2F3B"/>
+<path d="M17.2263 5.75159C17.63 5.75159 18.0172 5.91197 18.3027 6.19743C18.5881 6.4829 18.7485 6.87008 18.7485 7.27379C18.7485 7.6775 18.5881 8.06468 18.3027 8.35015C18.0172 8.63562 17.63 8.79599 17.2263 8.79599C16.8226 8.79599 16.4354 8.63562 16.1499 8.35015C15.8645 8.06468 15.7041 7.6775 15.7041 7.27379C15.7041 6.87008 15.8645 6.4829 16.1499 6.19743C16.4354 5.91197 16.8226 5.75159 17.2263 5.75159Z" fill="#2F2F3B"/>
+<path d="M1.5222 10.9778C1.7221 10.9778 1.92004 11.0172 2.10472 11.0937C2.2894 11.1702 2.45721 11.2823 2.59856 11.4236C2.73991 11.565 2.85203 11.7328 2.92853 11.9175C3.00502 12.1021 3.0444 12.3001 3.0444 12.5C3.0444 12.6999 3.00502 12.8978 2.92853 13.0825C2.85203 13.2672 2.73991 13.435 2.59856 13.5763C2.45721 13.7177 2.2894 13.8298 2.10472 13.9063C1.92004 13.9828 1.7221 14.0222 1.5222 14.0222C1.11849 14.0222 0.731309 13.8618 0.445842 13.5763C0.160374 13.2909 -4.88906e-08 12.9037 -6.65374e-08 12.5C-8.41842e-08 12.0963 0.160374 11.7091 0.445841 11.4236C0.731309 11.1382 1.11849 10.9778 1.5222 10.9778Z" fill="#2F2F3B"/>
+<path d="M11.9997 10.9778C12.1996 10.9778 12.3976 11.0172 12.5823 11.0937C12.7669 11.1702 12.9347 11.2823 13.0761 11.4236C13.2174 11.565 13.3296 11.7328 13.4061 11.9175C13.4826 12.1021 13.5219 12.3001 13.5219 12.5C13.5219 12.6999 13.4826 12.8978 13.4061 13.0825C13.3296 13.2672 13.2174 13.435 13.0761 13.5763C12.9347 13.7177 12.7669 13.8298 12.5823 13.9063C12.3976 13.9828 12.1996 14.0222 11.9997 14.0222C11.596 14.0222 11.2088 13.8618 10.9234 13.5763C10.6379 13.2909 10.4775 12.9037 10.4775 12.5C10.4775 12.0963 10.6379 11.7091 10.9234 11.4236C11.2088 11.1382 11.596 10.9778 11.9997 10.9778Z" fill="#2F2F3B"/>
+<path d="M17.2263 10.9778C17.4262 10.9778 17.6241 11.0172 17.8088 11.0937C17.9935 11.1702 18.1613 11.2823 18.3027 11.4236C18.444 11.565 18.5561 11.7328 18.6326 11.9175C18.7091 12.1021 18.7485 12.3001 18.7485 12.5C18.7485 12.6999 18.7091 12.8978 18.6326 13.0825C18.5561 13.2672 18.444 13.435 18.3027 13.5763C18.1613 13.7177 17.9935 13.8298 17.8088 13.9063C17.6241 13.9828 17.4262 14.0222 17.2263 14.0222C16.8226 14.0222 16.4354 13.8618 16.1499 13.5763C15.8645 13.2909 15.7041 12.9037 15.7041 12.5C15.7041 12.0963 15.8645 11.7091 16.1499 11.4236C16.4354 11.1382 16.8226 10.9778 17.2263 10.9778Z" fill="#2F2F3B" />
+<path d="M6.77415 10.9778C6.97405 10.9778 7.17199 11.0172 7.35667 11.0937C7.54135 11.1702 7.70916 11.2823 7.85051 11.4236C7.99186 11.565 8.10398 11.7328 8.18048 11.9175C8.25698 12.1021 8.29635 12.3001 8.29635 12.5C8.29635 12.6999 8.25698 12.8978 8.18048 13.0825C8.10398 13.2672 7.99186 13.435 7.85051 13.5763C7.70916 13.7177 7.54135 13.8298 7.35667 13.9063C7.17199 13.9828 6.97405 14.0222 6.77415 14.0222C6.37044 14.0222 5.98326 13.8618 5.69779 13.5763C5.41233 13.2909 5.25195 12.9037 5.25195 12.5C5.25195 12.0963 5.41233 11.7091 5.69779 11.4236C5.98326 11.1382 6.37044 10.9778 6.77415 10.9778Z" fill="#2F2F3B" />
+<path d="M22.4783 10.9778C22.6782 10.9778 22.8761 11.0172 23.0608 11.0937C23.2455 11.1702 23.4133 11.2823 23.5546 11.4236C23.696 11.565 23.8081 11.7328 23.8846 11.9175C23.9611 12.1021 24.0005 12.3001 24.0005 12.5C24.0005 12.6999 23.9611 12.8978 23.8846 13.0825C23.8081 13.2672 23.696 13.435 23.5546 13.5763C23.4133 13.7177 23.2455 13.8298 23.0608 13.9063C22.8761 13.9828 22.6782 14.0222 22.4783 14.0222C22.0745 14.0222 21.6874 13.8618 21.4019 13.5763C21.1164 13.2909 20.9561 12.9037 20.9561 12.5C20.9561 12.0963 21.1164 11.7091 21.4019 11.4236C21.6874 11.1382 22.0745 10.9778 22.4783 10.9778Z" fill="#2F2F3B" />
+<path d="M17.2263 16.204C17.63 16.204 18.0172 16.3644 18.3027 16.6499C18.5881 16.9353 18.7485 17.3225 18.7485 17.7262C18.7485 18.1299 18.5881 18.5171 18.3027 18.8026C18.0172 19.088 17.63 19.2484 17.2263 19.2484C16.8226 19.2484 16.4354 19.088 16.1499 18.8026C15.8645 18.5171 15.7041 18.1299 15.7041 17.7262C15.7041 17.3225 15.8645 16.9353 16.1499 16.6499C16.4354 16.3644 16.8226 16.204 17.2263 16.204Z" fill="#2F2F3B"/>
+<path d="M11.9997 21.4556C12.4034 21.4556 12.7906 21.616 13.0761 21.9014C13.3616 22.1869 13.5219 22.5741 13.5219 22.9778C13.5219 23.3815 13.3616 23.7687 13.0761 24.0542C12.7906 24.3396 12.4034 24.5 11.9997 24.5C11.596 24.5 11.2088 24.3396 10.9234 24.0542C10.6379 23.7687 10.4775 23.3815 10.4775 22.9778C10.4775 22.5741 10.6379 22.1869 10.9234 21.9014C11.2088 21.616 11.596 21.4556 11.9997 21.4556Z" fill="#2F2F3B"/>
+</g>
+</svg>
+</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile__content bg-white">
+          <div class="tile__content__top">
+            <div class="tile__tags tags text-tiny">
+              <span class="tags__tag tags__tag--feature">Blog</span>
+                            <div class="tile__categories hiddenlinkline o-70">
+                <span class="o-70">Technology</span>              </div>
+                        </div>
+            <h3 class="tile__heading heading-reg">Engineering margin: The hidden factor that separates demo from deployment</h3>
+          </div>
+          <div class="tile__details">
+                          <div class="tile__author author text-tiny">
+              			<a class="mediaimg-link noline" data-fancybox="gallery69df88e0130c2" data-caption="" href="https://www.oxionics.com/wp-content/uploads/2025/08/5815-1320-cropped-e1755787282550.jpg">
+						<div class="mediaimg author__img">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/08/5815-1320-cropped-e1755787282550-600x594.jpg" style="background-position: center center"></div>
+							</div>
+						</a><!-- / mediaimg-link -->
+		                <div class="author__details">
+                  <div class="author__name">Dr Maciej Malinowski</div>
+                </div>
+              </div>
+                        <div class="tile__date text-tiny o-70">6 May 2025</div>
+          </div>
+        </div>
+      </div>
+    </article><!-- /post -->
+
+  						</div>
+									</div><!-- /row -->
+
+			
+		</div>
+	</section><!-- /module--featured--posts -->
+
+			<!-- ENDS HIDE ACF FIELDS with WP Password Protect -->
+		
+	</section><!-- /main -->
+
+
+<footer data-wpr-lazyrender="1" class="sitefooter">
+    <div  class="sitefooter__cta pt--half pb--half bg-dark color-white">
+    <div  class="sitefooter__bd bd">
+      <div class="row align-center">
+        <div class="col col-1 col-lg-2-5">
+          <div class="sitefooter__cta__content">
+                        <div class="sitefooter__cta__heading text-xsml">Kickstart your quantum journey</div>
+                                    <div class="sitefooter__cta__leader text-large">
+              Ready to learn more about our quantum systems?             </div><!-- /cta__leader -->
+                                      <div class="sitefooter__cta__cta mt--em">
+                      <a class="btn btn--border" data-fancybox data-src="#popupForm1">Schedule a call</a>
+    
+                    </div>
+                      </div>
+        </div>
+                <div class="col col-1 col-lg-3-5">
+          			<div class="mediaimg sitefooter__ctaimg">
+									<div class="mediaimg__img mediaimg__img--bg lazy " role="img" aria-label="" data-bg="https://www.oxionics.com/wp-content/uploads/2025/05/68740eb81693b24e87cf54dec7ef8eff55b1a2d3-min-2000x1334.jpg" style="background-position: center center"></div>
+							</div>
+			        </div>
+              </div>
+    </div>
+  </div>
+    <div  class="sitefooter__footer bg-black color-white">
+    <div  class="sitefooter__bd bd">
+      <div class="sitefooter__navigation pt--half pb--double">
+        <div class="row">
+          <div class="col col-1 col-md-1-3 col-lg-1-2">
+            <div class="sitefooter__mark"><svg width="103" height="86" viewBox="0 0 103 86" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mark" clip-path="url(#clip0_3817_5999)">
+<path id="Vector" d="M93.235 19.48C98.6256 19.48 103 15.1182 103 9.73998C103 4.36176 98.6256 0 93.235 0C87.8444 0 83.4702 4.36176 83.4702 9.73998C83.4702 15.1182 87.8444 19.48 93.235 19.48Z" fill="#7BF179"/>
+<path id="Vector_2" d="M93.235 41.7133C98.6256 41.7133 103 37.3516 103 31.9734C103 26.5952 98.6256 22.2334 93.235 22.2334C87.8444 22.2334 83.4702 26.5952 83.4702 31.9734C83.4702 37.3516 87.8444 41.7133 93.235 41.7133Z" fill="white"/>
+<path id="Vector_3" d="M93.235 63.831C98.6256 63.831 103 59.4693 103 54.0911C103 48.7128 98.6256 44.3511 93.235 44.3511C87.8444 44.3511 83.4702 48.7128 83.4702 54.0911C83.4702 59.4693 87.8444 63.831 93.235 63.831Z" fill="white"/>
+<path id="Vector_4" d="M54.1501 63.831C59.5406 63.831 63.9149 59.4693 63.9149 54.0911C63.9149 48.7128 59.5406 44.3511 54.1501 44.3511C48.7595 44.3511 44.3853 48.7128 44.3853 54.0911C44.3853 59.4693 48.7595 63.831 54.1501 63.831Z" fill="white"/>
+<path id="Vector_5" d="M9.7648 41.7133C15.1554 41.7133 19.5296 37.3516 19.5296 31.9734C19.5296 26.5952 15.1554 22.2334 9.7648 22.2334C4.37422 22.2334 0 26.5952 0 31.9734C0 37.3516 4.37422 41.7133 9.7648 41.7133Z" fill="white"/>
+<path id="Vector_6" d="M93.235 86C98.6256 86 103 81.6382 103 76.26C103 70.8818 98.6256 66.52 93.235 66.52C87.8444 66.52 83.4702 70.8818 83.4702 76.26C83.4702 81.6382 87.8444 86 93.235 86Z" fill="white"/>
+<path id="Vector_7" d="M63.9727 31.9475C63.9727 27.7272 61.2646 24.1761 57.5079 22.7929C54.4202 21.6542 49.1712 23.2561 44.9513 19.0359C40.7315 14.8157 42.3332 9.56611 41.2011 6.48457C39.8116 2.72754 36.2608 0.0126953 32.0409 0.0126953C29.3199 0.0126953 26.927 1.10635 25.1322 2.8948C23.3375 4.68325 22.2568 7.10216 22.2568 9.7977C22.2568 14.0179 24.965 17.5691 28.7217 18.9523C31.8094 20.0909 37.0584 18.4891 41.2783 22.7093C45.5045 26.9359 43.8964 32.1791 45.0285 35.2606C46.4115 39.0176 49.9624 41.726 54.1822 41.726C56.8775 41.726 59.3026 40.6324 61.0845 38.8439C62.8663 37.0619 63.9663 34.6366 63.9663 31.941L63.9727 31.9475Z" fill="white"/>
+<path id="Vector_8" d="M41.7158 76.215C41.7158 71.9947 39.0077 68.4436 35.251 67.0604C32.1633 65.9217 26.9142 67.5236 22.6944 63.3034C18.4681 59.0767 20.0763 53.8336 18.9441 50.7521C17.5611 46.995 14.0103 44.2866 9.79045 44.2866C7.06943 44.2866 4.67647 45.3803 2.88175 47.1687C1.09347 48.9572 0.00634766 51.3761 0.00634766 54.0716C0.00634766 58.2919 2.7145 61.843 6.47119 63.2262C9.55887 64.3649 14.8079 62.763 19.0278 66.9832C23.254 71.2099 21.6459 76.453 22.778 79.5345C24.161 83.2916 27.7119 86 31.9317 86C34.627 86 37.0521 84.9063 38.834 83.1179C40.6158 81.3358 41.7158 78.9105 41.7158 76.215Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_3817_5999">
+<rect width="103" height="86" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+</div>
+          </div>
+          <div class="col col-1 col-md-2-3 col-lg-1-2">
+            <div class="sitefooter__navlinks">
+                              <div class="navlinks__section">
+
+                                    <h5 class="navlinks__heading text-sml color-light hiddenlinkline">
+                    <a href="https://www.oxionics.com/products/">                      Technology                    </a>                    </h5>
+                                                      <ul class="navlinks__links noline">
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/products" target="">Products</a>
+
+    </li>
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/our-technology/" target="">Our technology</a>
+
+    </li>
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/about-quantum/" target="">About quantum</a>
+
+    </li>
+                                        <li></li>
+                                      </ul>
+                                  </div>
+                <div class="navlinks__section">
+                                    </div>
+                              <div class="navlinks__section">
+
+                                    <h5 class="navlinks__heading text-sml color-light hiddenlinkline">
+                    <a href="https://www.oxionics.com/about-us/">                      Company                    </a>                    </h5>
+                                                      <ul class="navlinks__links noline">
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/about-us/" target="">About us</a>
+
+    </li>
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/news-events/" target="">News & events</a>
+
+    </li>
+                                      </ul>
+                                  </div>
+                <div class="navlinks__section">
+                                    </div>
+                              <div class="navlinks__section">
+
+                                    <h5 class="navlinks__heading text-sml color-light hiddenlinkline">
+                    <a href="https://www.oxionics.com/blogs/">                      Resources                    </a>                    </h5>
+                                                    </div>
+                <div class="navlinks__section">
+                                    </div>
+                              <div class="navlinks__section">
+
+                                    <h5 class="navlinks__heading text-sml color-light hiddenlinkline">
+                    <a href="https://www.oxionics.com/careers/">                      Careers                    </a>                    </h5>
+                                                    </div>
+                <div class="navlinks__section">
+                                    </div>
+                              <div class="navlinks__section">
+
+                                    <h5 class="navlinks__heading text-sml color-light hiddenlinkline">
+                    <a href="https://www.oxionics.com/contact-us/">                      Contact                    </a>                    </h5>
+                                                      <ul class="navlinks__links noline">
+                                        <li>
+    	<a class="sitefooter__link o-50 text-xsml" href="https://www.oxionics.com/press-kit/" target="">Press kit</a>
+
+    </li>
+                                      </ul>
+                                  </div>
+                <div class="navlinks__section">
+                                                            <ul class="sitefooter__socialnav mt--em inlinenavlist text-sml">
+                                                                          <li><a class="sitefooter__sociallink" href="https://x.com/oxfordionics" target="_blank"><span class="fa-brands fa-x-twitter fa--nopad"></span></a></li>
+                                                                                                  <li><a class="sitefooter__sociallink" href="https://www.linkedin.com/company/oxfordionics/" target="_blank"><span class="fa-brands fa-linkedin-in fa--nopad"></span></a></li>
+                                              </ul>
+                                                        </div>
+                          </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="sitefooter__legal pt--em pb--em">
+        <div class="row align-center">
+          <div class="col col-1 col-md-1-2">
+                          <ul class="sitefooter__legallinks inlinenavlist text-xsml noline">
+                                    <li>
+    	<a class="sitefooter__link" href="https://www.oxionics.com/privacy-policy/" target="">Privacy Policy</a>
+
+    </li>
+                                                  <li><a href="javascript:;" class="cky-banner-element">Cookie Settings</a></li>
+              </ul>
+                      </div>
+        
+			
+          <div class="col col-1 col-md-1-2 text-right">
+            <div class="sitefooter__copyright text-xsml mt--em o-50">&copy; 2026 - Oxford Ionics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div><!-- /sitefooter__bd -->
+</footer><!-- /sitefooter -->
+		
+    <div  id="popupForm1" class="webinar__registerform formpopup bg-light color-black" style="display:none;">
+      <header  class="pageheader pageheader--page mt mb--half">
+	<div  class="pageheader__bd bd">
+		<div class="pageheader__body ">
+
+            <h2 class="pageheader__heading text-xlarge">
+        Schedule a call      </h2>
+                </div>
+  </div>      
+</header><!-- pageheader -->      <div  class="form__bd bd">
+        <div  class="form__content pb--half">
+            <script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">
+/* <![CDATA[ */
+
+/* ]]> */
+</script>
+
+                <div class='gf_browser_chrome gform_wrapper gform-theme gform-theme--foundation gform-theme--framework gform-theme--orbital' data-form-theme='orbital' data-form-index='0' id='gform_wrapper_1' ><style>#gform_wrapper_1[data-form-index="0"].gform-theme,[data-parent-form="1_0"]{--gf-color-primary: #204ce5;--gf-color-primary-rgb: 32, 76, 229;--gf-color-primary-contrast: #fff;--gf-color-primary-contrast-rgb: 255, 255, 255;--gf-color-primary-darker: #001AB3;--gf-color-primary-lighter: #527EFF;--gf-color-secondary: #fff;--gf-color-secondary-rgb: 255, 255, 255;--gf-color-secondary-contrast: #112337;--gf-color-secondary-contrast-rgb: 17, 35, 55;--gf-color-secondary-darker: #F5F5F5;--gf-color-secondary-lighter: #FFFFFF;--gf-color-out-ctrl-light: rgba(17, 35, 55, 0.1);--gf-color-out-ctrl-light-rgb: 17, 35, 55;--gf-color-out-ctrl-light-darker: rgba(104, 110, 119, 0.35);--gf-color-out-ctrl-light-lighter: #F5F5F5;--gf-color-out-ctrl-dark: #585e6a;--gf-color-out-ctrl-dark-rgb: 88, 94, 106;--gf-color-out-ctrl-dark-darker: #112337;--gf-color-out-ctrl-dark-lighter: rgba(17, 35, 55, 0.65);--gf-color-in-ctrl: #fff;--gf-color-in-ctrl-rgb: 255, 255, 255;--gf-color-in-ctrl-contrast: #112337;--gf-color-in-ctrl-contrast-rgb: 17, 35, 55;--gf-color-in-ctrl-darker: #F5F5F5;--gf-color-in-ctrl-lighter: #FFFFFF;--gf-color-in-ctrl-primary: #204ce5;--gf-color-in-ctrl-primary-rgb: 32, 76, 229;--gf-color-in-ctrl-primary-contrast: #fff;--gf-color-in-ctrl-primary-contrast-rgb: 255, 255, 255;--gf-color-in-ctrl-primary-darker: #001AB3;--gf-color-in-ctrl-primary-lighter: #527EFF;--gf-color-in-ctrl-light: rgba(17, 35, 55, 0.1);--gf-color-in-ctrl-light-rgb: 17, 35, 55;--gf-color-in-ctrl-light-darker: rgba(104, 110, 119, 0.35);--gf-color-in-ctrl-light-lighter: #F5F5F5;--gf-color-in-ctrl-dark: #585e6a;--gf-color-in-ctrl-dark-rgb: 88, 94, 106;--gf-color-in-ctrl-dark-darker: #112337;--gf-color-in-ctrl-dark-lighter: rgba(17, 35, 55, 0.65);--gf-radius: 3px;--gf-font-size-secondary: 14px;--gf-font-size-tertiary: 13px;--gf-icon-ctrl-number: url("data:image/svg+xml,%3Csvg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M4 0C4.26522 5.96046e-08 4.51957 0.105357 4.70711 0.292893L7.70711 3.29289C8.09763 3.68342 8.09763 4.31658 7.70711 4.70711C7.31658 5.09763 6.68342 5.09763 6.29289 4.70711L4 2.41421L1.70711 4.70711C1.31658 5.09763 0.683417 5.09763 0.292893 4.70711C-0.0976311 4.31658 -0.097631 3.68342 0.292893 3.29289L3.29289 0.292893C3.48043 0.105357 3.73478 0 4 0ZM0.292893 9.29289C0.683417 8.90237 1.31658 8.90237 1.70711 9.29289L4 11.5858L6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289C8.09763 9.68342 8.09763 10.3166 7.70711 10.7071L4.70711 13.7071C4.31658 14.0976 3.68342 14.0976 3.29289 13.7071L0.292893 10.7071C-0.0976311 10.3166 -0.0976311 9.68342 0.292893 9.29289Z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-icon-ctrl-select: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0.292893 0.292893C0.683417 -0.097631 1.31658 -0.097631 1.70711 0.292893L5 3.58579L8.29289 0.292893C8.68342 -0.0976311 9.31658 -0.0976311 9.70711 0.292893C10.0976 0.683417 10.0976 1.31658 9.70711 1.70711L5.70711 5.70711C5.31658 6.09763 4.68342 6.09763 4.29289 5.70711L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292893Z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-icon-ctrl-search: url("data:image/svg+xml,%3Csvg width='640' height='640' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M256 128c-70.692 0-128 57.308-128 128 0 70.691 57.308 128 128 128 70.691 0 128-57.309 128-128 0-70.692-57.309-128-128-128zM64 256c0-106.039 85.961-192 192-192s192 85.961 192 192c0 41.466-13.146 79.863-35.498 111.248l154.125 154.125c12.496 12.496 12.496 32.758 0 45.254s-32.758 12.496-45.254 0L367.248 412.502C335.862 434.854 297.467 448 256 448c-106.039 0-192-85.962-192-192z' fill='rgba(17, 35, 55, 0.65)'/%3E%3C/svg%3E");--gf-label-space-y-secondary: var(--gf-label-space-y-md-secondary);--gf-ctrl-border-color: #686e77;--gf-ctrl-size: var(--gf-ctrl-size-md);--gf-ctrl-label-color-primary: #112337;--gf-ctrl-label-color-secondary: #112337;--gf-ctrl-choice-size: var(--gf-ctrl-choice-size-md);--gf-ctrl-checkbox-check-size: var(--gf-ctrl-checkbox-check-size-md);--gf-ctrl-radio-check-size: var(--gf-ctrl-radio-check-size-md);--gf-ctrl-btn-font-size: var(--gf-ctrl-btn-font-size-md);--gf-ctrl-btn-padding-x: var(--gf-ctrl-btn-padding-x-md);--gf-ctrl-btn-size: var(--gf-ctrl-btn-size-md);--gf-ctrl-btn-border-color-secondary: #686e77;--gf-ctrl-file-btn-bg-color-hover: #EBEBEB;--gf-field-img-choice-size: var(--gf-field-img-choice-size-md);--gf-field-img-choice-card-space: var(--gf-field-img-choice-card-space-md);--gf-field-img-choice-check-ind-size: var(--gf-field-img-choice-check-ind-size-md);--gf-field-img-choice-check-ind-icon-size: var(--gf-field-img-choice-check-ind-icon-size-md);--gf-field-pg-steps-number-color: rgba(17, 35, 55, 0.8);}</style><div id='gf_1' class='gform_anchor' tabindex='-1'></div>
+                        <div class='gform_heading'>
+							<p class='gform_required_legend'>&quot;<span class="gfield_required gfield_required_asterisk">*</span>&quot; indicates required fields</p>
+                        </div><form method='post' enctype='multipart/form-data' target='gform_ajax_frame_1' id='gform_1'  action='/products/#gf_1' data-formid='1' novalidate>
+                        <div class='gform-body gform_body'><div id='gform_fields_1' class='gform_fields top_label form_sublabel_below description_below validation_below'><fieldset id="field_1_16" class="gfield gfield--type-name gfield--input-type-name gfield--width-full gfield_contains_required field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible"  ><legend class='gfield_label gform-field-label gfield_label_before_complex' >Name<span class="gfield_required"><span class="gfield_required gfield_required_asterisk">*</span></span></legend><div class='ginput_complex ginput_container ginput_container--name no_prefix has_first_name no_middle_name has_last_name no_suffix gf_name_has_2 ginput_container_name gform-grid-row' id='input_1_16'>
+                            
+                            <span id='input_1_16_3_container' class='name_first gform-grid-col gform-grid-col--size-auto' >
+                                                    <input type='text' name='input_16.3' id='input_1_16_3' value=''   aria-required='true'     />
+                                                    <label for='input_1_16_3' class='gform-field-label gform-field-label--type-sub '>First</label>
+                                                </span>
+                            
+                            <span id='input_1_16_6_container' class='name_last gform-grid-col gform-grid-col--size-auto' >
+                                                    <input type='text' name='input_16.6' id='input_1_16_6' value=''   aria-required='true'     />
+                                                    <label for='input_1_16_6' class='gform-field-label gform-field-label--type-sub '>Last</label>
+                                                </span>
+                            
+                        </div></fieldset><div id="field_1_6" class="gfield gfield--type-email gfield--input-type-email gfield--width-full gfield_contains_required field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible"  ><label class='gfield_label gform-field-label' for='input_1_6'>Email<span class="gfield_required"><span class="gfield_required gfield_required_asterisk">*</span></span></label><div class='ginput_container ginput_container_email'>
+                            <input name='input_6' id='input_1_6' type='email' value='' class='large'   placeholder='placeholder@placeholder.com' aria-required="true" aria-invalid="false"  />
+                        </div></div><div id="field_1_17" class="gfield gfield--type-text gfield--input-type-text gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible"  ><label class='gfield_label gform-field-label' for='input_1_17'>Company</label><div class='ginput_container ginput_container_text'><input name='input_17' id='input_1_17' type='text' value='' class='large'      aria-invalid="false"   /></div></div><div id="field_1_20" class="gfield gfield--type-text gfield--input-type-text gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible"  ><label class='gfield_label gform-field-label' for='input_1_20'>Industry</label><div class='ginput_container ginput_container_text'><input name='input_20' id='input_1_20' type='text' value='' class='large'      aria-invalid="false"   /></div></div><div id="field_1_22" class="gfield gfield--type-select gfield--input-type-select gfield--width-full gfield_contains_required field_sublabel_below gfield--has-description field_description_below field_validation_below gfield_visibility_visible"  ><label class='gfield_label gform-field-label' for='input_1_22'>Subject<span class="gfield_required"><span class="gfield_required gfield_required_asterisk">*</span></span></label><div class='ginput_container ginput_container_select'><select name='input_22' id='input_1_22' class='large gfield_select'  aria-describedby="gfield_description_1_22"  aria-required="true" aria-invalid="false" ><option value='Sales' >Sales</option><option value='Strategic Partnership' >Strategic Partnership</option><option value='Applications Development' >Applications Development</option><option value='Careers' >Careers</option><option value='Press' >Press</option><option value='Other' >Other</option></select></div><div class='gfield_description' id='gfield_description_1_22'>Tell us what your message is about so we can make sure it gets to the right person.</div></div><div id="field_1_3" class="gfield gfield--type-textarea gfield--input-type-textarea gfield_contains_required field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible"  ><label class='gfield_label gform-field-label' for='input_1_3'>Your message<span class="gfield_required"><span class="gfield_required gfield_required_asterisk">*</span></span></label><div class='ginput_container ginput_container_textarea'><textarea name='input_3' id='input_1_3' class='textarea medium'   maxlength='600'  aria-required="true" aria-invalid="false"   rows='10' cols='50'></textarea></div></div></div></div>
+        <div class='gform-footer gform_footer top_label'> <button id="gform_submit_button_1" type="submit" class="gform_button button" onclick="gform.submission.handleButtonClick(this);" data-submission-type="submit"><span>Submit</span></button> <input type='hidden' name='gform_ajax' value='form_id=1&amp;title=&amp;description=&amp;tabindex=0&amp;theme=orbital&amp;hash=c6842f0372cc9c1ccd3e06561c9b2ae8' />
+            <input type='hidden' class='gform_hidden' name='gform_submission_method' data-js='gform_submission_method_1' value='iframe' />
+            <input type='hidden' class='gform_hidden' name='gform_theme' data-js='gform_theme_1' id='gform_theme_1' value='orbital' />
+            <input type='hidden' class='gform_hidden' name='gform_style_settings' data-js='gform_style_settings_1' id='gform_style_settings_1' value='' />
+            <input type='hidden' class='gform_hidden' name='is_submit_1' value='1' />
+            <input type='hidden' class='gform_hidden' name='gform_submit' value='1' />
+            
+            <input type='hidden' class='gform_hidden' name='gform_currency' data-currency='GBP' value='WRd8xYmEWWo1Tdpfum1W4yqCmMcxh5J6VmxkRS7A9N8cUwlJHvTTfSEfAA8Bll+BE7C+jDk5s8K+NhmeEDLRZZTb4psawyh7rPXCG/ySo0potUs=' />
+            <input type='hidden' class='gform_hidden' name='gform_unique_id' value='' />
+            <input type='hidden' class='gform_hidden' name='state_1' value='WyJ7XCIyMlwiOltcIjhmMDFmNGI5ODJiYjFhMjFhOWEyNzRlNzk3NmFkNDMxXCIsXCI1YTFjN2E4NTU2ZWQxZDRiOTAzMWJkMTU1YjM0NjEwNlwiLFwiNzJjYTQzNDc0NDk3NmI3Zjg1MjAxNDhkYWFhMDcwNjdcIixcIjM1YWEyZmE0ODFiZWY0MTZjOTQ5NjQ1YWI2OTczYTZlXCIsXCI4NWZjZGViODMyMWIzODk4M2JlZDRmODU1ZGZkYzk0OFwiLFwiMGRiOWJmOGQzMTY1YWE0MWYxZGY0NTczNDFlYzQ4N2NcIl19IiwiNGMyOGQ5NzAwMTA2MmI3NGY1MmMzYzIxNGRiZWI0ODciXQ==' />
+            <input type='hidden' autocomplete='off' class='gform_hidden' name='gform_target_page_number_1' id='gform_target_page_number_1' value='0' />
+            <input type='hidden' autocomplete='off' class='gform_hidden' name='gform_source_page_number_1' id='gform_source_page_number_1' value='1' />
+            <input type='hidden' name='gform_field_values' value='' />
+            
+        </div>
+                        </form>
+                        </div>
+		                <iframe style='display:none;width:0px;height:0px;' src='about:blank' name='gform_ajax_frame_1' id='gform_ajax_frame_1' title='This iframe contains the logic required to handle Ajax powered Gravity Forms.'></iframe>
+		                <script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">window.addEventListener('DOMContentLoaded', function() {
+/* <![CDATA[ */
+ gform.initializeOnLoaded( function() {gformInitSpinner( 1, 'https://www.oxionics.com/wp-content/plugins/gravityforms/images/spinner.svg', false );jQuery('#gform_ajax_frame_1').on('load',function(){var contents = jQuery(this).contents().find('*').html();var is_postback = contents.indexOf('GF_AJAX_POSTBACK') >= 0;if(!is_postback){return;}var form_content = jQuery(this).contents().find('#gform_wrapper_1');var is_confirmation = jQuery(this).contents().find('#gform_confirmation_wrapper_1').length > 0;var is_redirect = contents.indexOf('gformRedirect(){') >= 0;var is_form = form_content.length > 0 && ! is_redirect && ! is_confirmation;var mt = parseInt(jQuery('html').css('margin-top'), 10) + parseInt(jQuery('body').css('margin-top'), 10) + 100;if(is_form){jQuery('#gform_wrapper_1').html(form_content.html());if(form_content.hasClass('gform_validation_error')){jQuery('#gform_wrapper_1').addClass('gform_validation_error');} else {jQuery('#gform_wrapper_1').removeClass('gform_validation_error');}setTimeout( function() { /* delay the scroll by 50 milliseconds to fix a bug in chrome */ jQuery(document).scrollTop(jQuery('#gform_wrapper_1').offset().top - mt); }, 50 );if(window['gformInitDatepicker']) {gformInitDatepicker();}if(window['gformInitPriceFields']) {gformInitPriceFields();}var current_page = jQuery('#gform_source_page_number_1').val();gformInitSpinner( 1, 'https://www.oxionics.com/wp-content/plugins/gravityforms/images/spinner.svg', false );jQuery(document).trigger('gform_page_loaded', [1, current_page]);window['gf_submitting_1'] = false;}else if(!is_redirect){var confirmation_content = jQuery(this).contents().find('.GF_AJAX_POSTBACK').html();if(!confirmation_content){confirmation_content = contents;}jQuery('#gform_wrapper_1').replaceWith(confirmation_content);jQuery(document).scrollTop(jQuery('#gf_1').offset().top - mt);jQuery(document).trigger('gform_confirmation_loaded', [1]);window['gf_submitting_1'] = false;wp.a11y.speak(jQuery('#gform_confirmation_message_1').text());}else{jQuery('#gform_1').append(contents);if(window['gformRedirect']) {gformRedirect();}}jQuery(document).trigger("gform_pre_post_render", [{ formId: "1", currentPage: "current_page", abort: function() { this.preventDefault(); } }]);        if (event && event.defaultPrevented) {                return;        }        const gformWrapperDiv = document.getElementById( "gform_wrapper_1" );        if ( gformWrapperDiv ) {            const visibilitySpan = document.createElement( "span" );            visibilitySpan.id = "gform_visibility_test_1";            gformWrapperDiv.insertAdjacentElement( "afterend", visibilitySpan );        }        const visibilityTestDiv = document.getElementById( "gform_visibility_test_1" );        let postRenderFired = false;        function triggerPostRender() {            if ( postRenderFired ) {                return;            }            postRenderFired = true;            gform.core.triggerPostRenderEvents( 1, current_page );            if ( visibilityTestDiv ) {                visibilityTestDiv.parentNode.removeChild( visibilityTestDiv );            }        }        function debounce( func, wait, immediate ) {            var timeout;            return function() {                var context = this, args = arguments;                var later = function() {                    timeout = null;                    if ( !immediate ) func.apply( context, args );                };                var callNow = immediate && !timeout;                clearTimeout( timeout );                timeout = setTimeout( later, wait );                if ( callNow ) func.apply( context, args );            };        }        const debouncedTriggerPostRender = debounce( function() {            triggerPostRender();        }, 200 );        if ( visibilityTestDiv && visibilityTestDiv.offsetParent === null ) {            const observer = new MutationObserver( ( mutations ) => {                mutations.forEach( ( mutation ) => {                    if ( mutation.type === 'attributes' && visibilityTestDiv.offsetParent !== null ) {                        debouncedTriggerPostRender();                        observer.disconnect();                    }                });            });            observer.observe( document.body, {                attributes: true,                childList: false,                subtree: true,                attributeFilter: [ 'style', 'class' ],            });        } else {            triggerPostRender();        }    } );} ); 
+/* ]]> */
+});</script>
+        </div>
+      </div>
+    </div>
+        
+    
+    
+    <script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/oxionics/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" id="rocket-browser-checker-js-after">
+/* <![CDATA[ */
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+//# sourceURL=rocket-browser-checker-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" id="rocket-preload-links-js-extra">
+/* <![CDATA[ */
+var RocketPreloadLinksConfig = {"excludeUris":"/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(index.php/)?(.*)wp-json(/.*|$)|/refer/|/go/|/recommend/|/recommends/","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php|html|htm","siteUrl":"https://www.oxionics.com","onHoverDelay":"100","rateThrottle":"3"};
+//# sourceURL=rocket-preload-links-js-extra
+/* ]]> */
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" id="rocket-preload-links-js-after">
+/* <![CDATA[ */
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+
+//# sourceURL=rocket-preload-links-js-after
+/* ]]> */
+</script>
+<script data-minify="1" type="text/javascript" src="https://www.oxionics.com/wp-content/cache/min/1/ajax/libs/jquery/3.7.0/jquery.min.js?ver=1772110781" id="jquery-js" data-rocket-defer defer></script>
+<script data-minify="1" type="text/javascript" src="https://www.oxionics.com/wp-content/cache/min/1/3.6.8/plyr.js?ver=1772110781" id="plyr-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js?ver=1" id="fancybox-js-js"></script>
+<script type="text/javascript" src="https://kit.fontawesome.com/d5ed1a269a.js?ver=1" id="fontawesome-js-js" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" data-rocket-src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.8.1/lottie.min.js?ver=1" id="lottie-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js?ver=1" id="gsap-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js?ver=1" id="scrolltrigger-js-js"></script>
+<script type="text/javascript" src="https://www.oxionics.com/wp-content/themes/oxionics/js/dist/vendor.min.js?ver=1764241368" id="vendor-js-js" data-rocket-defer defer></script>
+<script type="text/javascript" id="main-js-extra">
+/* <![CDATA[ */
+var php_variables = {"ajax_url":"https://www.oxionics.com/wp-admin/admin-ajax.php","posts":"{\"page\":0,\"pagename\":\"products\",\"error\":\"\",\"m\":\"\",\"p\":0,\"post_parent\":\"\",\"subpost\":\"\",\"subpost_id\":\"\",\"attachment\":\"\",\"attachment_id\":0,\"name\":\"products\",\"page_id\":0,\"second\":\"\",\"minute\":\"\",\"hour\":\"\",\"day\":0,\"monthnum\":0,\"year\":0,\"w\":0,\"category_name\":\"\",\"tag\":\"\",\"cat\":\"\",\"tag_id\":\"\",\"author\":\"\",\"author_name\":\"\",\"feed\":\"\",\"tb\":\"\",\"paged\":0,\"meta_key\":\"\",\"meta_value\":\"\",\"preview\":\"\",\"s\":\"\",\"sentence\":\"\",\"title\":\"\",\"fields\":\"all\",\"menu_order\":\"\",\"embed\":\"\",\"category__in\":[],\"category__not_in\":[],\"category__and\":[],\"post__in\":[],\"post__not_in\":[],\"post_name__in\":[],\"tag__in\":[],\"tag__not_in\":[],\"tag__and\":[],\"tag_slug__in\":[],\"tag_slug__and\":[],\"post_parent__in\":[],\"post_parent__not_in\":[],\"author__in\":[],\"author__not_in\":[],\"search_columns\":[],\"ignore_sticky_posts\":false,\"suppress_filters\":false,\"cache_results\":true,\"update_post_term_cache\":true,\"update_menu_item_cache\":false,\"lazy_load_term_meta\":true,\"update_post_meta_cache\":true,\"post_type\":\"\",\"posts_per_page\":6,\"nopaging\":false,\"comments_per_page\":\"50\",\"no_found_rows\":false,\"order\":\"DESC\"}","current_page":"1","max_page":"0","template_url":"https://www.oxionics.com/wp-content/themes/oxionics"};
+//# sourceURL=main-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.oxionics.com/wp-content/themes/oxionics/js/dist/main.min.js?ver=1764241368" id="main-js" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" data-rocket-src="https://www.oxionics.com/wp-includes/js/dist/dom-ready.min.js?ver=f77871ff7694fffea381" id="wp-dom-ready-js" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" data-rocket-src="https://www.oxionics.com/wp-includes/js/dist/hooks.min.js?ver=dd5603f07f9220ed27f1" id="wp-hooks-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" data-rocket-src="https://www.oxionics.com/wp-includes/js/dist/i18n.min.js?ver=c26c3dc7bed366793375" id="wp-i18n-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+/* ]]> */
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" id="wp-a11y-js-translations">
+/* <![CDATA[ */
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "default", {"translation-revision-date":"2025-11-13 00:57:08+0000","generator":"GlotPress\/4.0.3","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","plural-forms":"nplurals=2; plural=n != 1;","lang":"en_GB"},"Notifications":["Notifications"]}},"comment":{"reference":"wp-includes\/js\/dist\/a11y.js"}} );
+//# sourceURL=wp-a11y-js-translations
+/* ]]> */
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" data-rocket-src="https://www.oxionics.com/wp-includes/js/dist/a11y.min.js?ver=cb460b4676c94bd228ed" id="wp-a11y-js" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/js/jquery.json.min.js?ver=2.9.31" id="gform_json-js"></script>
+<script type="text/javascript" id="gform_gravityforms-js-extra">
+/* <![CDATA[ */
+var gform_i18n = {"datepicker":{"days":{"monday":"Mo","tuesday":"Tu","wednesday":"We","thursday":"Th","friday":"Fr","saturday":"Sa","sunday":"Su"},"months":{"january":"January","february":"February","march":"March","april":"April","may":"May","june":"June","july":"July","august":"August","september":"September","october":"October","november":"November","december":"December"},"firstDay":1,"iconText":"Select date"}};
+var gf_legacy_multi = [];
+var gform_gravityforms = {"strings":{"invalid_file_extension":"This type of file is not allowed. Must be one of the following:","delete_file":"Delete this file","in_progress":"in progress","file_exceeds_limit":"File exceeds size limit","illegal_extension":"This type of file is not allowed.","max_reached":"Maximum number of files reached","unknown_error":"There was a problem while saving the file on the server","currently_uploading":"Please wait for the uploading to complete","cancel":"Cancel","cancel_upload":"Cancel this upload","cancelled":"Cancelled","error":"Error","message":"Message"},"vars":{"images_url":"https://www.oxionics.com/wp-content/plugins/gravityforms/images"}};
+var gf_global = {"gf_currency_config":{"name":"Pound Sterling","symbol_left":"&#163;","symbol_right":"","symbol_padding":" ","thousand_separator":",","decimal_separator":".","decimals":2,"code":"GBP"},"base_url":"https://www.oxionics.com/wp-content/plugins/gravityforms","number_formats":[],"spinnerUrl":"https://www.oxionics.com/wp-content/plugins/gravityforms/images/spinner.svg","version_hash":"fde29c6efbdec331519135b6568f341f","strings":{"newRowAdded":"New row added.","rowRemoved":"Row removed","formSaved":"The form has been saved.  The content contains the link to return and complete the form."}};
+//# sourceURL=gform_gravityforms-js-extra
+/* ]]> */
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/js/gravityforms.min.js?ver=2.9.31" id="gform_gravityforms-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/js/jquery.textareaCounter.plugin.min.js?ver=2.9.31" id="gform_textarea_counter-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/js/placeholders.jquery.min.js?ver=2.9.31" id="gform_placeholder-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/assets/js/dist/utils.min.js?ver=3f278756f0a3032bed328ff6a9f6c01d" id="gform_gravityforms_utils-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/assets/js/dist/vendor-theme.min.js?ver=4f8b3915c1c1e1a6800825abd64b03cb" id="gform_gravityforms_theme_vendors-js"></script>
+<script type="text/javascript" id="gform_gravityforms_theme-js-extra">
+/* <![CDATA[ */
+var gform_theme_config = {"common":{"form":{"honeypot":{"version_hash":"fde29c6efbdec331519135b6568f341f"},"ajax":{"ajaxurl":"https://www.oxionics.com/wp-admin/admin-ajax.php","ajax_submission_nonce":"0690f99218","i18n":{"step_announcement":"Step %1$s of %2$s, %3$s","unknown_error":"There was an unknown error processing your request. Please try again."}}}},"hmr_dev":"","public_path":"https://www.oxionics.com/wp-content/plugins/gravityforms/assets/js/dist/","config_nonce":"98c7fd1f6e"};
+//# sourceURL=gform_gravityforms_theme-js-extra
+/* ]]> */
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript" defer='defer' data-rocket-src="https://www.oxionics.com/wp-content/plugins/gravityforms/assets/js/dist/scripts-theme.min.js?ver=a1e4be6ab14e0f896212221fc6ec8edd" id="gform_gravityforms_theme-js"></script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">window.addEventListener('DOMContentLoaded', function() {
+/* <![CDATA[ */
+ gform.initializeOnLoaded( function() { jQuery(document).on('gform_post_render', function(event, formId, currentPage){if(formId == 1) {if(!jQuery('#input_1_3+.ginput_counter').length){jQuery('#input_1_3').textareaCount(    {'maxCharacterSize': 600,    'originalStyle': 'ginput_counter gfield_description',	 'truncate': true,	 'errorStyle' : '',    'displayFormat' : '#input of #max max characters'    });jQuery('#input_1_3').next('.ginput_counter').attr('aria-live','polite');}if(typeof Placeholders != 'undefined'){
+                        Placeholders.enable();
+                    }} } );jQuery(document).on('gform_post_conditional_logic', function(event, formId, fields, isInit){} ) } ); 
+/* ]]> */
+});</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">window.addEventListener('DOMContentLoaded', function() {
+/* <![CDATA[ */
+ gform.initializeOnLoaded( function() {jQuery(document).trigger("gform_pre_post_render", [{ formId: "1", currentPage: "1", abort: function() { this.preventDefault(); } }]);        if (event && event.defaultPrevented) {                return;        }        const gformWrapperDiv = document.getElementById( "gform_wrapper_1" );        if ( gformWrapperDiv ) {            const visibilitySpan = document.createElement( "span" );            visibilitySpan.id = "gform_visibility_test_1";            gformWrapperDiv.insertAdjacentElement( "afterend", visibilitySpan );        }        const visibilityTestDiv = document.getElementById( "gform_visibility_test_1" );        let postRenderFired = false;        function triggerPostRender() {            if ( postRenderFired ) {                return;            }            postRenderFired = true;            gform.core.triggerPostRenderEvents( 1, 1 );            if ( visibilityTestDiv ) {                visibilityTestDiv.parentNode.removeChild( visibilityTestDiv );            }        }        function debounce( func, wait, immediate ) {            var timeout;            return function() {                var context = this, args = arguments;                var later = function() {                    timeout = null;                    if ( !immediate ) func.apply( context, args );                };                var callNow = immediate && !timeout;                clearTimeout( timeout );                timeout = setTimeout( later, wait );                if ( callNow ) func.apply( context, args );            };        }        const debouncedTriggerPostRender = debounce( function() {            triggerPostRender();        }, 200 );        if ( visibilityTestDiv && visibilityTestDiv.offsetParent === null ) {            const observer = new MutationObserver( ( mutations ) => {                mutations.forEach( ( mutation ) => {                    if ( mutation.type === 'attributes' && visibilityTestDiv.offsetParent !== null ) {                        debouncedTriggerPostRender();                        observer.disconnect();                    }                });            });            observer.observe( document.body, {                attributes: true,                childList: false,                subtree: true,                attributeFilter: [ 'style', 'class' ],            });        } else {            triggerPostRender();        }    } ); 
+/* ]]> */
+});</script>
+<div  hidden data-wpu-integrity="57be49ee4d34fa2d286d78836c2b2c22"></div>
+
+		
+		
+		</body>
+
+		</html>
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me -->

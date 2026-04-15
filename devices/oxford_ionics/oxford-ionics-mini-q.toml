@@ -1,0 +1,162 @@
+# Oxford Ionics Mini-Q (Cyberagentur) — hand-curated
+#
+# Portable/mobile trapped-ion quantum computer being built by Oxford Ionics
+# + Infineon Technologies for Cyberagentur (German Federal agency for
+# innovation in cybersecurity). Announced 2024-09-18 under a €35M contract.
+# Not yet delivered at the time of this record.
+#
+# Multi-vendor build: Oxford Ionics is primary builder (QPU + system);
+# Infineon contributes ion-trap chip microfabrication. Customer is a
+# sovereign government cybersecurity agency — not a public cloud product.
+#
+# As with QUARTET, exact qubit count not disclosed; placed at lower bound of
+# Oxford Ionics' 2025 Foundation-class roadmap tier (16-64 qubit).
+#
+# Organisational note: Oxford Ionics Ltd. became a subsidiary of IonQ on
+# 2025-09-17, one year after the Mini-Q announcement.
+
+[meta]
+id             = "oxford-ionics-mini-q"
+org_slug       = "oxford_ionics"
+aliases        = [
+    "Mini-Q",
+    "Oxford Ionics Mini-Q (Cyberagentur)",
+    "OI-Infineon portable QC",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "Oxford Ionics Ltd."
+kind         = "commercial"
+country      = "GBR"
+parent       = "IonQ, Inc. (acquired 2025-09-17)"
+homepage_url = "https://www.oxionics.com"
+
+[family]
+name                = "Mini-Q"
+modality            = "trapped_ion"
+
+[device]
+name                 = "Oxford Ionics Mini-Q (Cyberagentur)"
+status               = "announced"
+announced_date       = 2024-09-18
+num_qubits           = 16
+architecture_notes = """
+First 'mobile' variant of Oxford Ionics' chip-trap quantum computer line.
+Electronic Qubit Control platform (on-chip integrated electrodes; microwave +
+static B-field gradient gates) scaled to a compact, ruggedised, energy-
+efficient form factor suitable for transport and field deployment. Targets
+national-security / mobile-defence applications for the German Federal
+agency Cyberagentur.
+
+Multi-vendor delivery: Oxford Ionics (QPU + full-stack system); Infineon
+Technologies AG (R&D partner; scalable ion-trap chip microfabrication). Part
+of a €35M Cyberagentur investment that also backed two other independent
+contractors (names not in the announcement).
+
+Exact qubit count not disclosed. Placed at the lower bound of the 2025
+Foundation-class roadmap (16-64 qubit, 99.99% fidelity) that Mini-Q's
+portable form factor is derived from. Delivery date not specified in the
+announcement; status kept as `announced` pending a delivery press release.
+
+Oxford Ionics Ltd. operates as a subsidiary of IonQ, Inc. from 2025-09-17.
+"""
+
+[topology]
+kind           = "all_to_all"
+reconfigurable = true
+
+[[native_gates]]
+name          = "1q_all_electronic"
+arity         = 1
+kind          = "gate"
+duration_ns   = 50000.0
+fidelity_mean = 0.9999916                # Löschnauer 2024 platform record
+
+[[native_gates]]
+name          = "2q_mølmer_sørensen"
+arity         = 2
+kind          = "gate"
+duration_ns   = 300000.0
+fidelity_mean = 0.9999                    # vendor platform claim
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 500000.0
+
+[[native_gates]]
+name  = "reset"
+arity = 1
+kind  = "reset"
+
+[noise_model]
+# No device-specific calibration disclosed.
+
+[timing]
+single_qubit_gate_ns = 50000.0
+two_qubit_gate_ns    = 300000.0
+readout_ns           = 500000.0
+
+[access]
+cloud_provider = "none"
+api_kind       = "custom"
+tier           = "private"
+auth_required  = true
+pricing_notes  = "Bespoke government delivery; no public cloud access. €35M Cyberagentur contract."
+sdk_packages   = []
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.announced_date"
+value        = "2024-09-18"
+source_url   = "https://www.oxionics.com/announcements/oxford-ionics-and-infineon-technologies-to-deliver-portable-quantum-computer-to-cyberagentur-as-part-of-e35m-investment/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-miniq-cyberagentur-infineon.html"
+sha256       = "dfd6f94cf81dc6d9120782784b0c7ea8eb3cd7e72de4f93bba033ea178961bcb"
+notes        = "Oxford Ionics announcement of Mini-Q contract with Infineon + Cyberagentur. Dated 18 Sep 2024."
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 16
+source_url   = "https://www.oxionics.com/products/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-products.html"
+sha256       = "ad8015ad172c8bee452976da99d1129fe50849293bcbe144c1dcec2f982f928c"
+notes        = "Lower bound of 2025 Foundation-class roadmap tier (16-64 qubit). Mini-Q qubit count not specifically disclosed."
+
+[[provenance]]
+field_path   = "native_gates[0].fidelity_mean"
+value        = 0.9999916
+source_url   = "https://arxiv.org/abs/2407.07694"
+source_kind  = "paper_arxiv"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/arxiv-2407.07694-oxford-ionics-10q-chip-trap.pdf"
+sha256       = "a4a993be1b59d2956b61090d2a64c945d4ac7b0427988e9dbf133070651990ea"
+notes        = "Platform 1Q fidelity record from the Löschnauer et al. 2024 all-electronic chip-trap paper (7-zone demo). Applies to the Mini-Q platform family, not a device-specific calibration."
+
+[[provenance]]
+field_path   = "organization.parent"
+value        = "IonQ, Inc. (acquired 2025-09-17)"
+source_url   = "https://investors.ionq.com/news/news-details/2025/IonQ-Completes-Acquisition-of-Oxford-Ionics-Rapidly-Accelerating-Its-Quantum-Computing-Roadmap/default.aspx"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/ionq-completes-acquisition-of-oxford-ionics.html"
+sha256       = "06ce4dc9513fc3905f3990104ad5ebf9a27e514628ee151afb7b5a2c7b425659"
+notes        = "IonQ's acquisition of Oxford Ionics closed 2025-09-17."
+
+[[provenance]]
+field_path   = "device.architecture_notes"
+value        = "Infineon Technologies co-build partner for ion-trap chips"
+source_url   = "https://www.oxionics.com/announcements/oxford-ionics-and-infineon-technologies-to-deliver-portable-quantum-computer-to-cyberagentur-as-part-of-e35m-investment/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-miniq-cyberagentur-infineon.html"
+sha256       = "dfd6f94cf81dc6d9120782784b0c7ea8eb3cd7e72de4f93bba033ea178961bcb"
+notes        = "Mini-Q announcement: 'As an R&D partner of Oxford Ionics, Infineon AG will contribute its expertise in microfabrication of highly reliable, large-scale ion trap chips.'"

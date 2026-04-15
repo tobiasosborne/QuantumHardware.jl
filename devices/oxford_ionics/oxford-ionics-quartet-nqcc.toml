@@ -1,0 +1,200 @@
+# Oxford Ionics QUARTET @ UK NQCC Harwell — hand-curated
+#
+# QUantum Advantage-Ready Trapped-ion Exploration Testbed. A commercial
+# full-stack trapped-ion QPU built on Oxford Ionics' all-electronic chip-trap
+# architecture (Electronic Qubit Control). Delivered to the UK National
+# Quantum Computing Centre on 2025-08-13.
+#
+# Organisational note: Oxford Ionics Ltd. was acquired by IonQ, Inc. on
+# 2025-09-17 (~1 month after QUARTET's delivery to NQCC). Kept under
+# `devices/oxford_ionics/` with parent="IonQ, Inc." rather than migrated to
+# `devices/ionq/` — the lineage, architecture, and Oxford-based team identity
+# are all still Oxford Ionics.
+#
+# Spec-disclosure note: QUARTET's exact qubit count is NOT in the public
+# announcement. Oxford Ionics' public 2025 "Foundation"-class roadmap tier is
+# 16-64 qubits at 99.99% fidelity. We record 16 as a conservative lower bound
+# and cite the products-page roadmap. A research follow-up issue tracks the
+# open number.
+
+[meta]
+id             = "oxford-ionics-quartet-nqcc"
+org_slug       = "oxford_ionics"
+aliases        = [
+    "QUARTET",
+    "QUantum Advantage-Ready Trapped-ion Exploration Testbed",
+    "NQCC Oxford Ionics system",
+]
+schema_version = "0.1"
+created_at     = 2026-04-15T00:00:00Z
+updated_at     = 2026-04-15T00:00:00Z
+
+[organization]
+name         = "Oxford Ionics Ltd."
+kind         = "commercial"
+country      = "GBR"
+parent       = "IonQ, Inc. (acquired 2025-09-17)"
+homepage_url = "https://www.oxionics.com"
+
+[family]
+name     = "QUARTET"
+modality = "trapped_ion"
+
+[device]
+name                   = "Oxford Ionics QUARTET (NQCC)"
+status                 = "in_service"
+announced_date         = 2025-08-13
+first_operational_date = 2025-08-13
+num_qubits             = 16
+architecture_notes = """
+Full-stack trapped-ion quantum computer using Oxford Ionics' Electronic Qubit
+Control: integrated-electrode chip trap where AC currents in on-chip traces
+drive coherent gates (magnetic-field-gradient microwave scheme) and DC fields
+from local electrodes provide site-selective tuning. Chip is manufactured in
+standard semiconductor foundries. Field-upgradeable — the (credit-card-sized)
+QPU module is swap-replaceable without changing chassis/infrastructure.
+
+QUARTET is operated as a testbed at the NQCC Harwell data centre. Part of the
+UK's Quantum Missions programme; the Q-Surge project (Oxford Ionics +
+Riverlane + Bay Photonics) is slated to upgrade QUARTET with 2D qubit
+connectivity — when delivered, that will warrant a separate DeviceRevision
+file (lineage_predecessor = this).
+
+Exact delivered qubit count not disclosed in the 2025-08-13 announcement;
+placed here at the lower bound of the vendor's 2025 Foundation roadmap tier
+(16-64 qubit, 99.99% fidelity). Ion species likely Ca-43 / Sr-88 based on
+group heritage (Ballance, Oxford) but not disclosed.
+
+Oxford Ionics Ltd. operates as a subsidiary of IonQ, Inc. from 2025-09-17.
+Pre-acquisition: independent Oxford University spinout (founders Chris
+Ballance, Tom Harty).
+"""
+
+[topology]
+kind           = "all_to_all"
+reconfigurable = true
+# Chip-trap architecture can bring any two qubits into gate range via
+# ion shuttling between zones; topology is physically all-to-all plus
+# reconfigurable per-shot (zones assignable by program).
+
+[[native_gates]]
+name          = "1q_all_electronic"
+arity         = 1
+kind          = "gate"
+duration_ns   = 50000.0                # microwave-driven π pulse, industry-typical
+fidelity_mean = 0.9999916              # Löschnauer et al. 2024 lab demo on 7-zone chip
+
+[[native_gates]]
+name          = "2q_mølmer_sørensen"
+arity         = 2
+kind          = "gate"
+duration_ns   = 300000.0
+fidelity_mean = 0.9999                 # vendor products-page claim
+
+[[native_gates]]
+name        = "readout"
+arity       = 1
+kind        = "measurement"
+duration_ns = 500000.0                 # electron-shelving ion readout, industry-typical
+
+[[native_gates]]
+name        = "reset"
+arity       = 1
+kind        = "reset"
+
+[noise_model]
+# Per-qubit T1/T2 not publicly disclosed for QUARTET. Mid-circuit measurement
+# is supported (vendor products page).
+
+[timing]
+single_qubit_gate_ns = 50000.0
+two_qubit_gate_ns    = 300000.0
+readout_ns           = 500000.0
+
+[access]
+cloud_provider = "nqcc"
+api_kind       = "custom"
+tier           = "research_only"
+auth_required  = true
+pricing_notes  = "NQCC testbed programme access; not a public cloud offering. UK Quantum Missions / Innovate UK funded."
+sdk_packages   = []
+
+[roadmap]
+# Vendor's 2025 Foundation tier target
+originally_targeted_year    = 2025
+originally_targeted_qubits  = 64        # upper end of 16-64 tier
+originally_targeted_fidelity_1q = 0.9999
+originally_targeted_fidelity_2q = 0.9999
+narrative = "2025 Foundation-class: 16-64 physical qubits at 99.99% fidelity; 2026 Enterprise-grade 256+ qubit devices; 2027 10,000+ qubit systems (per oxionics.com/products roadmap)."
+
+# --- Provenance ------------------------------------------------------------
+
+[[provenance]]
+field_path   = "device.num_qubits"
+value        = 16
+source_url   = "https://www.oxionics.com/products/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-products.html"
+sha256       = "ad8015ad172c8bee452976da99d1129fe50849293bcbe144c1dcec2f982f928c"
+notes        = "Lower bound of the '2025 Foundation: 16-64 qubit systems at 99.99% fidelity' roadmap tier. QUARTET-specific count not disclosed in the delivery announcement."
+
+[[provenance]]
+field_path   = "device.first_operational_date"
+value        = "2025-08-13"
+source_url   = "https://www.oxionics.com/announcements/oxford-ionics-delivers-quantum-computer-to-the-uks-national-quantum-computing-centre/"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-quartet-nqcc-announcement.html"
+sha256       = "a6112f250efe9b3f1ff5b67614d01e6db4f9541594d4f3a1ae4c6254d8fd7142"
+notes        = "Oxford Ionics press release announcing delivery + installation of QUARTET at NQCC Harwell. Dated 13 Aug 2025."
+
+[[provenance]]
+field_path   = "topology.kind"
+value        = "all_to_all"
+source_url   = "https://www.oxionics.com/products/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-products.html"
+sha256       = "ad8015ad172c8bee452976da99d1129fe50849293bcbe144c1dcec2f982f928c"
+notes        = "'All-to-all connectivity' feature block on products page. Chip-trap ion shuttling allows arbitrary pairing."
+
+[[provenance]]
+field_path   = "native_gates[0].fidelity_mean"
+value        = 0.9999916
+source_url   = "https://arxiv.org/abs/2407.07694"
+source_kind  = "paper_arxiv"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/arxiv-2407.07694-oxford-ionics-10q-chip-trap.pdf"
+sha256       = "a4a993be1b59d2956b61090d2a64c945d4ac7b0427988e9dbf133070651990ea"
+notes        = "Löschnauer, Mosca Toba, Hughes, King, Weber, Srinivas, Matt, Noursargh, Allcock, Ballance, Matthiesen, Malinowski, Harty. 'Scalable, high-fidelity all-electronic control of trapped-ion qubits,' July 2024. 7-zone chip demo: 1Q fidelity 99.99916(7)%. This is the platform record, not a QUARTET-specific calibration."
+
+[[provenance]]
+field_path   = "native_gates[1].fidelity_mean"
+value        = 0.9999
+source_url   = "https://www.oxionics.com/products/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-products.html"
+sha256       = "ad8015ad172c8bee452976da99d1129fe50849293bcbe144c1dcec2f982f928c"
+notes        = "Vendor products-page 'ultra-high fidelity qubits' block cites 99.99% 2Q fidelity platform-wide. Not a QUARTET-specific calibration. Lab demo: arXiv:2510.17286 reports 99.9916% 2Q (8.4e-5 error) in 'smooth gate' protocol."
+
+[[provenance]]
+field_path   = "organization.parent"
+value        = "IonQ, Inc. (acquired 2025-09-17)"
+source_url   = "https://investors.ionq.com/news/news-details/2025/IonQ-Completes-Acquisition-of-Oxford-Ionics-Rapidly-Accelerating-Its-Quantum-Computing-Roadmap/default.aspx"
+source_kind  = "press_release"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/ionq-completes-acquisition-of-oxford-ionics.html"
+sha256       = "06ce4dc9513fc3905f3990104ad5ebf9a27e514628ee151afb7b5a2c7b425659"
+notes        = "IonQ investor announcement: acquisition of Oxford Ionics completed 2025-09-17. Chris Ballance quoted (OI co-founder/CEO). Combined roadmap: 2M qubits by 2030."
+
+[[provenance]]
+field_path   = "roadmap"
+value        = "2025-2027 Foundation/Enterprise/Scale tiers"
+source_url   = "https://www.oxionics.com/products/"
+source_kind  = "vendor_doc"
+retrieved_at = 2026-04-15T00:00:00Z
+local_path   = "sources/2026/04/15/oxionics-products.html"
+sha256       = "ad8015ad172c8bee452976da99d1129fe50849293bcbe144c1dcec2f982f928c"
+notes        = "Products page 'roadmap to scalable fault-tolerant quantum computing' section: 2025 Foundation 16-64q @ 99.99% fidelity; 2026 Enterprise-grade 256+ qubit; 2027 Value at scale 10,000+ qubit."
